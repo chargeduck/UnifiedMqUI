@@ -9,11 +9,12 @@ import lombok.Getter;
  */
 @Getter
 public enum InitTable {
-    TB_UTILS_USER("tb_util_user", "sql/tb_util_user.sql");
+    // MQ配置表
+    MQ_CONFIG("mq_config", "sql/mq_config.sql");
 
-    private String tbName;
+    private final String tbName;
 
-    private String path;
+    private final String path;
 
     InitTable(String tbName, String path) {
         this.tbName = tbName;

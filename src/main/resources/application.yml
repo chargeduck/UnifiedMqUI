@@ -4,9 +4,9 @@ spring:
   application:
     name: UnifiedMqUI
   datasource:
-    url: jdbc:derby:/derby/data/serial_port_util;multipleConnectionsAllowed=true
+    url: jdbc:derby:/.derby/data/unified_mq_console;multipleConnectionsAllowed=true
     username: root
-    password: serial_port_util
+    password: unified_mq_console
     driver-class-name: org.apache.derby.jdbc.EmbeddedDriver
   web:
     resources:

@@ -3,6 +3,8 @@ package net.lesscoding.unified.runner;
 import cn.hutool.core.io.resource.ClassPathResource;
 import lombok.extern.slf4j.Slf4j;
 import net.lesscoding.unified.enums.InitTable;
+import net.lesscoding.unified.mapper.SysMapper;
+import net.lesscoding.unified.utils.IOStreamUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
@@ -23,13 +25,14 @@ public class DatabaseInitializer implements ApplicationRunner {
 
     @Autowired
     private SysMapper sysMapper;
-    @Value("${spring.datasource.url:jdbc:derby:/derby/data/serial_port_util;multipleConnectionsAllowed=true}")
+
+    @Value("${spring.datasource.url:jdbc:derby:/.derby/data/unified_mq_console;multipleConnectionsAllowed=true}")
     private String url;
 
     @Value("${spring.datasource.username:root}")
     private String username;
 
-    @Value("${spring.datasource.password:serial_port_util}")
+    @Value("${spring.datasource.password:unified_mq_console}")
     private String password;
 
     private final String AUTO_CREATE = ";create=true";

@@ -1,5 +1,6 @@
 package net.lesscoding.unified;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -9,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @apiNote
  */
 @SpringBootApplication
+@MapperScan("net.lesscoding.unified.mapper")
 public class UnifiedMqApp {
     public static void main(String[] args) {
         SpringApplication.run(UnifiedMqApp.class, args);
