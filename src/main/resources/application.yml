@@ -1,0 +1,17 @@
+server:
+  port: 54321
+spring:
+  application:
+    name: UnifiedMqUI
+  datasource:
+    url: jdbc:derby:/derby/data/serial_port_util;multipleConnectionsAllowed=true
+    username: root
+    password: serial_port_util
+    driver-class-name: org.apache.derby.jdbc.EmbeddedDriver
+  web:
+    resources:
+      static-locations: classpath:/static/
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath*:mapper/**/*.xml
