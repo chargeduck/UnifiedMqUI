@@ -1,4 +1,4 @@
-package net.lesscoding.unified.adapter;
+package net.lesscoding.unified.core.adapter;
 
 import net.lesscoding.unified.entity.ConnectConfig;
 import org.springframework.stereotype.Component;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  * @apiNote
  */
 @Component
-public class RabbitMqAdapter implements MqAdapter {
+public class ActiveMqAdapter implements MqAdapter {
     @Override
     public boolean connect(ConnectConfig connectConfig) {
         return false;

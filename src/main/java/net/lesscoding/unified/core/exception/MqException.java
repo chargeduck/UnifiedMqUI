@@ -1,4 +1,4 @@
-package net.lesscoding.unified.exception;
+package net.lesscoding.unified.core.exception;
 
 /**
  * @author eleven

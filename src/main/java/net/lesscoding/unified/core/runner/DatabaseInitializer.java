@@ -1,4 +1,4 @@
-package net.lesscoding.unified.runner;
+package net.lesscoding.unified.core.runner;
 
 import cn.hutool.core.io.resource.ClassPathResource;
 import lombok.extern.slf4j.Slf4j;

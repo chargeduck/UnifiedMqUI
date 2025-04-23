@@ -1,16 +1,16 @@
-package net.lesscoding.unified.conn;
+package net.lesscoding.unified.core.conn;
 
+import net.lesscoding.unified.core.exception.MqException;
 import net.lesscoding.unified.entity.ConnectConfig;
-import net.lesscoding.unified.exception.MqException;
 import org.springframework.stereotype.Component;
 
 /**
  * @author eleven
- * @date 2025/4/23 15:55
+ * @date 2025/4/23 15:54
  * @apiNote
  */
 @Component
-public class MqttConnect implements MqConnect{
+public class KafKaConnect implements MqConnect{
     @Override
     public void close() throws MqException {
 

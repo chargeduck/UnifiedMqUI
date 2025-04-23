@@ -1,7 +1,7 @@
-package net.lesscoding.unified.conn;
+package net.lesscoding.unified.core.conn;
 
+import net.lesscoding.unified.core.exception.MqException;
 import net.lesscoding.unified.entity.ConnectConfig;
-import net.lesscoding.unified.exception.MqException;
 
 /**
  * @author eleven

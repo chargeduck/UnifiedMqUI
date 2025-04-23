@@ -1,4 +1,4 @@
-package net.lesscoding.unified.adapter;
+package net.lesscoding.unified.core.adapter;
 
 import lombok.RequiredArgsConstructor;
 import net.lesscoding.unified.enums.MQType;

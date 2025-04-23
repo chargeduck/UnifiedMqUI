@@ -1,7 +1,7 @@
-package net.lesscoding.unified.conn;
+package net.lesscoding.unified.core.conn;
 
 import net.lesscoding.unified.entity.ConnectConfig;
-import net.lesscoding.unified.exception.MqException;
+import net.lesscoding.unified.core.exception.MqException;
 import org.springframework.stereotype.Component;
 
 /**
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  * @apiNote
  */
 @Component
-public class KafKaConnect implements MqConnect{
+public class RabbitMqConnect implements MqConnect{
     @Override
     public void close() throws MqException {
 

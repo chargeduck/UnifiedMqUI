@@ -1,15 +1,15 @@
-package net.lesscoding.unified.adapter;
+package net.lesscoding.unified.core.adapter;
 
 import net.lesscoding.unified.entity.ConnectConfig;
 import org.springframework.stereotype.Component;
 
 /**
  * @author eleven
- * @date 2025/4/23 15:23
+ * @date 2025/4/23 15:22
  * @apiNote
  */
 @Component
-public class KafkaAdapter implements MqAdapter {
+public class RabbitMqAdapter implements MqAdapter {
     @Override
     public boolean connect(ConnectConfig connectConfig) {
         return false;

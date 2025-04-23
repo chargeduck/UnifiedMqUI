@@ -1,4 +1,4 @@
-package net.lesscoding.unified.runner;
+package net.lesscoding.unified.core.runner;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
