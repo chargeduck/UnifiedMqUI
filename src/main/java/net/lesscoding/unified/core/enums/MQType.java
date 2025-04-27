@@ -1,4 +1,4 @@
-package net.lesscoding.unified.enums;
+package net.lesscoding.unified.core.enums;
 
 /**
  * @author eleven

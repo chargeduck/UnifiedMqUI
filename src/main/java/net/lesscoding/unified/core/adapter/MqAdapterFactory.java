@@ -1,7 +1,7 @@
 package net.lesscoding.unified.core.adapter;
 
 import lombok.RequiredArgsConstructor;
-import net.lesscoding.unified.enums.MQType;
+import net.lesscoding.unified.core.enums.MQType;
 import org.springframework.stereotype.Component;
 
 /**

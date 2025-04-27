@@ -24,4 +24,9 @@ public class MqController {
         mqConnectManagerService.createMqConnect(connectConfig);
         return Result.success();
     }
+
+    @PostMapping("/list")
+    public Result mqList() {
+        return Result.success(mqConnectManagerService.mqList());
+    }
 }

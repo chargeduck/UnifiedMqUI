@@ -1,4 +1,4 @@
-package net.lesscoding.unified.enums;
+package net.lesscoding.unified.core.enums;
 
 import lombok.Getter;
 
@@ -10,7 +10,7 @@ import lombok.Getter;
 @Getter
 public enum InitTable {
     // MQ配置表
-    MQ_CONFIG("mq_config", "sql/mq_config.sql");
+    CONNECT_CONFIG("connect_config", "sql/connect_config.sql");
 
     private final String tbName;
 

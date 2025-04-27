@@ -4,9 +4,11 @@ import lombok.RequiredArgsConstructor;
 import net.lesscoding.unified.core.adapter.MqAdapter;
 import net.lesscoding.unified.core.adapter.MqAdapterFactory;
 import net.lesscoding.unified.entity.ConnectConfig;
+import net.lesscoding.unified.mapper.ConnectConfigMapper;
 import net.lesscoding.unified.service.MqConnectManagerService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -20,11 +22,18 @@ public class MqConnectManagerServiceImpl implements MqConnectManagerService {
 
     private final MqAdapterFactory mqAdapterFactory;
 
+    private final ConnectConfigMapper connectConfigMapper;
+
     private final ConcurrentHashMap<String, MqAdapter> connections = new ConcurrentHashMap<>();
 
     @Override
     public boolean createMqConnect(ConnectConfig connectConfig) {
         MqAdapter adapter = mqAdapterFactory.getMqAdapter(connectConfig.getMqType());
         return false;
+    }
+
+    @Override
+    public List<ConnectConfig> mqList() {
+        return connectConfigMapper.selectList(null);
     }
 }

@@ -1,6 +1,8 @@
 package net.lesscoding.unified;
 
 import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * @author eleven
@@ -8,6 +10,6 @@ import org.junit.runner.RunWith;
  * @apiNote
  */
 @RunWith(SpringRunner.class)
-@SPringBootTest(classes = App.class)
+@SpringBootTest(classes = UnifiedMqApp.class)
 public class AppTest {
 }

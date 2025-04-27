@@ -2,7 +2,7 @@ package net.lesscoding.unified.core.runner;
 
 import cn.hutool.core.io.resource.ClassPathResource;
 import lombok.extern.slf4j.Slf4j;
-import net.lesscoding.unified.enums.InitTable;
+import net.lesscoding.unified.core.enums.InitTable;
 import net.lesscoding.unified.mapper.SysMapper;
 import net.lesscoding.unified.utils.IOStreamUtils;
 import org.springframework.beans.factory.annotation.Autowired;

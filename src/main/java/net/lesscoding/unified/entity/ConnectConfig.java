@@ -3,7 +3,7 @@ package net.lesscoding.unified.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
-import net.lesscoding.unified.enums.MQType;
+import net.lesscoding.unified.core.enums.MQType;
 
 /**
  * @author eleven
@@ -26,4 +26,12 @@ public class ConnectConfig {
     private String groupUrl;
     // 标题
     private String title;
+
+    private String username;
+
+    private String password;
+
+    private String version;
+
+    private String extra;
 }
