@@ -2,15 +2,17 @@ package net.lesscoding.unified.core.runner;
 
 import cn.hutool.core.io.resource.ClassPathResource;
 import lombok.extern.slf4j.Slf4j;
-import net.lesscoding.unified.core.enums.DerbyInitTable;
+import net.lesscoding.unified.core.enums.SqliteInitTable;
 import net.lesscoding.unified.mapper.SysMapper;
 import net.lesscoding.unified.utils.IOStreamUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -18,29 +20,21 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
-//@Component
+@Component
 @Slf4j
-public class DatabaseInitializer implements ApplicationRunner {
+public class SqliteDatabaseInitializer implements ApplicationRunner {
 
     @Autowired
     private SysMapper sysMapper;
 
-    @Value("${spring.datasource.url:jdbc:derby:/.derby/data/unified_mq_console;multipleConnectionsAllowed=true}")
+    @Value("${spring.datasource.url:jdbc:sqlite:/.sqlite/data/unified_mq_console.sqlite}")
     private String url;
-
-    @Value("${spring.datasource.username:root}")
-    private String username;
-
-    @Value("${spring.datasource.password:unified_mq_console}")
-    private String password;
-
-    private final String AUTO_CREATE = ";create=true";
     public void initTables() {
-        List<DerbyInitTable> derbyInitTables = Arrays.asList(DerbyInitTable.values());
-        log.info("默认数据库表{}", derbyInitTables);
-        List<String> allTables = sysMapper.getAllDerbyTables();
+        List<SqliteInitTable> sqliteInitTables = Arrays.asList(SqliteInitTable.values());
+        log.info("默认数据库表{}", sqliteInitTables);
+        List<String> allTables = sysMapper.getAllSqliteTables();
         log.info("当前数据库表{}", allTables);
-        derbyInitTables.forEach(derbyInitTable -> {
+        sqliteInitTables.forEach(derbyInitTable -> {
             String tbName = derbyInitTable.getTbName();
             if (!allTables.contains(tbName.toUpperCase())) {
                 ClassPathResource classPathResource = new ClassPathResource(derbyInitTable.getPath());
@@ -66,16 +60,26 @@ public class DatabaseInitializer implements ApplicationRunner {
 
     @PostConstruct
     public void initDatabase() {
-        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+        checkDataPath();
+
+        try (Connection connection = DriverManager.getConnection(url)) {
             log.info("已存在数据库，不执行自动创建操作");
         } catch (SQLException e) {
-            log.info("不存在数据库,添加参数[{}]执行自动创建操作", AUTO_CREATE);
-            url += AUTO_CREATE;
-            try {
-                DriverManager.getConnection(url, username, password);
-                log.info("数据库创建成功");
-            } catch (SQLException ex) {
-                log.error("Derby数据库错误，请联系管理员重试");
+            log.info("数据库创建成功");
+        }
+    }
+
+    private void checkDataPath() {
+        // 提取数据库文件路径
+        String dbFilePath = url.replace("jdbc:sqlite:", "");
+        File dbFile = new File(dbFilePath);
+        File parentDir = dbFile.getParentFile();
+        // 检查并创建目录
+        if (parentDir != null && !parentDir.exists()) {
+            if (parentDir.mkdirs()) {
+                log.info("成功创建数据库目录: {}", parentDir.getAbsolutePath());
+            } else {
+                log.error("无法创建数据库目录: {}", parentDir.getAbsolutePath());
             }
         }
     }

@@ -4,19 +4,19 @@ import lombok.Getter;
 
 /**
  * @author eleven
- * @date 2024/8/15 10:44
+ * @date 2025/4/27 11:01
  * @apiNote
  */
 @Getter
-public enum InitTable {
+public enum SqliteInitTable {
     // MQ配置表
-    CONNECT_CONFIG("connect_config", "sql/connect_config.sql");
+    CONNECT_CONFIG("connect_config", "sql/sqlite/connect_config.sql");
 
     private final String tbName;
 
     private final String path;
 
-    InitTable(String tbName, String path) {
+    SqliteInitTable(String tbName, String path) {
         this.tbName = tbName;
         this.path = path;
     }

@@ -4,10 +4,14 @@ spring:
   application:
     name: UnifiedMqUI
   datasource:
-    url: jdbc:derby:/.derby/data/unified_mq_console;multipleConnectionsAllowed=true
-    username: root
-    password: unified_mq_console
-    driver-class-name: org.apache.derby.jdbc.EmbeddedDriver
+#    url: jdbc:derby:/.derby/data/unified_mq_console;multipleConnectionsAllowed=true
+#    username: root
+#    password: unified_mq_console
+#    driver-class-name: org.apache.derby.jdbc.EmbeddedDriver
+    url: jdbc:sqlite:/.sqlite/data/unified_mq_console.sqlite
+    username:
+    password:
+    driver-class-name: org.sqlite.JDBC
   web:
     resources:
       static-locations: classpath:/static/

@@ -13,7 +13,10 @@ import java.util.List;
 public interface SysMapper {
 
     @Select("SELECT TABLENAME FROM SYS.SYSTABLES WHERE TABLETYPE = 'T'")
-    List<String> getAllTables();
+    List<String> getAllDerbyTables();
+
+    @Select("select tbl_name from sqlite_master where type = 'table'")
+    List<String> getAllSqliteTables();
 
     Integer createTable(@Param("ddl") String ddl);
 }
