@@ -1,113 +1,72 @@
-[
-  {
-    "request": {
-      "type": "version"
-    },
-    "value": {
-      "agent": "1.6.2",
-      "protocol": "7.2",
-      "config": {
-        "listenForHttpService": "true",
-        "authIgnoreCerts": "false",
-        "agentId": "172.16.181.234-36964-2ca8ef9c-servlet",
-        "debug": "false",
-        "agentType": "servlet",
-        "policyLocation": "classpath:\/jolokia-access.xml",
-        "agentContext": "\/jolokia",
-        "serializeException": "false",
-        "mimeType": "text\/plain",
-        "dispatcherClasses": "org.jolokia.http.Jsr160ProxyNotEnabledByDefaultAnymoreDispatcher",
-        "authMode": "basic",
-        "authMatch": "any",
-        "streaming": "true",
-        "canonicalNaming": "true",
-        "historyMaxEntries": "10",
-        "allowErrorDetails": "false",
-        "allowDnsReverseLookup": "true",
-        "realm": "jolokia",
-        "includeStackTrace": "true",
-        "useRestrictorService": "false",
-        "debugMaxEntries": "100"
-      },
-      "info": {
-        "product": "activemq",
-        "vendor": "Apache",
-        "version": "5.16.8"
-      }
-    },
-    "timestamp": 1745457224,
-    "status": 200
+{
+  "request": {
+    "mbean": "org.apache.activemq:brokerName=localhost,type=Broker",
+    "type": "read"
   },
-  {
-    "request": {
-      "mbean": "org.apache.activemq:brokerName=localhost,type=Broker",
-      "type": "read"
+  "value": {
+    "StatisticsEnabled": true,
+    "TotalConnectionsCount": 0,
+    "TotalMessageCount": 0,
+    "TempPercentUsage": 0,
+    "TemporaryQueueSubscribers": [],
+    "MemoryPercentUsage": 0,
+    "TransportConnectors": {
+      "openwire": "tcp:\/\/eleven:61616?maximumConnections=1000&wireFormat.maxFrameSize=104857600",
+      "amqp": "amqp:\/\/eleven:5672?maximumConnections=1000&wireFormat.maxFrameSize=104857600",
+      "mqtt": "mqtt:\/\/eleven:1883?maximumConnections=1000&wireFormat.maxFrameSize=104857600",
+      "stomp": "stomp:\/\/eleven:61613?maximumConnections=1000&wireFormat.maxFrameSize=104857600",
+      "ws": "ws:\/\/eleven:61614?maximumConnections=1000&wireFormat.maxFrameSize=104857600"
     },
-    "value": {
-      "StatisticsEnabled": true,
-      "TemporaryQueueSubscribers": [],
-      "TempPercentUsage": 0,
-      "TotalMessageCount": 0,
-      "TotalConnectionsCount": 0,
-      "MemoryPercentUsage": 0,
-      "TransportConnectors": {
-        "openwire": "tcp:\/\/eleven:61616?maximumConnections=1000&wireFormat.maxFrameSize=104857600",
-        "amqp": "amqp:\/\/eleven:5672?maximumConnections=1000&wireFormat.maxFrameSize=104857600",
-        "mqtt": "mqtt:\/\/eleven:1883?maximumConnections=1000&wireFormat.maxFrameSize=104857600",
-        "stomp": "stomp:\/\/eleven:61613?maximumConnections=1000&wireFormat.maxFrameSize=104857600",
-        "ws": "ws:\/\/eleven:61614?maximumConnections=1000&wireFormat.maxFrameSize=104857600"
+    "InactiveDurableTopicSubscribers": [],
+    "StoreLimit": 107374182400,
+    "TotalProducerCount": 0,
+    "CurrentConnectionsCount": 0,
+    "TopicProducers": [],
+    "QueueProducers": [],
+    "JMSJobScheduler": null,
+    "VMURL": "vm:\/\/localhost",
+    "UptimeMillis": 491683,
+    "TemporaryTopicProducers": [],
+    "TemporaryQueueProducers": [],
+    "TotalDequeueCount": 0,
+    "JobSchedulerStorePercentUsage": 0,
+    "Topics": [
+      {
+        "objectName": "org.apache.activemq:brokerName=localhost,destinationName=ActiveMQ.Advisory.MasterBroker,destinationType=Topic,type=Broker"
       },
-      "InactiveDurableTopicSubscribers": [],
-      "StoreLimit": 107374182400,
-      "TotalProducerCount": 0,
-      "TopicProducers": [],
-      "CurrentConnectionsCount": 0,
-      "QueueProducers": [],
-      "JMSJobScheduler": null,
-      "VMURL": "vm:\/\/localhost",
-      "UptimeMillis": 4708169,
-      "TemporaryQueueProducers": [],
-      "TemporaryTopicProducers": [],
-      "TotalDequeueCount": 0,
-      "Topics": [
-        {
-          "objectName": "org.apache.activemq:brokerName=localhost,destinationName=ActiveMQ.Advisory.MasterBroker,destinationType=Topic,type=Broker"
-        },
-        {
-          "objectName": "org.apache.activemq:brokerName=localhost,destinationName=ActiveMQ.Advisory.Queue,destinationType=Topic,type=Broker"
-        }
-      ],
-      "DurableTopicSubscribers": [],
-      "JobSchedulerStorePercentUsage": 0,
-      "Uptime": "1 hour 18 minutes",
-      "QueueSubscribers": [],
-      "AverageMessageSize": 1024,
-      "BrokerId": "ID:eleven-56408-1745454689768-0:1",
-      "DataDirectory": "E:\\ide\\apache-activemq-5.16.8\\data",
-      "Persistent": true,
-      "TopicSubscribers": [],
-      "TemporaryQueues": [],
-      "BrokerVersion": "5.16.8",
-      "BrokerName": "localhost",
-      "MemoryLimit": 751619277,
-      "MinMessageSize": 1024,
-      "Slave": false,
-      "DynamicDestinationProducers": [],
-      "TotalEnqueueCount": 2,
-      "TempLimit": 53687091200,
-      "TemporaryTopicSubscribers": [],
-      "TemporaryTopics": [],
-      "JobSchedulerStoreLimit": 0,
-      "Queues": [
-        {
-          "objectName": "org.apache.activemq:brokerName=localhost,destinationName=1234,destinationType=Queue,type=Broker"
-        }
-      ],
-      "TotalConsumerCount": 0,
-      "StorePercentUsage": 0,
-      "MaxMessageSize": 1024
-    },
-    "timestamp": 1745459397,
-    "status": 200
-  }
-]
+      {
+        "objectName": "org.apache.activemq:brokerName=localhost,destinationName=ActiveMQ.Advisory.Queue,destinationType=Topic,type=Broker"
+      }
+    ],
+    "DurableTopicSubscribers": [],
+    "Uptime": "8 minutes",
+    "QueueSubscribers": [],
+    "AverageMessageSize": 1024,
+    "BrokerId": "ID:eleven-58093-1745821364145-0:1",
+    "DataDirectory": "E:\\ide\\apache-activemq-5.16.8\\data",
+    "Persistent": true,
+    "TopicSubscribers": [],
+    "TemporaryQueues": [],
+    "BrokerVersion": "5.16.8",
+    "BrokerName": "localhost",
+    "MemoryLimit": 751619277,
+    "MinMessageSize": 1024,
+    "Slave": false,
+    "TotalEnqueueCount": 2,
+    "DynamicDestinationProducers": [],
+    "TempLimit": 53687091200,
+    "TemporaryTopicSubscribers": [],
+    "TemporaryTopics": [],
+    "JobSchedulerStoreLimit": 0,
+    "TotalConsumerCount": 0,
+    "StorePercentUsage": 0,
+    "Queues": [
+      {
+        "objectName": "org.apache.activemq:brokerName=localhost,destinationName=TestQueue,destinationType=Queue,type=Broker"
+      }
+    ],
+    "MaxMessageSize": 1024
+  },
+  "timestamp": 1745821855,
+  "status": 200
+}

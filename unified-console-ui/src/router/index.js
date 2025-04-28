@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Layout from '@/views/layout/index.vue'
-import { useUserInfoStore } from '@/stores/userInfo'
+// import { useUserInfoStore } from '@/stores/userInfo'
 
 
 const router = createRouter({
@@ -10,6 +10,11 @@ const router = createRouter({
       path: '/',
       component: Layout,
       children: [
+        {
+          path: '/dashboard',
+          name: 'dashboard',
+          component: () => import('@/views/dashboard/Dashboard.vue'),
+        },
         {
           path: '/article/manage',
           name: 'articleManage',
@@ -45,16 +50,17 @@ const router = createRouter({
   ],
 })
 router.beforeEach((to, from, next) => {
-  const userInfoStore = useUserInfoStore()
-  const token = userInfoStore.token
-  if (to.path === '/login') {
-    next()
-  } else {
-    if (token) {
-      next()
-    } else {
-      next('/login')
-    }
-  }
+  next()
+  // const userInfoStore = useUserInfoStore()
+  // const token = userInfoStore.token
+  // if (to.path === '/login') {
+  //   next()
+  // } else {
+  //   if (token) {
+  //     next()
+  //   } else {
+  //     next('/login')
+  //   }
+  // }
 })
 export default router

@@ -36,7 +36,7 @@ public class SqliteDatabaseInitializer implements ApplicationRunner {
         log.info("当前数据库表{}", allTables);
         sqliteInitTables.forEach(derbyInitTable -> {
             String tbName = derbyInitTable.getTbName();
-            if (!allTables.contains(tbName.toUpperCase())) {
+            if (!allTables.contains(tbName)) {
                 ClassPathResource classPathResource = new ClassPathResource(derbyInitTable.getPath());
                 try {
                     String sql = IOStreamUtils.inputStreamToString(classPathResource.getStream());

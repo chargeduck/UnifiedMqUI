@@ -10,7 +10,7 @@ import java.util.List;
  * @apiNote
  */
 public interface MqConnectManagerService {
-    boolean createMqConnect(ConnectConfig connectConfig);
+    ConnectConfig createMqConnect(ConnectConfig connectConfig);
 
     List<ConnectConfig> mqList();
 }

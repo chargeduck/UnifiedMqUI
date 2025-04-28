@@ -27,9 +27,9 @@ public class MqConnectManagerServiceImpl implements MqConnectManagerService {
     private final ConcurrentHashMap<String, MqAdapter> connections = new ConcurrentHashMap<>();
 
     @Override
-    public boolean createMqConnect(ConnectConfig connectConfig) {
-        MqAdapter adapter = mqAdapterFactory.getMqAdapter(connectConfig.getMqType());
-        return false;
+    public ConnectConfig createMqConnect(ConnectConfig connectConfig) {
+        return mqAdapterFactory.getMqAdapter(connectConfig.getMqType())
+                .getMqInfo(connectConfig);
     }
 
     @Override

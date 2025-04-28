@@ -20,7 +20,7 @@ import java.util.List;
 
 //@Component
 @Slf4j
-public class DatabaseInitializer implements ApplicationRunner {
+public class DerbyDatabaseInitializer implements ApplicationRunner {
 
     @Autowired
     private SysMapper sysMapper;

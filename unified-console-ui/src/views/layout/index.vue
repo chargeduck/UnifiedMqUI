@@ -23,7 +23,6 @@ onMounted(() => {
 })
 
 const handleCommand = async (key) => {
-  debugger
   if (key === 'logout') {
     // 退出操作
     await ElMessageBox.confirm('你确认要进行退出么', '温馨提示', {
@@ -54,6 +53,12 @@ const handleCommand = async (key) => {
         text-color="#fff"
         router
       >
+        <el-menu-item index="/dashboard">
+          <el-icon>
+            <Management/>
+          </el-icon>
+          <span>控制台</span>
+        </el-menu-item>
         <el-menu-item index="/article/channel">
           <el-icon>
             <Management/>

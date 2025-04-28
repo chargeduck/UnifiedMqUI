@@ -10,6 +10,7 @@ import net.lesscoding.unified.entity.ConnectConfig;
  */
 public interface MqConnect extends AutoCloseable{
 
+
     void close() throws MqException;
 
     boolean isClosed() throws MqException;

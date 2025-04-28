@@ -34,4 +34,10 @@ public class ConnectConfig {
     private String version;
 
     private String extra;
+
+    private String brokerName;
+
+    private String brokerId;
+
+    private String upTime;
 }

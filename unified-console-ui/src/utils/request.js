@@ -3,7 +3,7 @@ import { useUserInfoStore } from '@/stores/userInfo.js'
 import { ElMessage } from 'element-plus'
 import router from '@/router/index.js'
 
-const baseURL = 'http://big-event-vue-api-t.itheima.net'
+const baseURL = 'http://localhost:54321'
 
 const request = axios.create({
   baseURL,
@@ -26,7 +26,7 @@ request.interceptors.request.use(
 request.interceptors.response.use(
   (response) => {
     const code = response.data.code
-    if (code === 0) {
+    if (code === 200) {
       return response.data
     } else {
       ElMessage.error(response.data.msg || 'Server Error')

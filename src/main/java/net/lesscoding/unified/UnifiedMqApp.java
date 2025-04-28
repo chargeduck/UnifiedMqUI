@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @date 2025/4/21 9:46
  * @apiNote
  */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"net.lesscoding.unified"})
 @MapperScan("net.lesscoding.unified.mapper")
 public class UnifiedMqApp {
     public static void main(String[] args) {

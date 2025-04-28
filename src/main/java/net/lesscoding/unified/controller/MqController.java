@@ -21,8 +21,8 @@ public class MqController {
     private final MqConnectManagerService mqConnectManagerService;
     @PostMapping("/create")
     public Result createMqConnect(@RequestBody ConnectConfig connectConfig) {
-        mqConnectManagerService.createMqConnect(connectConfig);
-        return Result.success();
+        connectConfig = mqConnectManagerService.createMqConnect(connectConfig);
+        return Result.success(connectConfig);
     }
 
     @PostMapping("/list")
