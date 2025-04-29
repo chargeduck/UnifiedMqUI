@@ -10,6 +10,18 @@ public enum MQType {
     ROCKET_MQ,
     KAFKA,
     RABBIT_MQ,
-    MQTT;
+    MQTT,
+    UNDEFINED;
 
+    public static MQType getByCode(Integer mqType) {
+        if (mqType == null) {
+            return UNDEFINED;
+        }
+        for (MQType value : values()) {
+            if (value.ordinal() == mqType) {
+                return value;
+            }
+        }
+        return UNDEFINED;
+    }
 }

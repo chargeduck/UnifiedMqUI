@@ -6,3 +6,24 @@ export function  addMqConnect(data) {
     data
   })
 }
+export function fetchConnectList(data) {
+  return request({
+    url: '/mq/list',
+    method: 'post',
+    data
+  })
+}
+
+export function getConnectById(id) {
+  return request({
+    url: `/mq/${id}`,
+    method: 'get'
+  })
+}
+
+export function delById(id) {
+  return request({
+    url: `/mq/${id}`,
+    method: 'delete'
+  })
+}

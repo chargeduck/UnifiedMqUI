@@ -1,8 +1,9 @@
 <script setup>
 import { defineOptions, ref } from 'vue'
 import { mqTypeOptions, logoList } from '@/utils/const.js'
-import { addMqConnect } from '@/api/mqConnect.js'
-import { ElMessage } from 'element-plus'
+import { addMqConnect, delById, fetchConnectList, getConnectById } from '@/api/mqConnect.js'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { Hide, Lock, User, View } from '@element-plus/icons-vue'
 
 defineOptions({
   name: 'DashboardIndex'
@@ -11,6 +12,11 @@ const searchForm = ref({
   title: '',
   mqType: 0,
   host: ''
+})
+const page = ref({
+  current: 1,
+  size: 10,
+  total: 0
 })
 const popForm = ref({
   title: '',
@@ -25,23 +31,75 @@ const popData = ref({
   title: '编辑连接',
   visible: false
 })
-
-const addConnect = () => {
+const mqList = ref([])
+const loadFlag = ref(false)
+// 新增链接按钮时间
+const addBtnFunction = () => {
   popData.value = {
     title: '创建连接',
-    visible: true
+    visible: true,
+    showBtn: true
   }
 }
 
-const createConnect = () => {
-  addMqConnect(popForm.value).then(resp => {
-    ElMessage.success(`创建成功 ${resp.msg}`)
+const createConnect = async () => {
+  loadFlag.value = true
+  await addMqConnect(popForm.value).then(resp => {
+    ElMessage.success(`创建成功 ${ resp.msg }`)
+  }).finally(() => {
+    loadFlag.value = false
+    popData.value.visible = false
+    fetchList()
+  })
+
+}
+const fetchList = () => {
+  fetchConnectList({ ...searchForm.value, page: page.value }).then(resp => {
+    mqList.value = resp.data.records
+    page.value.total = resp.data.total
+
   })
 }
+const editConnect = (id) => {
+  popData.value = {
+    title: '编辑连接',
+    visible: true,
+    showBtn: true
+  }
+  connectDetail(id)
+}
+const showConnectDetail = (id) => {
+  popData.value = {
+    title: '连接详情',
+    visible: true,
+    showBtn: false
+  }
+  connectDetail(id)
+}
 
-const mqList = ref([
-
-])
+const connectDetail = (id) => {
+  getConnectById(id).then(resp => {
+    popForm.value = resp.data
+  })
+}
+const delConnect = (id) => {
+  ElMessageBox.confirm('确认删除此连接?', 'Warning', {
+    confirmButtonText: 'OK',
+    cancelButtonText: 'Cancel',
+    type: 'warning'
+  }).then(() => {
+    delById(id).then(resp => {
+      ElMessage.success(`删除成功${ resp.msg }`)
+    }).finally(() => {
+      fetchList()
+    })
+  })
+}
+const pwdInputType = ref('password')
+const pwdIconTrigger = () => {
+  pwdInputType.value = pwdInputType.value === 'password' ? 'text' : 'password'
+}
+fetchList()
 
 </script>
 <template>
@@ -68,12 +126,13 @@ const mqList = ref([
       <el-col :span="4">
         <el-button
           type="primary"
+          @click="fetchList"
         >
           查询
         </el-button>
         <el-button
           type="primary"
-          @click="addConnect"
+          @click="addBtnFunction"
         >
           新增
         </el-button>
@@ -97,26 +156,37 @@ const mqList = ref([
         <template #header>
           <div class="card-header">
             <el-row :gutter="5">
-              <el-col :span="16">
+              <el-col :span="15">
                 <el-image
                   :src="logoList[mq.mqType]"
                   style="height: 20px; margin-right: 5px" />
                 {{ mq.title }}
               </el-col>
-              <el-col :span="4">
+              <el-col :span="3">
                 <el-button
                   type="primary"
                   size="small"
+                  @click="showConnectDetail(mq.id)"
                 >
                   详情
                 </el-button>
               </el-col>
-              <el-col :span="4">
+              <el-col :span="3">
                 <el-button
                   type="primary"
                   size="small"
+                  @click="editConnect(mq.id)"
                 >
                   编辑
+                </el-button>
+              </el-col>
+              <el-col :span="3">
+                <el-button
+                  type="danger"
+                  size="small"
+                  @click="delConnect(mq.id)"
+                >
+                  删除
                 </el-button>
               </el-col>
             </el-row>
@@ -172,10 +242,19 @@ const mqList = ref([
           <el-descriptions-item>
             <template #label>
               <div class="cell-item">
-                Status
+                Active
               </div>
             </template>
-            {{ mq.status || 'Ready' }}
+            <el-switch disabled v-model="mq.activeFlag"
+                       style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949" />
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template #label>
+              <div class="cell-item">
+                BrokerId
+              </div>
+            </template>
+            {{ mq.brokerId }}
           </el-descriptions-item>
         </el-descriptions>
       </el-card>
@@ -184,9 +263,9 @@ const mqList = ref([
   <el-pagination
     background
     layout="total, prev, pager, next"
-    :total="100" />
+    :total="page.total" />
   <el-dialog :title="popData.title" width="60%" v-model="popData.visible">
-    <el-form :model="popForm" style="margin: 20px" label-width="80" label-position="left">
+    <el-form v-loading="loadFlag" :model="popForm" style="margin: 20px" label-width="80" label-position="left">
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item label="Title" prop="title">
@@ -209,23 +288,46 @@ const mqList = ref([
         </el-col>
         <el-col :span="12">
           <el-form-item label="Port" prop="port">
-            <el-input-number :min="0" :max="65535" v-model="popForm.port" placeholder="请输入端口号" class="full-width"/>
+            <el-input-number :min="0" :max="65535" v-model="popForm.port" placeholder="请输入端口号"
+                             class="full-width" />
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item label="Username" prop="username">
-            <el-input v-model="popForm.username" placeholder="请输入账号" />
+            <el-input :prefix-icon="User" v-model="popForm.username" placeholder="请输入账号" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item label="Password" prop="password">
-            <el-input v-model="popForm.password" type="password" placeholder="请输入密码"/>
+            <el-input
+              :prefix-icon="Lock"
+              v-model="popForm.password"
+              :type="pwdInputType"
+              placeholder="请输入密码">
+              <template #append>
+                <el-icon @click="pwdIconTrigger">
+                  <component :is="pwdInputType === 'password' ? View : Hide" />
+                </el-icon>
+              </template>
+            </el-input>
           </el-form-item>
         </el-col>
       </el-row>
-      <el-form-item>
+      <el-row :gutter="20">
+        <el-col>
+          <el-form-item label="Extra" prop="extra">
+            <el-input
+              type="textarea"
+              v-model="popForm.extra"
+              placeholder="请输入额外信息"
+              :autosize="{minRows: 3, maxRows: 5}"
+            />
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-form-item v-show="popData.showBtn">
         <el-button type="primary" @click="popData.visible = false">
           取消
         </el-button>

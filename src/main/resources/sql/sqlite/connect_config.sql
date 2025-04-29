@@ -11,5 +11,9 @@ CREATE TABLE connect_config
     password    TEXT,
     version     TEXT,
     extra       TEXT,
-    create_time TIMESTAMP
+    broker_name TEXT,
+    broker_id   TEXT,
+    up_time     TEXT,
+    active_flag integer default 0 not null ,
+    create_time timestamp
 );

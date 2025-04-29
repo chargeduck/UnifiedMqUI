@@ -28,7 +28,7 @@ public class KafkaAdapter implements MqAdapter {
     }
 
     @Override
-    public String brokerName(ConnectConfig connectConfig) {
+    public String brokerName(Connection connection) {
         return null;
     }
 

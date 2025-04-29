@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.lesscoding.unified.mapper.ConnectConfigMapper">
+    <resultMap id="resultVo" type="net.lesscoding.unified.entity.ConnectConfig">
+        <id column="id" property="id"/>
+        <result column="host" property="host"/>
+        <result column="port" property="port"/>
+        <result column="mq_type" property="mqType"/>
+        <result column="group_type" property="groupType"/>
+        <result column="group_url" property="groupUrl"/>
+        <result column="title" property="title"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="version" property="version"/>
+        <result column="extra" property="extra"/>
+        <result column="broker_name" property="brokerName"/>
+        <result column="broker_id" property="brokerId"/>
+        <result column="up_time" property="upTime"/>
+        <result column="create_time" property="createTime"/>
+        <result column="active_flag" property="activeFlag"/>
+    </resultMap>
+    <insert id="insertConnectConfig">
+        insert into connect_config
+        (host, port, mq_type, group_type, group_url,
+         title, username, password, version, extra,
+         broker_name, broker_id, up_time, create_time, active_flag)
+        values (#{host}, #{port}, #{mqType}, #{groupType}, #{groupUrl},
+                #{title}, #{username}, #{password}, #{version}, #{extra},
+                #{brokerName}, #{brokerId}, #{upTime}, #{createTime}, #{activeFlag})
+
+    </insert>
+    <select id="getMqList" resultMap="resultVo">
+        select *
+        from connect_config
+        <where>
+            <if test="config.mqType != null">
+                mq_type = #{config.mqType}
+            </if>
+            <if test="config.groupType != null">
+                and group_type = #{config.groupType}
+            </if>
+            <if test="config.title != null and config.title != ''">
+                and title like concat('%', #{config.title}, '%')
+            </if>
+            <if test="config.host != null and config.host != ''">
+                and host like concat('%', #{config.host}, '%')
+            </if>
+            <if test="config.port != null and config.port != ''">
+                and port like concat('%', #{config.port}, '%')
+            </if>
+            <if test="config.username != null and config.username != ''">
+                and username like concat('%', #{config.username}, '%')
+            </if>
+            <if test="config.password!= null and config.password!= ''">
+                and password like concat('%', #{config.password}, '%')
+            </if>
+        </where>
+    </select>
+</mapper>

@@ -3,6 +3,7 @@ package net.lesscoding.unified.core.adapter;
 import cn.hutool.core.util.StrUtil;
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.lesscoding.unified.core.model.vo.activemq.jolokia.ActiveMqJolokiaResponse;
 import net.lesscoding.unified.entity.ConnectConfig;
 import net.lesscoding.unified.mapper.ConnectConfigMapper;
@@ -20,6 +21,7 @@ import javax.jms.JMSException;
  * @apiNote
  */
 @Component
+@Slf4j
 @RequiredArgsConstructor
 public class ActiveMqAdapter implements MqAdapter {
 
@@ -29,21 +31,28 @@ public class ActiveMqAdapter implements MqAdapter {
     private final Gson gson;
 
     @Override
-    public Connection getConnection(ConnectConfig connectConfig) throws JMSException {
+    public Connection getConnection(ConnectConfig connectConfig) {
         String connectionKey = MqAdapter.connectionKey(connectConfig);
-        return CONNECTION_MAP.computeIfAbsent(connectionKey, key -> {
+        boolean containsed = CONNECTION_MAP.containsKey(connectionKey);
+        if (containsed) {
+            return CONNECTION_MAP.get(connectionKey);
+        } else {
             String brokerUrl = StrUtil.format("tcp://{}:{}", connectConfig.getHost(), connectConfig.getPort());
             // 1. 创建连接工厂
             ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory(brokerUrl);
             // 2. 创建连接
+            Connection connection = null;
             try {
-                Connection connection = factory.createConnection();
+                connection = factory.createConnection();
                 connection.start();
-                return connection;
+                connectConfig.setActiveFlag(true);
+                CONNECTION_MAP.put(connectionKey, connection);
             } catch (JMSException e) {
-                throw new RuntimeException(e);
+                log.error("创建连接失败", e);
+                connectConfig.setActiveFlag(false);
             }
-        });
+            return connection;
+        }
     }
 
     @Override
@@ -57,14 +66,18 @@ public class ActiveMqAdapter implements MqAdapter {
     }
 
     @Override
-    public String brokerName(ConnectConfig connectConfig) throws JMSException {
-        return ((ActiveMQConnection)getConnection(connectConfig)).getBrokerName();
+    public String brokerName(Connection connection) throws JMSException {
+        return ((ActiveMQConnection)connection).getBrokerName();
     }
 
     @Override
     public ConnectConfig getMqInfo(ConnectConfig connectConfig) {
+        Connection connection = getConnection(connectConfig);
+        if (connection == null) {
+            return connectConfig;
+        }
         try {
-            String brokerName = brokerName(connectConfig);
+            String brokerName = brokerName(connection);
             connectConfig.setBrokerName(brokerName);
         } catch (JMSException e) {
             Object brokerList = jolokiaUtil.getBrokerList(connectConfig);

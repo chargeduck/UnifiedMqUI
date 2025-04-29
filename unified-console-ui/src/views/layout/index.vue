@@ -45,7 +45,6 @@ const handleCommand = async (key) => {
 <template>
   <el-container class="layout-container">
     <el-aside width="200px">
-      <div class="el-aside__logo"></div>
       <el-menu
         active-text-color="#ffd04b"
         background-color="#232323"
@@ -59,56 +58,12 @@ const handleCommand = async (key) => {
           </el-icon>
           <span>控制台</span>
         </el-menu-item>
-        <el-menu-item index="/article/channel">
-          <el-icon>
-            <Management/>
-          </el-icon>
-          <span>文章分类</span>
-        </el-menu-item>
-        <el-menu-item index="/article/manage">
-          <el-icon>
-            <Promotion/>
-          </el-icon>
-          <span>文章管理</span>
-        </el-menu-item>
-
-        <el-sub-menu index="/user">
-          <!-- 多级菜单的标题 - 具名插槽 title -->
-          <template #title>
-            <el-icon>
-              <UserFilled/>
-            </el-icon>
-            <span>个人中心</span>
-          </template>
-
-          <!-- 展开的内容 - 默认插槽 -->
-          <el-menu-item index="/user/profile">
-            <el-icon>
-              <User/>
-            </el-icon>
-            <span>基本资料</span>
-          </el-menu-item>
-          <el-menu-item index="/user/avatar">
-            <el-icon>
-              <Crop/>
-            </el-icon>
-            <span>更换头像</span>
-          </el-menu-item>
-          <el-menu-item index="/user/password">
-            <el-icon>
-              <EditPen/>
-            </el-icon>
-            <span>重置密码</span>
-          </el-menu-item>
-        </el-sub-menu>
       </el-menu>
     </el-aside>
     <el-container>
       <el-header>
         <div>
-          黑马程序员：<strong>{{
-            userStore.userInfo.nickname || userStore.userInfo.username
-          }}</strong>
+          <strong>Unified MQ Console</strong>
         </div>
         <el-dropdown placement="bottom-end" @command="handleCommand">
           <!-- 展示给用户，默认看到的 -->

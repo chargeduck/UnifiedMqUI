@@ -28,7 +28,7 @@ public class RabbitMqAdapter implements MqAdapter {
     }
 
     @Override
-    public String brokerName(ConnectConfig connectConfig) {
+    public String brokerName(Connection connection) {
         return null;
     }
 

@@ -1,9 +1,13 @@
 package net.lesscoding.unified.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import lombok.Data;
 import net.lesscoding.unified.core.enums.MQType;
+
+import java.time.LocalDateTime;
 
 /**
  * @author eleven
@@ -11,7 +15,7 @@ import net.lesscoding.unified.core.enums.MQType;
  * @apiNote
  */
 @Data
-public class ConnectConfig {
+public class ConnectConfig<T> {
     @TableId(type = IdType.AUTO)
     private Integer id;
     // 主机
@@ -19,7 +23,8 @@ public class ConnectConfig {
     // 端口
     private String port;
     // Mq类型
-    private MQType mqType;
+    private Integer mqType;
+
     // 是否为集群
     private Boolean groupType;
     // 集群地址
@@ -40,4 +45,18 @@ public class ConnectConfig {
     private String brokerId;
 
     private String upTime;
+
+    private Boolean activeFlag;
+
+    private LocalDateTime createTime;
+
+    @TableField(exist = false)
+    private MQType mqTypeEnum;
+
+    @TableField(exist = false)
+    private PageDTO<T> page;
+
+    public MQType getMqTypeEnum() {
+        return MQType.getByCode(mqType);
+    }
 }

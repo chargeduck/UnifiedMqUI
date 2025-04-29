@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import net.lesscoding.unified.core.model.Result;
 import net.lesscoding.unified.entity.ConnectConfig;
 import net.lesscoding.unified.service.MqConnectManagerService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author eleven
@@ -26,7 +23,17 @@ public class MqController {
     }
 
     @PostMapping("/list")
-    public Result mqList() {
-        return Result.success(mqConnectManagerService.mqList());
+    public Result mqList(@RequestBody ConnectConfig connectConfig) {
+        return Result.success(mqConnectManagerService.mqList(connectConfig));
+    }
+
+    @GetMapping("/{id}")
+    public Result getMqConnect(@PathVariable Integer id) {
+        return Result.success(mqConnectManagerService.getMqConnect(id));
+    }
+
+    @DeleteMapping("/{id}")
+    public Result deleteMqConnect(@PathVariable Integer id) {
+        return Result.success(mqConnectManagerService.delById(id));
     }
 }

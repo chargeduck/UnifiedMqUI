@@ -25,7 +25,7 @@ public interface MqAdapter {
 
     public boolean sendMessage(Object message);
 
-    public String brokerName(ConnectConfig connectConfig) throws JMSException;
+    public String brokerName(Connection connection) throws JMSException;
 
     public ConnectConfig getMqInfo(ConnectConfig connectConfig);
 }
