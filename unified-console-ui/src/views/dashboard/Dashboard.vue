@@ -28,7 +28,18 @@ const popForm = ref({
   username: '',
   password: ''
 })
-
+const popFormRef=ref()
+const popFormRules = {
+  mqType: [
+    {required: true, message: '请选择类型', trigger: 'change'}
+  ],
+  host: [
+    {required: true, message: '请输入主机地址', trigger: 'blur'}
+  ],
+  port: [
+    {required: true, message: '请输入端口号', trigger: 'blur'}
+  ]
+}
 const popData = ref({
   title: '编辑连接',
   visible: false
@@ -45,15 +56,31 @@ const addBtnFunction = () => {
 }
 
 const createConnect = async () => {
+  await popFormRef.value.validate()
   loadFlag.value = true
   await addMqConnect(popForm.value).then(resp => {
     ElMessage.success(`创建成功 ${ resp.msg }`)
   }).finally(() => {
     loadFlag.value = false
     popData.value.visible = false
+    resetForm()
     fetchList()
   })
+}
 
+const cancelDialog = () => {
+  popData.value.visible = false
+  resetForm()
+}
+const resetForm = () => {
+  popForm.value = {
+    title: '',
+    mqType: null,
+    host: '',
+    port: '',
+    username: '',
+    password: ''
+  }
 }
 const fetchList = () => {
   fetchConnectList({ ...searchForm.value, page: page.value }).then(resp => {
@@ -294,7 +321,7 @@ fetchList()
     style="margin-top: 20px; justify-content: flex-end"
   />
   <el-dialog :title="popData.title" width="60%" v-model="popData.visible">
-    <el-form v-loading="loadFlag" :model="popForm" style="margin: 20px" label-width="80" label-position="left">
+    <el-form v-loading="loadFlag" :model="popForm" :ref="popFormRef" :rules="popFormRules" style="margin: 20px" label-width="80" label-position="left">
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item label="Title" prop="title">
@@ -357,7 +384,7 @@ fetchList()
         </el-col>
       </el-row>
       <el-form-item v-show="popData.showBtn">
-        <el-button type="primary" @click="popData.visible = false">
+        <el-button type="primary" @click="cancelDialog">
           取消
         </el-button>
         <el-button type="primary" @click="createConnect">

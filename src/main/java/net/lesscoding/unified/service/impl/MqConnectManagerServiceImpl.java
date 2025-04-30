@@ -1,5 +1,6 @@
 package net.lesscoding.unified.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
@@ -35,6 +36,9 @@ public class MqConnectManagerServiceImpl implements MqConnectManagerService {
 
     @Override
     public ConnectConfig createMqConnect(ConnectConfig connectConfig) {
+        if(StrUtil.isBlank(connectConfig.getTitle())) {
+            connectConfig.setTitle(MqAdapter.connectionKey(connectConfig));
+        }
         MqAdapter adapter = mqAdapterFactory.getMqAdapter(connectConfig.getMqTypeEnum());
         connectConfig = adapter.getMqInfo(connectConfig);
         ConnectConfig dataRows = connectConfigMapper.selectOne(new LambdaQueryWrapper<ConnectConfig>()

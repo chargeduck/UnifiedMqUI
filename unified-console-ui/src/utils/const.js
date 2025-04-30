@@ -33,34 +33,39 @@ export const navMenuList = [
     logo: logoActiveMQ,
     tooltip: 'ActiveMQ',
     width: '100px',
-    height: '50px'
+    height: '50px',
+    textMenu: true
   },
   {
     index: '/rocketmq/index',
     logo: logoRocketMQ,
     tooltip: 'RocketMQ',
     width: '100px',
-    height: '50px'
+    height: '50px',
+    textMenu: true
   },
   {
     index: '/kafka/index',
     logo: logoKafka,
     tooltip: 'Kafka',
     width: '100px',
-    height: '50px'
+    height: '50px',
+    textMenu: true
   },
   {
     index: '/rabbitmq/index',
     logo: logoRabbitMQ,
     tooltip: 'RabbitMQ',
     width: '100px',
-    height: '50px'
+    height: '50px',
+    textMenu: true
   },
   {
     index: '/mqtt/index',
     logo: logoMqtt,
     tooltip: 'Mqtt',
     width: '100px',
-    height: '50px'
+    height: '50px',
+    textMenu: true
   }
 ]

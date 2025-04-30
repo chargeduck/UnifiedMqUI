@@ -1,7 +1,7 @@
 <script setup>
 import { defineOptions, ref, provide } from 'vue'
 import { useRouter } from 'vue-router'
-import { logoList, navMenuList } from '@/utils/const.js'
+import { navMenuList } from '@/utils/const.js'
 
 const router = useRouter()
 defineOptions({
