@@ -4,10 +4,12 @@ import { mqTypeOptions, logoList } from '@/utils/const.js'
 import { addMqConnect, delById, fetchConnectList, getConnectById } from '@/api/mqConnect.js'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Hide, Lock, User, View } from '@element-plus/icons-vue'
+import { useRouter } from 'vue-router'
 
 defineOptions({
   name: 'DashboardIndex'
 })
+const router = useRouter()
 const searchForm = ref({
   title: '',
   mqType: 0,
@@ -15,7 +17,7 @@ const searchForm = ref({
 })
 const page = ref({
   current: 1,
-  size: 10,
+  size: 6,
   total: 0
 })
 const popForm = ref({
@@ -57,6 +59,8 @@ const fetchList = () => {
   fetchConnectList({ ...searchForm.value, page: page.value }).then(resp => {
     mqList.value = resp.data.records
     page.value.total = resp.data.total
+    page.value.current = resp.data.current
+    page.value.size = resp.data.size
 
   })
 }
@@ -69,12 +73,29 @@ const editConnect = (id) => {
   connectDetail(id)
 }
 const showConnectDetail = (id) => {
-  popData.value = {
-    title: '连接详情',
-    visible: true,
-    showBtn: false
-  }
-  connectDetail(id)
+  // popData.value = {
+  //   title: '连接详情',
+  //   visible: true,
+  //   showBtn: false
+  // }
+  // connectDetail(id)
+  router.push(`/activemq/index/${ id }`)
+}
+
+const onSizeChange = (size) => {
+  // console.log('当前每页条数', size)
+  // 只要是每页条数变化了，那么原本正在访问的当前页意义不大了，数据大概率已经不在原来那一页了
+  // 重新从第一页渲染即可
+  page.value.current = 1
+  page.value.size = size
+  // 基于最新的当前页 和 每页条数，渲染数据
+  fetchList()
+}
+const onCurrentChange = (current) => {
+  // 更新当前页
+  page.value.current = current
+  // 基于最新的当前页，渲染数据
+  fetchList()
 }
 
 const connectDetail = (id) => {
@@ -260,10 +281,18 @@ fetchList()
       </el-card>
     </el-col>
   </el-row>
+  <!-- 分页区域 -->
   <el-pagination
-    background
-    layout="total, prev, pager, next"
-    :total="page.total" />
+    v-model:current-page="page.current"
+    v-model:page-size="page.size"
+    :page-sizes="[3,6,9,12]"
+    :background="true"
+    layout="jumper, total, sizes, prev, pager, next"
+    :total="page.total"
+    @size-change="onSizeChange"
+    @current-change="onCurrentChange"
+    style="margin-top: 20px; justify-content: flex-end"
+  />
   <el-dialog :title="popData.title" width="60%" v-model="popData.visible">
     <el-form v-loading="loadFlag" :model="popForm" style="margin: 20px" label-width="80" label-position="left">
       <el-row :gutter="20">

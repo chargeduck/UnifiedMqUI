@@ -21,3 +21,46 @@ export const logoList = [
   logoRabbitMQ,
   logoMqtt
 ]
+
+export const navMenuList = [
+  {
+    index: '/dashboard',
+    tooltip: 'Dashboard',
+    textMenu: true
+  },
+  {
+    index: '/activemq/index',
+    logo: logoActiveMQ,
+    tooltip: 'ActiveMQ',
+    width: '100px',
+    height: '50px'
+  },
+  {
+    index: '/rocketmq/index',
+    logo: logoRocketMQ,
+    tooltip: 'RocketMQ',
+    width: '100px',
+    height: '50px'
+  },
+  {
+    index: '/kafka/index',
+    logo: logoKafka,
+    tooltip: 'Kafka',
+    width: '100px',
+    height: '50px'
+  },
+  {
+    index: '/rabbitmq/index',
+    logo: logoRabbitMQ,
+    tooltip: 'RabbitMQ',
+    width: '100px',
+    height: '50px'
+  },
+  {
+    index: '/mqtt/index',
+    logo: logoMqtt,
+    tooltip: 'Mqtt',
+    width: '100px',
+    height: '50px'
+  }
+]
