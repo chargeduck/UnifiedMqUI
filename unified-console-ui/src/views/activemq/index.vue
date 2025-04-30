@@ -1,10 +1,16 @@
 <script setup>
-import { defineOptions, ref } from 'vue'
+import { defineOptions, ref, provide } from 'vue'
 import ActiveMqHome from '@/views/activemq/tab/home.vue'
+import { useRoute } from 'vue-router'
+import { ElMessage } from 'element-plus'
+const route = useRoute()
 defineOptions({
   name: 'ActiveMqIndex'
 })
 const activeName = ref('home')
+const id = route.query.id
+ElMessage.success(`当前查询的连接ID为：${id}`)
+provide('id', id)
 </script>
 <template>
 <el-tabs v-model="activeName" type="border-card">

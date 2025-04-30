@@ -1,7 +1,9 @@
 <script setup>
-import { defineOptions, ref, provide } from 'vue'
+import { defineOptions, ref, provide, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { navMenuList } from '@/utils/const.js'
+import { Moon, Sunny } from '@element-plus/icons-vue'
+import { useDark, usePreferredDark } from '@vueuse/core'
 
 const router = useRouter()
 defineOptions({
@@ -9,10 +11,26 @@ defineOptions({
 })
 const headerTitle = ref('Unified MQ Console')
 provide('headerTitle', headerTitle)
-const handleSelect = (key, keyPath) => {
-  console.log(key, keyPath)
+const handleSelect = (key) => {
   router.push(key)
 }
+const isSystemDark = usePreferredDark()
+const theme = ref(isSystemDark.value)
+console.log(isSystemDark.value, 'systemDark')
+// 使用 useDark 检测系统偏好主题
+const isDark = useDark({
+  selector: 'html', // 应用到 body 元素
+  attribute: 'class', // 使用 class 来切换主题
+  valueDark: 'dark', // 暗色主题的 class
+  valueLight: '' // 浅色主题的 class
+})
+watch(isSystemDark, (newValue) => {
+  isDark.value = newValue
+})
+watch(theme, (newValue) => {
+  isDark.value = newValue
+})
+isDark.value = isSystemDark.value
 </script>
 <template>
   <el-container class="layout-container">
@@ -20,8 +38,16 @@ const handleSelect = (key, keyPath) => {
     <el-container>
       <el-header>
         <div>
-          <strong>{{ headerTitle }}</strong>
+          <span style="font-weight: bolder; margin-right: 10px">{{ headerTitle }}</span>
+          <el-switch
+            v-model="theme"
+            inline-prompt
+            style="float: right"
+            :active-icon="Moon"
+            :inactive-icon="Sunny"
+          />
         </div>
+
         <el-menu
           :default-active="$route.path"
           class="el-menu-demo"
@@ -57,21 +83,7 @@ const handleSelect = (key, keyPath) => {
 .layout-container {
   height: 100vh;
 
-  .el-aside {
-    background-color: #232323;
-
-    &__logo {
-      height: 120px;
-      background: url('@/assets/logo.png') no-repeat center / 120px auto;
-    }
-
-    .el-menu {
-      border-right: none;
-    }
-  }
-
   .el-header {
-    background-color: #fff;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -81,7 +93,6 @@ const handleSelect = (key, keyPath) => {
       align-items: center;
 
       .el-icon {
-        color: #999;
         margin-left: 10px;
       }
 
@@ -97,7 +108,6 @@ const handleSelect = (key, keyPath) => {
     align-items: center;
     justify-content: center;
     font-size: 14px;
-    color: #666;
   }
 }
 </style>

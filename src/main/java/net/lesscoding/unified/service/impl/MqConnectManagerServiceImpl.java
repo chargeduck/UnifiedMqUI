@@ -27,7 +27,6 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 @RequiredArgsConstructor
 public class MqConnectManagerServiceImpl implements MqConnectManagerService {
-
     private final MqAdapterFactory mqAdapterFactory;
 
     private final ConnectConfigMapper connectConfigMapper;

@@ -28,16 +28,16 @@ const popForm = ref({
   username: '',
   password: ''
 })
-const popFormRef=ref()
+const popFormRef = ref()
 const popFormRules = {
   mqType: [
-    {required: true, message: '请选择类型', trigger: 'change'}
+    { required: true, message: '请选择类型', trigger: 'change' }
   ],
   host: [
-    {required: true, message: '请输入主机地址', trigger: 'blur'}
+    { required: true, message: '请输入主机地址', trigger: 'blur' }
   ],
   port: [
-    {required: true, message: '请输入端口号', trigger: 'blur'}
+    { required: true, message: '请输入端口号', trigger: 'blur' }
   ]
 }
 const popData = ref({
@@ -100,13 +100,10 @@ const editConnect = (id) => {
   connectDetail(id)
 }
 const showConnectDetail = (id) => {
-  // popData.value = {
-  //   title: '连接详情',
-  //   visible: true,
-  //   showBtn: false
-  // }
-  // connectDetail(id)
-  router.push(`/activemq/index/${ id }`)
+  router.push({
+    name: 'activeMQ',
+    query: { id }
+  })
 }
 
 const onSizeChange = (size) => {
@@ -321,7 +318,8 @@ fetchList()
     style="margin-top: 20px; justify-content: flex-end"
   />
   <el-dialog :title="popData.title" width="60%" v-model="popData.visible">
-    <el-form v-loading="loadFlag" :model="popForm" :ref="popFormRef" :rules="popFormRules" style="margin: 20px" label-width="80" label-position="left">
+    <el-form v-loading="loadFlag" :model="popForm" :ref="popFormRef" :rules="popFormRules" style="margin: 20px"
+             label-width="80" label-position="left">
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item label="Title" prop="title">

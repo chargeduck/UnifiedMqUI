@@ -1,9 +1,9 @@
 // mq的类型数据
-import logoActiveMQ from '@/assets/logo_activemq.png'
-import logoRocketMQ from '@/assets/logo_rocketmq.svg'
-import logoKafka from '@/assets/logo_kafka.png'
-import logoRabbitMQ from '@/assets/logo_rabbitmq.svg'
-import logoMqtt from '@/assets/logo_mqtt.svg'
+import logoActiveMQ from '@/assets/images/logo_activemq.png'
+import logoRocketMQ from '@/assets/images/logo_rocketmq.svg'
+import logoKafka from '@/assets/images/logo_kafka.png'
+import logoRabbitMQ from '@/assets/images/logo_rabbitmq.svg'
+import logoMqtt from '@/assets/images/logo_mqtt.svg'
 
 export const mqTypeOptions = [
   { label: 'ActiveMQ', value: 0 },
