@@ -2,7 +2,11 @@ package net.lesscoding.unified.core.adapter;
 
 import lombok.RequiredArgsConstructor;
 import net.lesscoding.unified.core.enums.MQType;
+import net.lesscoding.unified.entity.ConnectConfig;
 import org.springframework.stereotype.Component;
+
+import javax.jms.Connection;
+import javax.jms.JMSException;
 
 /**
  * @author eleven
@@ -46,5 +50,15 @@ public class MqAdapterFactory {
                 throw new RuntimeException("mqType is not support");
         }
         return mqAdapter;
+    }
+
+    public Connection getConnection(MQType mqType, ConnectConfig connectConfig) throws JMSException {
+        MqAdapter mqAdapter = getMqAdapter(mqType);
+        return mqAdapter.getConnection(connectConfig);
+    }
+
+    public ConnectConfig getMqInfo(MQType mqType, ConnectConfig connectConfig) {
+        MqAdapter mqAdapter = getMqAdapter(mqType);
+        return mqAdapter.getMqInfo(connectConfig);
     }
 }
