@@ -36,7 +36,7 @@ connectDetail(detailId)
 
     <el-descriptions-item label="连接状态">
       <el-switch
-        v-model="mqExtra.value.activeFlag"
+        v-model="mqDetail.activeFlag"
         disabled
         style="--el-switch-on-color: #13ce66;--el-switch-off-color: #ff4949" />
     </el-descriptions-item>

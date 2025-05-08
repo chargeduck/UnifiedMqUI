@@ -3,6 +3,8 @@ server:
 spring:
   application:
     name: UnifiedMqUI
+  profiles:
+    active: dev
   datasource:
 #    url: jdbc:derby:/.derby/data/unified_mq_console;multipleConnectionsAllowed=true
 #    username: root

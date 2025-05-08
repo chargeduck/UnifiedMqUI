@@ -14,6 +14,7 @@ import net.lesscoding.unified.mapper.ConnectConfigMapper;
 import net.lesscoding.unified.service.MqConnectManagerService;
 import org.springframework.stereotype.Service;
 
+import javax.jms.Connection;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -69,7 +70,20 @@ public class MqConnectManagerServiceImpl implements MqConnectManagerService {
 
     @Override
     public ConnectConfig getMqConnect(Integer id) {
-        return connectConfigMapper.selectById(id);
+        ConnectConfig config = connectConfigMapper.selectById(id);
+        if (config != null) {
+            try {
+                MqAdapter adapter = mqAdapterFactory.getMqAdapter(config.getMqTypeEnum());
+                Connection connection = adapter.getConnection(config);
+                if (connection != null) {
+                    config = adapter.getMqInfo(config);
+                }
+            } catch (Exception e) {
+                log.error("获取MQ连接失败", e);
+            }
+            connectConfigMapper.updateById(config);
+        }
+        return config;
     }
 
     @Override
