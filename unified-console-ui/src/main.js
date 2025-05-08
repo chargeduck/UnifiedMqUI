@@ -1,5 +1,6 @@
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
+import {createApp} from 'vue'
+import {createPinia} from 'pinia'
+import {createI18n} from 'vue-i18n'
 import persist from 'pinia-plugin-persistedstate'
 
 import App from './App.vue'
@@ -10,9 +11,8 @@ import 'element-plus/dist/index.css'
 import 'element-plus/theme-chalk/dark/css-vars.css'
 
 
-const app = createApp(App)
-
-app.use(createPinia().use(persist))
-app.use(router)
-
-app.mount('#app')
+createApp(App)
+  .use(createPinia().use(persist))
+  .use(router)
+  .use(createI18n({}))
+  .mount('#app')

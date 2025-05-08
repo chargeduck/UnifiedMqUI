@@ -1,7 +1,7 @@
 <script setup>
-import { defineOptions, inject, ref } from 'vue'
-import { getConnectById } from '@/api/mqConnect.js'
-import { gbFilter } from '@/utils/format.js'
+import {defineOptions, inject, ref} from 'vue'
+import {getConnectById} from '@/api/mqConnect.js'
+import {gbFilter} from '@/utils/format.js'
 
 defineOptions({
   name: 'ActiveMqHome'
@@ -36,7 +36,7 @@ connectDetail(detailId)
 
     <el-descriptions-item label="连接状态">
       <el-switch
-        v-model="mqExtra.value.activeFlag"
+        v-model="mqDetail.activeFlag"
         disabled
         style="--el-switch-on-color: #13ce66;--el-switch-off-color: #ff4949" />
     </el-descriptions-item>
