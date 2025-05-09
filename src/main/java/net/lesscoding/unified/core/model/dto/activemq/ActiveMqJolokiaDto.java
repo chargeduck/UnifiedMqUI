@@ -1,4 +1,4 @@
-package net.lesscoding.unified.core.model.dto;
+package net.lesscoding.unified.core.model.dto.activemq;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

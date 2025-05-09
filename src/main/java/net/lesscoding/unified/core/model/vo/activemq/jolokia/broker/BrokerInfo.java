@@ -1,4 +1,4 @@
-package net.lesscoding.unified.core.model.vo.activemq.jolokia;
+package net.lesscoding.unified.core.model.vo.activemq.jolokia.broker;
 
 import lombok.Data;
 
@@ -10,7 +10,7 @@ import java.util.List;
  * @apiNote
  */
 @Data
-public class ValueBean {
+public class BrokerInfo {
     private boolean StatisticsEnabled;
     private int TotalConnectionsCount;
     private int TotalMessageCount;
@@ -24,7 +24,7 @@ public class ValueBean {
      * ws : ws://eleven:61614?maximumConnections=1000&wireFormat.maxFrameSize=104857600
      */
 
-    private TransportConnectorsBean TransportConnectors;
+    private BrokerTransportConnectors BrokerTransportConnectors;
     private long StoreLimit;
     private int TotalProducerCount;
     private int CurrentConnectionsCount;
@@ -59,7 +59,7 @@ public class ValueBean {
      * objectName : org.apache.activemq:brokerName=localhost,destinationName=ActiveMQ.Advisory.MasterBroker,destinationType=Topic,type=Broker
      */
 
-    private List<TopicsBean> Topics;
+    private List<BrokerTopics> Topics;
     private List<?> DurableTopicSubscribers;
     private List<?> QueueSubscribers;
     private List<?> TopicSubscribers;
@@ -71,7 +71,7 @@ public class ValueBean {
      * objectName : org.apache.activemq:brokerName=localhost,destinationName=TestQueue,destinationType=Queue,type=Broker
      */
 
-    private List<QueuesBean> Queues;
+    private List<BrokerQueues> Queues;
 
 
 }

@@ -2,6 +2,8 @@
 import { defineOptions, inject, ref } from 'vue'
 import { getConnectById } from '@/api/mqConnect.js'
 import { gbFilter } from '@/utils/format.js'
+import { useActiveMqStore } from '@/stores/activemq.js'
+const activeMqStore = useActiveMqStore()
 
 defineOptions({
   name: 'ActiveMqHome'
@@ -15,6 +17,7 @@ const connectDetail = (id) => {
   getConnectById(id).then(resp => {
     mqDetail.value = resp.data
     mqExtra.value = JSON.parse(mqDetail.value.extra)
+    activeMqStore.changeActiveConfig(resp.data)
   })
 }
 connectDetail(detailId)

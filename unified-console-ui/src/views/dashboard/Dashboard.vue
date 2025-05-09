@@ -12,7 +12,7 @@ defineOptions({
 const router = useRouter()
 const searchForm = ref({
   title: '',
-  mqType: 0,
+  mqType: null,
   host: ''
 })
 const page = ref({
@@ -152,7 +152,7 @@ fetchList()
     <el-row :gutter="20">
       <el-col :span="4">
         <el-form-item label="类型" prop="mqType">
-          <el-select v-model="searchForm.mqType" placeholder="请选择类型" style="width: 100%">
+          <el-select v-model="searchForm.mqType" placeholder="请选择类型" style="width: 100%" clearable filterable>
             <el-option v-for="item in mqTypeOptions" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
@@ -160,12 +160,12 @@ fetchList()
       </el-col>
       <el-col :span="4">
         <el-form-item label="标题" prop="title">
-          <el-input v-model="searchForm.title" placeholder="请输入标题" class="full-width"></el-input>
+          <el-input v-model="searchForm.title" placeholder="请输入标题" class="full-width" clearable></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="4">
         <el-form-item label="主机" prop="host">
-          <el-input v-model="searchForm.host" placeholder="请输入主机" />
+          <el-input v-model="searchForm.host" placeholder="请输入主机" clearable />
         </el-form-item>
       </el-col>
       <el-col :span="4">
@@ -318,7 +318,7 @@ fetchList()
     style="margin-top: 20px; justify-content: flex-end"
   />
   <el-dialog :title="popData.title" width="60%" v-model="popData.visible">
-    <el-form v-loading="loadFlag" :model="popForm" :ref="popFormRef" :rules="popFormRules" style="margin: 20px"
+    <el-form v-loading="loadFlag" :model="popForm" ref="popFormRef" :rules="popFormRules" style="margin: 20px"
              label-width="80" label-position="left">
       <el-row :gutter="20">
         <el-col :span="12">

@@ -3,13 +3,18 @@ package net.lesscoding.unified.utils.activemq;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
+import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.lesscoding.unified.core.exception.MqException;
-import net.lesscoding.unified.core.model.dto.ActiveMqJolokiaDto;
+import net.lesscoding.unified.core.model.dto.activemq.ActiveMqJolokiaDto;
+import net.lesscoding.unified.core.model.vo.activemq.jolokia.ActiveMqJolokiaResponse;
+import net.lesscoding.unified.core.model.vo.activemq.jolokia.queue.QueueInfo;
 import net.lesscoding.unified.entity.ConnectConfig;
 import org.springframework.stereotype.Component;
+
+import java.util.Map;
 
 /**
  * @author eleven
@@ -34,6 +39,15 @@ public class JolokiaUtil {
                 .setType("read")
                 .setMbean("org.apache.activemq:type=Broker,brokerName=" + connectConfig.getBrokerName());
         return getJolokiaResponse(connectConfig, dto);
+    }
+
+    public ActiveMqJolokiaResponse<Map<String, QueueInfo>> getQueueList(ConnectConfig config) {
+        String mBean = StrUtil.format("org.apache.activemq:type=Broker,brokerName={},destinationType=Queue,destinationName=*", config.getBrokerName());
+        ActiveMqJolokiaDto dto = new ActiveMqJolokiaDto()
+                .setType("read")
+                .setMbean(mBean);
+        String response = getJolokiaResponse(config, dto);
+        return gson.fromJson(response, new TypeToken<ActiveMqJolokiaResponse<Map<String, QueueInfo>>>(){}.getType());
     }
 
 

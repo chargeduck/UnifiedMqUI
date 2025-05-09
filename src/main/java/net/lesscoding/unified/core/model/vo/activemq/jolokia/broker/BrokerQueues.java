@@ -1,4 +1,4 @@
-package net.lesscoding.unified.core.model.vo.activemq.jolokia;
+package net.lesscoding.unified.core.model.vo.activemq.jolokia.broker;
 
 import lombok.Data;
 
@@ -8,7 +8,6 @@ import lombok.Data;
  * @apiNote
  */
 @Data
-public class TopicsBean {
+public class BrokerQueues {
     private String objectName;
-
 }

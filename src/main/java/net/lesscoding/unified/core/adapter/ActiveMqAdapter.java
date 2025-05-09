@@ -1,10 +1,12 @@
 package net.lesscoding.unified.core.adapter;
 
 import cn.hutool.core.util.StrUtil;
+import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.lesscoding.unified.core.model.vo.activemq.jolokia.ActiveMqJolokiaResponse;
+import net.lesscoding.unified.core.model.vo.activemq.jolokia.broker.BrokerInfo;
 import net.lesscoding.unified.entity.ConnectConfig;
 import net.lesscoding.unified.mapper.ConnectConfigMapper;
 import net.lesscoding.unified.utils.activemq.JolokiaUtil;
@@ -85,7 +87,7 @@ public class ActiveMqAdapter implements MqAdapter {
             throw new RuntimeException(e);
         }
         String brokerJson = jolokiaUtil.getBrokerInfo(connectConfig);
-        ActiveMqJolokiaResponse brokerInfo = gson.fromJson(brokerJson, ActiveMqJolokiaResponse.class);
+        ActiveMqJolokiaResponse<BrokerInfo> brokerInfo = gson.fromJson(brokerJson, new TypeToken<ActiveMqJolokiaResponse<BrokerInfo>>() {}.getType());
         connectConfig.setBrokerId(brokerInfo.getValue().getBrokerId());
         connectConfig.setUpTime(brokerInfo.getValue().getUptime());
         connectConfig.setVersion(brokerInfo.getValue().getBrokerVersion());

@@ -4,7 +4,7 @@ import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import net.lesscoding.unified.core.model.dto.ActiveMqJolokiaDto;
+import net.lesscoding.unified.core.model.dto.activemq.ActiveMqJolokiaDto;
 import net.lesscoding.unified.core.model.vo.activemq.ActiveMqServerInfo;
 import net.lesscoding.unified.utils.activemq.RmiUtil;
 import org.apache.activemq.ActiveMQConnection;
@@ -63,6 +63,15 @@ public class JmxTest {
                 .setMbean("org.apache.activemq:type=Broker,brokerName=localhost,destinationType=Queue,*")
         );
 
+    }
+
+    @Test
+    public void queueTest() {
+        System.out.println("获取Broker的基础信息：");
+        jolokiaTest(new ActiveMqJolokiaDto()
+               .setType("read")
+               .setMbean("org.apache.activemq:type=Broker,brokerName=localhost,destinationType=Queue,destinationName=*")
+        );
     }
 
 

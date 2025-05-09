@@ -1,0 +1,12 @@
+{
+  "request": {
+    "mbean": "org.apache.activemq:brokerName=localhost,destinationType=Queue,type=Broker,*",
+    "type": "search"
+  },
+  "value": [
+    "org.apache.activemq:brokerName=localhost,destinationName=1234,destinationType=Queue,type=Broker",
+    "org.apache.activemq:brokerName=localhost,destinationName=TestQueue,destinationType=Queue,type=Broker"
+  ],
+  "timestamp": 1746773979,
+  "status": 200
+}
