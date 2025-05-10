@@ -1,0 +1,38 @@
+{
+  "request": {
+    "mbean": "org.apache.activemq:brokerName=localhost,destinationName=TestQueue,destinationType=Queue,type=Broker",
+    "type": "exec",
+    "operation": "browse()"
+  },
+  "value": [
+    {
+      "JMSMessageID": "ID:eleven-52627-1746847812958-4:5:1:1:1",
+      "JMSRedelivered": false,
+      "ShortProperties": {},
+      "JMSDeliveryMode": "NON-PERSISTENT",
+      "ByteProperties": {},
+      "LongProperties": {},
+      "IntProperties": {},
+      "JMSXGroupID": null,
+      "JMSCorrelationID": "",
+      "PropertiesText": "{}",
+      "JMSType": "",
+      "JMSExpiration": 0,
+      "OriginalDestination": null,
+      "JMSTimestamp": "2025-05-10T16:25:48+08:00",
+      "JMSXUserID": null,
+      "JMSXGroupSeq": 0,
+      "Text": "Enter some text here for the message body...123",
+      "JMSPriority": 0,
+      "JMSReplyTo": null,
+      "JMSDestination": "queue:\/\/TestQueue",
+      "StringProperties": {},
+      "BrokerPath": "null",
+      "DoubleProperties": {},
+      "BooleanProperties": {},
+      "FloatProperties": {}
+    }
+  ],
+  "timestamp": 1746865554,
+  "status": 200
+}

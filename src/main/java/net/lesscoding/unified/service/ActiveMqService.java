@@ -2,6 +2,7 @@ package net.lesscoding.unified.service;
 
 import net.lesscoding.unified.core.model.dto.activemq.ActiveMqJolokiaQueueQueryDto;
 import net.lesscoding.unified.core.model.vo.activemq.jolokia.queue.QueueInfo;
+import net.lesscoding.unified.core.model.vo.activemq.jolokia.queue.QueueMessage;
 
 import java.util.List;
 
@@ -12,4 +13,6 @@ import java.util.List;
  */
 public interface ActiveMqService {
     List<QueueInfo> queueList(ActiveMqJolokiaQueueQueryDto dto);
+
+    List<QueueMessage> queueMsgList(ActiveMqJolokiaQueueQueryDto dto);
 }

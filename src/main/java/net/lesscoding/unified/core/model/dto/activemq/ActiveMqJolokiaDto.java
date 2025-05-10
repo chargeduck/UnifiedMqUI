@@ -16,4 +16,10 @@ public class ActiveMqJolokiaDto {
     private String mbean;
 
     private String attribute;
+
+    private String operation;
+
+    private Object arguments;
+
+    private Object signature;
 }

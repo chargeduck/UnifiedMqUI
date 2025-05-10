@@ -26,6 +26,7 @@ public class JmxTest {
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     @Test
+    @Deprecated
     public void p2pTest() throws JMSException {
         // 1. 创建连接工厂
         ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory("tcp://localhost:61616");
@@ -40,14 +41,17 @@ public class JmxTest {
     }
 
     @Test
+    @Deprecated
     public void rmiTest() {
         ActiveMqServerInfo activeMqServerInfo = RmiUtil.serverInfo();
         System.out.println(gson.toJson(activeMqServerInfo));
     }
 
+    /**
+     * 获取Broker的基础信息：
+     */
     @Test
     public void mbeanTest() {
-
         System.out.println("获取Broker的基础信息：");
         jolokiaTest(new ActiveMqJolokiaDto()
                 .setType("read")
@@ -55,6 +59,9 @@ public class JmxTest {
         );
     }
 
+    /**
+     * 搜索mbean信息：
+     */
     @Test
     public void searchMbeanTest() {
         System.out.println("搜索mbean信息：");
@@ -65,12 +72,26 @@ public class JmxTest {
 
     }
 
+    /**
+     * 获取Queue列表数据：
+     */
     @Test
     public void queueTest() {
-        System.out.println("获取Broker的基础信息：");
+        System.out.println("获取Queue列表数据：");
         jolokiaTest(new ActiveMqJolokiaDto()
-               .setType("read")
-               .setMbean("org.apache.activemq:type=Broker,brokerName=localhost,destinationType=Queue,destinationName=*")
+                .setType("read")
+                .setMbean("org.apache.activemq:type=Broker,brokerName=localhost,destinationType=Queue,destinationName=*")
+        );
+    }
+
+    @Test
+    public void messageListTest() {
+        System.out.println("获取Queue的信息列表：");
+        jolokiaTest(new ActiveMqJolokiaDto()
+                        .setType("exec")
+                        .setMbean("org.apache.activemq:type=Broker,brokerName=localhost,destinationType=Queue,destinationName=TestQueue")
+                        .setOperation("browse()")
+                //.setArguments(new ArrayList<>())
         );
     }
 

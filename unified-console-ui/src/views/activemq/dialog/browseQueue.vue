@@ -1,13 +1,30 @@
 <script setup>
-import { defineOptions, ref, defineProps } from 'vue'
+import { defineOptions, ref, defineProps, onBeforeMount } from 'vue'
+import { useActiveMqStore } from '@/stores/activemq.js'
+import { getQueueMessageList } from '@/api/activemq.js'
+
 defineOptions({
   name: 'BrowseQueue'
 })
+const activeMqStore = useActiveMqStore()
 const props = defineProps({
   data: {
     type: Object,
-    default: () => {}
+    default: () => {
+    }
   }
+})
+const fetchMessageList = () => {
+  const data = {
+    config: activeMqStore.configInfo,
+    queueName: props.data.name
+  }
+  getQueueMessageList(data).then(resp => {
+    console.log(resp)
+  })
+}
+onBeforeMount(() => {
+  fetchMessageList()
 })
 const tableData = ref([])
 const deleteMessage = (row) => {
@@ -18,12 +35,12 @@ const deleteMessage = (row) => {
 <template>
   <el-table :data="tableData" border stripe>
     <el-table-column prop="messageId" label="Message ID" width="300" />
-    <el-table-column prop="correlationId" label="Correlation ID"/>
-    <el-table-column prop="persistence" label="Persistence"/>
-    <el-table-column prop="priority" label="Priority"/>
-    <el-table-column prop="replyTo" label="Reply To"/>
-    <el-table-column prop="timestamp" label="Timestamp"/>
-    <el-table-column prop="type" label="Type"/>
+    <el-table-column prop="correlationId" label="Correlation ID" />
+    <el-table-column prop="persistence" label="Persistence" />
+    <el-table-column prop="priority" label="Priority" />
+    <el-table-column prop="replyTo" label="Reply To" />
+    <el-table-column prop="timestamp" label="Timestamp" />
+    <el-table-column prop="type" label="Type" />
     <el-table-column label="Operations">
       <template #default="scope">
         <el-button type="primary" size="small" @click="deleteMessage(scope.row)">Delete</el-button>

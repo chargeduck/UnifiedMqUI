@@ -120,4 +120,12 @@ A unified message queue UI page, which is built by using springboot vue derby, a
 }
 ```
 
-###  2. 
+###  2. 查询Queue的MessageList
+- 请求参数
+```json
+{
+    "type": "exec",
+    "mbean": "org.apache.activemq:type=Broker,brokerName=localhost,destinationType=Queue,destinationName=TestQueue",
+    "operation": "browse()"
+}
+```

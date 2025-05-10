@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import net.lesscoding.unified.core.model.dto.activemq.ActiveMqJolokiaQueueQueryDto;
 import net.lesscoding.unified.core.model.vo.activemq.jolokia.ActiveMqJolokiaResponse;
 import net.lesscoding.unified.core.model.vo.activemq.jolokia.queue.QueueInfo;
+import net.lesscoding.unified.core.model.vo.activemq.jolokia.queue.QueueMessage;
 import net.lesscoding.unified.service.ActiveMqService;
 import net.lesscoding.unified.utils.activemq.JolokiaUtil;
 import org.springframework.stereotype.Service;
@@ -26,9 +27,13 @@ public class ActiveMqServiceImpl implements ActiveMqService {
     @Override
     public List<QueueInfo> queueList(ActiveMqJolokiaQueueQueryDto dto) {
         ActiveMqJolokiaResponse<Map<String, QueueInfo>> list = jolokiaUtil.getQueueList(dto.getConfig());
-        Map<String, QueueInfo> responseMap = list.getValue();
-        ArrayList<QueueInfo> queueList = new ArrayList<>(responseMap.values());
-        return queueList;
+        return new ArrayList<>(list.getValue().values());
+
+    }
+
+    @Override
+    public List<QueueMessage> queueMsgList(ActiveMqJolokiaQueueQueryDto dto) {
+        return jolokiaUtil.getQueueMsgList(dto.getConfig(), dto.getQueueName());
 
     }
 }

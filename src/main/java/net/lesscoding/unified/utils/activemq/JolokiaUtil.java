@@ -11,9 +11,11 @@ import net.lesscoding.unified.core.exception.MqException;
 import net.lesscoding.unified.core.model.dto.activemq.ActiveMqJolokiaDto;
 import net.lesscoding.unified.core.model.vo.activemq.jolokia.ActiveMqJolokiaResponse;
 import net.lesscoding.unified.core.model.vo.activemq.jolokia.queue.QueueInfo;
+import net.lesscoding.unified.core.model.vo.activemq.jolokia.queue.QueueMessage;
 import net.lesscoding.unified.entity.ConnectConfig;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -29,8 +31,8 @@ public class JolokiaUtil {
 
     public Object getBrokerList(ConnectConfig connectConfig) {
         ActiveMqJolokiaDto dto = new ActiveMqJolokiaDto()
-               .setType("read")
-               .setMbean("org.apache.activemq:type=Broker");
+                .setType("read")
+                .setMbean("org.apache.activemq:type=Broker");
         return getJolokiaResponse(connectConfig, dto);
     }
 
@@ -47,7 +49,8 @@ public class JolokiaUtil {
                 .setType("read")
                 .setMbean(mBean);
         String response = getJolokiaResponse(config, dto);
-        return gson.fromJson(response, new TypeToken<ActiveMqJolokiaResponse<Map<String, QueueInfo>>>(){}.getType());
+        return gson.fromJson(response, new TypeToken<ActiveMqJolokiaResponse<Map<String, QueueInfo>>>() {
+        }.getType());
     }
 
 
@@ -68,5 +71,23 @@ public class JolokiaUtil {
             log.error("请求失败，状态码: " + response.getStatus());
             throw new MqException("连接ActiveMQ失败，请检查jolokia配置是否开启");
         }
+    }
+
+    /**
+     * 获取 Queue 的 Message 列表
+     *
+     * @param config 连接配置
+     * @return {@link List}   - Queue 的 Message 列表
+     */
+    public List<QueueMessage> getQueueMsgList(ConnectConfig config, String queueName) {
+        String mBean = StrUtil.format("org.apache.activemq:type=Broker,brokerName={},destinationType=Queue,destinationName={}", config.getBrokerName(), queueName);
+        ActiveMqJolokiaDto dto = new ActiveMqJolokiaDto()
+                .setType("exec")
+                .setMbean(mBean)
+                .setOperation("browse()");
+        String response = getJolokiaResponse(config, dto);
+        ActiveMqJolokiaResponse<List<QueueMessage>> responseDto = gson.fromJson(response, new TypeToken<ActiveMqJolokiaResponse<List<QueueMessage>>>() {
+        }.getType());
+        return responseDto.getValue();
     }
 }

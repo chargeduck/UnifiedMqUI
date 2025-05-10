@@ -54,8 +54,21 @@ const browseQueue = (data) => {
   }
 }
 const pauseQueue = (row) => {
-  console.log(row)
+  queues.value.forEach(item => {
+    if (item.name === row.name) {
+      item.paused = true
+    }
+  })
+
 }
+const resumeQueue = (row) => {
+  queues.value.forEach(item => {
+    if (item.name === row.name) {
+      item.paused = false
+    }
+  })
+}
+
 const purgeQueue = (row) => {
   console.log(row)
 }
@@ -68,7 +81,6 @@ const sendToQueue = (data) => {
     showFooterBtn: false
   }
 }
-const dialogVisible = ref(false)
 onBeforeMount(() => {
   setTimeout(() => {
     fetchQueues()
@@ -256,8 +268,11 @@ const dynamicDialogProps = ref({
           <el-col :span="12">
             <el-button link type="danger" size="small" @click="deleteQueue(scope.row)">Delete</el-button>
           </el-col>
-          <el-col :span="12">
-            <el-button link type="danger" size="small" @click="pauseQueue(scope.row)">Pause</el-button>
+          <el-col :span="12" v-show="scope.row.paused">
+            <el-button link type="danger" size="small" @click="pauseQueue(scope.row)" >Pause</el-button>
+          </el-col>
+          <el-col :span="12" v-show="!scope.row.paused">
+            <el-button link type="danger" size="small" @click="resumeQueue(scope.row)" >Resume</el-button>
           </el-col>
         </el-row>
       </template>
@@ -271,7 +286,7 @@ const dynamicDialogProps = ref({
     <template #component>
       <component
         :is="dynamicDialogProps.component"
-        :data="dynamicDialogProps.row"
+        :data="dynamicDialogProps.data"
       />
     </template>
   </dynamic-dialog>

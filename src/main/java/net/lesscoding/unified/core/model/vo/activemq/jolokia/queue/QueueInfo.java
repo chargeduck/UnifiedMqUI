@@ -52,7 +52,7 @@ public class QueueInfo {
      * DispatchCount : 0
      * MaxEnqueueTime : 0
      * DequeueCount : 0
-     * BlockedProducerWarningInterval : 30000
+     * BlockedProducerWarningIntegererval : 30000
      * ProducerCount : 0
      * MessageGroupType : cached
      * MaxMessageSize : 0
@@ -60,50 +60,50 @@ public class QueueInfo {
      * SlowConsumerStrategy : null
      */
 
-    private boolean ProducerFlowControl;
+    private Boolean ProducerFlowControl;
     private String Options;
-    private boolean AlwaysRetroactive;
-    private int MemoryUsageByteCount;
-    private int AverageBlockedTime;
-    private int MemoryPercentUsage;
-    private int CursorMemoryUsage;
-    private int InFlightCount;
-    private boolean SendDuplicateFromStoreToDLQ;
-    private boolean CacheEnabled;
-    private int ForwardCount;
-    private int StoreMessageSize;
-    private boolean DLQ;
-    private int AverageEnqueueTime;
+    private Boolean AlwaysRetroactive;
+    private Integer MemoryUsageByteCount;
+    private Integer AverageBlockedTime;
+    private Integer MemoryPercentUsage;
+    private Integer CursorMemoryUsage;
+    private Integer InFlightCount;
+    private Boolean SendDuplicateFromStoreToDLQ;
+    private Boolean CacheEnabled;
+    private Integer ForwardCount;
+    private Integer StoreMessageSize;
+    private Boolean DLQ;
+    private Double AverageEnqueueTime;
     private String Name;
-    private int MaxAuditDepth;
-    private int TotalBlockedTime;
-    private int BlockedSends;
-    private int QueueSize;
-    private int MaxPageSize;
+    private Integer MaxAuditDepth;
+    private Integer TotalBlockedTime;
+    private Integer BlockedSends;
+    private Integer QueueSize;
+    private Integer MaxPageSize;
     private long TempUsageLimit;
-    private boolean PrioritizedMessages;
-    private int MemoryUsagePortion;
-    private boolean Paused;
-    private int EnqueueCount;
-    private int TempUsagePercentUsage;
-    private int ConsumerCount;
-    private int AverageMessageSize;
-    private boolean CursorFull;
-    private int MaxProducersToAudit;
-    private int ExpiredCount;
-    private int CursorPercentUsage;
-    private int DuplicateFromStoreCount;
-    private int MinEnqueueTime;
-    private int MemoryLimit;
-    private int MinMessageSize;
-    private int DispatchCount;
-    private int MaxEnqueueTime;
-    private int DequeueCount;
-    private int BlockedProducerWarningInterval;
-    private int ProducerCount;
+    private Boolean PrioritizedMessages;
+    private Integer MemoryUsagePortion;
+    private Boolean Paused;
+    private Integer EnqueueCount;
+    private Integer TempUsagePercentUsage;
+    private Integer ConsumerCount;
+    private Integer AverageMessageSize;
+    private Boolean CursorFull;
+    private Integer MaxProducersToAudit;
+    private Integer ExpiredCount;
+    private Integer CursorPercentUsage;
+    private Integer DuplicateFromStoreCount;
+    private Integer MinEnqueueTime;
+    private Integer MemoryLimit;
+    private Integer MinMessageSize;
+    private Integer DispatchCount;
+    private Integer MaxEnqueueTime;
+    private Integer DequeueCount;
+    private Integer BlockedProducerWarningIntegererval;
+    private Integer ProducerCount;
     private String MessageGroupType;
-    private int MaxMessageSize;
-    private boolean UseCache;
+    private Integer MaxMessageSize;
+    private Boolean UseCache;
     private Object SlowConsumerStrategy;
     private List<?> Subscriptions;
 }
