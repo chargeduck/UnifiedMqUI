@@ -6,6 +6,7 @@ import { getQueueList } from '@/api/activemq.js'
 import { useActiveMqStore } from '@/stores/activemq.js'
 import DynamicDialog from '@/components/DynamicDialog.vue'
 import SendTo from '@/views/activemq/dialog/sendTo.vue'
+import BrowseQueue from '@/views/activemq/dialog/browseQueue.vue'
 
 const activeMqStore = useActiveMqStore()
 
@@ -42,8 +43,15 @@ const activeConsumer = (row) => {
 const activeProducer = (row) => {
   console.log(row)
 }
-const browseQueue = (row) => {
-  console.log(row)
+const browseQueue = (data) => {
+  console.log(data, 'data')
+  dynamicDialogProps.value = {
+    title: `Browse Queue ${data.name}`,
+    component: BrowseQueue,
+    visible: true,
+    data,
+    showFooterBtn: false
+  }
 }
 const pauseQueue = (row) => {
   console.log(row)
@@ -51,15 +59,16 @@ const pauseQueue = (row) => {
 const purgeQueue = (row) => {
   console.log(row)
 }
-const sendToQueue = (row) => {
+const sendToQueue = (data) => {
   dynamicDialogProps.value = {
-    title: 'Send To Queue',
-    visible: true,
+    title: `Send To Queue ${data.name}`,
     component: SendTo,
-    data: row,
+    visible: true,
+    data,
     showFooterBtn: false
   }
 }
+const dialogVisible = ref(false)
 onBeforeMount(() => {
   setTimeout(() => {
     fetchQueues()
@@ -68,9 +77,9 @@ onBeforeMount(() => {
 
 const dynamicDialogProps = ref({
   title: '',
-  visible: false,
   component: null,
-  row: null,
+  visible: false,
+  data: null,
   showFooterBtn: false
 })
 </script>
@@ -86,6 +95,7 @@ const dynamicDialogProps = ref({
     </el-form-item>
   </el-form>
   <el-table :data="queues" border stripe>
+
     <el-table-column type="expand">
       <template #default="scope">
         <el-descriptions :column="5">
@@ -254,13 +264,15 @@ const dynamicDialogProps = ref({
     </el-table-column>
   </el-table>
   <dynamic-dialog
-    :visible="dynamicDialogProps.visible"
-    :row="dynamicDialogProps.row"
+    v-model:visible="dynamicDialogProps.visible"
     :title="dynamicDialogProps.title"
     :showFooterBtn="dynamicDialogProps.showFooterBtn"
   >
     <template #component>
-      <component :is="dynamicDialogProps.component" />
+      <component
+        :is="dynamicDialogProps.component"
+        :data="dynamicDialogProps.row"
+      />
     </template>
   </dynamic-dialog>
 </template>

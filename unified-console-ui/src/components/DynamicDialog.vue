@@ -1,22 +1,18 @@
 <script setup>
-import { ref, defineModel, watch } from 'vue'
+import { defineModel } from 'vue'
 
 const visible = defineModel('visible')
 const title = defineModel('title')
-const data = defineModel('data')
 const showFooterBtn = defineModel('showFooterBtn')
-
-// 传递给组件的数据
-const modalData = ref(data)
-
-watch(() => data, (newData) => {
-  modalData.value = newData
-})
+const cancelDialog = () => {
+  visible.value = false
+}
 </script>
 <template>
   <el-dialog
     v-model="visible"
     :title="title"
+    :before-close="cancelDialog"
     width="70%"
     class="dynamic-modal"
   >
@@ -26,7 +22,6 @@ watch(() => data, (newData) => {
         <span>{{ title }}</span>
       </slot>
     </template>
-
     <!-- 动态内容区域 -->
     <slot name="component" />
     <!-- 自定义底部插槽 -->
