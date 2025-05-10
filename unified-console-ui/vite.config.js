@@ -13,7 +13,9 @@ export default defineConfig({
     port: 5174
   },
   plugins: [
-    vue(),
+    vue({
+      defineModel: true
+    }),
     vueDevTools(),
     AutoImport({
       resolvers: [ElementPlusResolver()],

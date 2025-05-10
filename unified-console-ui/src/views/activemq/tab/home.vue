@@ -18,6 +18,8 @@ const connectDetail = (id) => {
     mqDetail.value = resp.data
     mqExtra.value = JSON.parse(mqDetail.value.extra)
     activeMqStore.changeActiveConfig(resp.data)
+  }).finally(() => {
+    console.log(activeMqStore.configInfo, 'configInfo')
   })
 }
 connectDetail(detailId)

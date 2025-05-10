@@ -9,6 +9,7 @@ import net.lesscoding.unified.utils.activemq.JolokiaUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,12 +24,11 @@ public class ActiveMqServiceImpl implements ActiveMqService {
 
 
     @Override
-    public ActiveMqJolokiaResponse<Map<String, QueueInfo>> queueList(ActiveMqJolokiaQueueQueryDto dto) {
+    public List<QueueInfo> queueList(ActiveMqJolokiaQueueQueryDto dto) {
         ActiveMqJolokiaResponse<Map<String, QueueInfo>> list = jolokiaUtil.getQueueList(dto.getConfig());
         Map<String, QueueInfo> responseMap = list.getValue();
         ArrayList<QueueInfo> queueList = new ArrayList<>(responseMap.values());
-        queueList.forEach(System.out::println);
-        return list;
+        return queueList;
 
     }
 }
