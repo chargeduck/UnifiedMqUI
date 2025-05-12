@@ -17,33 +17,33 @@ defineOptions({
 })
 const activeName = ref('home')
 const id = route.query.id
-ElMessage.success(`当前查询的连接ID为：${ id }`)
+const lazy = ref(true)
 provide('id', id)
 </script>
 <template>
   <el-tabs v-model="activeName" type="border-card">
-    <el-tab-pane label="Home" name="home">
+    <el-tab-pane label="Home" name="home" :lazy="lazy">
       <active-mq-home />
     </el-tab-pane>
-    <el-tab-pane label="Queues" name="queues">
+    <el-tab-pane label="Queues" name="queues" :lazy="lazy">
       <active-mq-queues />
     </el-tab-pane>
-    <el-tab-pane label="Topics" name="topics">
+    <el-tab-pane label="Topics" name="topics" :lazy="lazy">
       <active-mq-topics />
     </el-tab-pane>
-    <el-tab-pane label="Subscribers" name="subscribers">
+    <el-tab-pane label="Subscribers" name="subscribers" :lazy="lazy">
       <active-mq-subscribers />
     </el-tab-pane>
-    <el-tab-pane label="Connections" name="connections">
+    <el-tab-pane label="Connections" name="connections" :lazy="lazy">
       <active-mq-connections />
     </el-tab-pane>
-    <el-tab-pane label="Network" name="network">
+    <el-tab-pane label="Network" name="network" :lazy="lazy">
       <active-mq-network />
     </el-tab-pane>
-    <el-tab-pane label="Scheduled" name="scheduled">
+    <el-tab-pane label="Scheduled" name="scheduled" :lazy="lazy">
       <active-mq-scheduled />
     </el-tab-pane>
-    <el-tab-pane label="Send" name="send">
+    <el-tab-pane label="Send" name="send" :lazy="lazy">
       <active-mq-send />
     </el-tab-pane>
   </el-tabs>

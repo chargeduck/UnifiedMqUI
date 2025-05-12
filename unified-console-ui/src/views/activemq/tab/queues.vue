@@ -84,7 +84,7 @@ const sendToQueue = (data) => {
 onBeforeMount(() => {
   setTimeout(() => {
     fetchQueues()
-  }, 1500)
+  }, 200)
 })
 
 const dynamicDialogProps = ref({
