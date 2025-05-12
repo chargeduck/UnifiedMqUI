@@ -25,3 +25,11 @@ export function getQueueMessageList(data) {
     data
   })
 }
+
+export function addQueue(data) {
+  return request({
+    url: '/activemq/addQueue',
+    method: 'post',
+    data
+  })
+}

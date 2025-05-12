@@ -10,6 +10,10 @@ import net.lesscoding.unified.entity.ConnectConfig;
  */
 @Data
 public class ActiveMqJolokiaQueueQueryDto {
+
     private ConnectConfig config;
+
     private String queueName;
+
+    private String topicName;
 }

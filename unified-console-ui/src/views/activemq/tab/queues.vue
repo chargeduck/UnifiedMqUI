@@ -2,7 +2,7 @@
 import { defineOptions, ref, onBeforeMount } from 'vue'
 import { ElMessage } from 'element-plus'
 import { isBlank, gbFilter } from '@/utils/format.js'
-import { getQueueList } from '@/api/activemq.js'
+import { addQueue, getQueueList } from '@/api/activemq.js'
 import { useActiveMqStore } from '@/stores/activemq.js'
 import DynamicDialog from '@/components/DynamicDialog.vue'
 import SendTo from '@/views/activemq/dialog/sendTo.vue'
@@ -23,7 +23,16 @@ const createQueues = async () => {
     ElMessage.error('Queue name must be inputted')
     return
   }
-  ElMessage.success(`Create queues [${ searchForm.value.queueName }] successfully`)
+  const data = {
+    config: activeMqStore.configInfo,
+    queueName: searchForm.value.queueName
+  }
+  addQueue(data).then(resp => {
+    ElMessage.success(`Create queue successfully ${resp.msg}`)
+  }).finally(() => {
+    searchForm.value.queueName = ''
+    fetchQueues()
+  })
 }
 const deleteQueue = (row) => {
   ElMessage.success(`Delete queue successfully ${row}`)
@@ -99,7 +108,7 @@ const dynamicDialogProps = ref({
 <template>
   <el-form :model="searchForm" inline>
     <el-form-item label="Queue Name" prop="queueName">
-      <el-input v-model="searchForm.queueName" placeholder="请输入队列名称" />
+      <el-input v-model="searchForm.queueName" placeholder="请输入队列名称" @blur="fetchQueues"  clearable/>
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="fetchQueues">Search</el-button>

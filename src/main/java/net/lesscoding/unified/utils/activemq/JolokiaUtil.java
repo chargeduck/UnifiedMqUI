@@ -9,12 +9,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.lesscoding.unified.core.exception.MqException;
 import net.lesscoding.unified.core.model.dto.activemq.ActiveMqJolokiaDto;
+import net.lesscoding.unified.core.model.dto.activemq.ActiveMqJolokiaQueueQueryDto;
 import net.lesscoding.unified.core.model.vo.activemq.jolokia.ActiveMqJolokiaResponse;
 import net.lesscoding.unified.core.model.vo.activemq.jolokia.queue.QueueInfo;
 import net.lesscoding.unified.core.model.vo.activemq.jolokia.queue.QueueMessage;
 import net.lesscoding.unified.entity.ConnectConfig;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -43,8 +45,12 @@ public class JolokiaUtil {
         return getJolokiaResponse(connectConfig, dto);
     }
 
-    public ActiveMqJolokiaResponse<Map<String, QueueInfo>> getQueueList(ConnectConfig config) {
-        String mBean = StrUtil.format("org.apache.activemq:type=Broker,brokerName={},destinationType=Queue,destinationName=*", config.getBrokerName());
+    public ActiveMqJolokiaResponse<Map<String, QueueInfo>> getQueueList(ActiveMqJolokiaQueueQueryDto queryDto) {
+        ConnectConfig config = queryDto.getConfig();
+        String queryQueueName = StrUtil.isBlank(queryDto.getQueueName()) ? "*" : StrUtil.format("*{}*", queryDto.getQueueName());
+        String mBean = StrUtil.format("org.apache.activemq:type=Broker,brokerName={},destinationType=Queue,destinationName={}",
+                config.getBrokerName(),
+                queryQueueName);
         ActiveMqJolokiaDto dto = new ActiveMqJolokiaDto()
                 .setType("read")
                 .setMbean(mBean);
@@ -75,7 +81,13 @@ public class JolokiaUtil {
 
     /**
      * 获取 Queue 的 Message 列表
-     *
+     * <pre>
+     * {
+     *     "type": "exec",
+     *     "mbean": "org.apache.activemq:type=Broker,brokerName=localhost,destinationType=Queue,destinationName=TestQueue",
+     *     "operation": "browse()"
+     * }
+     * </pre>
      * @param config 连接配置
      * @return {@link List}   - Queue 的 Message 列表
      */
@@ -89,5 +101,33 @@ public class JolokiaUtil {
         ActiveMqJolokiaResponse<List<QueueMessage>> responseDto = gson.fromJson(response, new TypeToken<ActiveMqJolokiaResponse<List<QueueMessage>>>() {
         }.getType());
         return responseDto.getValue();
+    }
+
+    /**
+     * <pre>
+     * {
+     *     "type": "exec",
+     *     "mbean": "org.apache.activemq:type=Broker,brokerName=localhost",
+     *     "operation": "addQueue(java.lang.String)",
+     *     "arguments": [
+     *         "Name"
+     *     ]
+     *  }
+     * </pre>
+     * @param dto
+     * @return
+     */
+    public Boolean addQueue(ActiveMqJolokiaQueueQueryDto dto) {
+        ConnectConfig config = dto.getConfig();
+        String mBean = StrUtil.format("org.apache.activemq:type=Broker,brokerName={}", config.getBrokerName());
+        ActiveMqJolokiaDto jolokiaDto = new ActiveMqJolokiaDto()
+               .setType("exec")
+               .setMbean(mBean)
+               .setOperation("addQueue(java.lang.String)")
+                .setArguments(Collections.singletonList(dto.getQueueName()));
+        String response = getJolokiaResponse(config, jolokiaDto);
+        ActiveMqJolokiaResponse<Object> responseDto = gson.fromJson(response, new TypeToken<ActiveMqJolokiaResponse<Object>>() {
+        }.getType());
+        return responseDto.getStatus() == 200;
     }
 }

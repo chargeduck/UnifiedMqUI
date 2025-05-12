@@ -29,4 +29,9 @@ public class ActiveMqController {
         return Result.success(activeMqService.queueMsgList(dto));
     }
 
+    @PostMapping("/addQueue")
+    public Result addQueue(@RequestBody ActiveMqJolokiaQueueQueryDto dto) {
+        return Result.success(activeMqService.addQueue(dto));
+    }
+
 }

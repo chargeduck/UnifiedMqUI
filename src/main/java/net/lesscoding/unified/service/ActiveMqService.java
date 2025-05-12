@@ -15,4 +15,6 @@ public interface ActiveMqService {
     List<QueueInfo> queueList(ActiveMqJolokiaQueueQueryDto dto);
 
     List<QueueMessage> queueMsgList(ActiveMqJolokiaQueueQueryDto dto);
+
+    Boolean addQueue(ActiveMqJolokiaQueueQueryDto dto);
 }

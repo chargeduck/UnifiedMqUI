@@ -1,5 +1,6 @@
 package net.lesscoding.unified.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import lombok.RequiredArgsConstructor;
 import net.lesscoding.unified.core.model.dto.activemq.ActiveMqJolokiaQueueQueryDto;
 import net.lesscoding.unified.core.model.vo.activemq.jolokia.ActiveMqJolokiaResponse;
@@ -26,8 +27,11 @@ public class ActiveMqServiceImpl implements ActiveMqService {
 
     @Override
     public List<QueueInfo> queueList(ActiveMqJolokiaQueueQueryDto dto) {
-        ActiveMqJolokiaResponse<Map<String, QueueInfo>> list = jolokiaUtil.getQueueList(dto.getConfig());
-        return new ArrayList<>(list.getValue().values());
+        ActiveMqJolokiaResponse<Map<String, QueueInfo>> list = jolokiaUtil.getQueueList(dto);
+        Map<String, QueueInfo> value = list.getValue();
+        return CollUtil.isNotEmpty(value) ?
+                new ArrayList<>(value.values()) :
+                new ArrayList<>();
 
     }
 
@@ -35,5 +39,10 @@ public class ActiveMqServiceImpl implements ActiveMqService {
     public List<QueueMessage> queueMsgList(ActiveMqJolokiaQueueQueryDto dto) {
         return jolokiaUtil.getQueueMsgList(dto.getConfig(), dto.getQueueName());
 
+    }
+
+    @Override
+    public Boolean addQueue(ActiveMqJolokiaQueueQueryDto dto) {
+        return jolokiaUtil.addQueue(dto);
     }
 }
