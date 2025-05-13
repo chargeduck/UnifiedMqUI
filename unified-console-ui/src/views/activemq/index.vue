@@ -1,7 +1,6 @@
 <script setup>
 import { defineOptions, ref, provide } from 'vue'
 import { useRoute } from 'vue-router'
-import { ElMessage } from 'element-plus'
 import ActiveMqHome from '@/views/activemq/tab/home.vue'
 import ActiveMqQueues from '@/views/activemq/tab/queues.vue'
 import ActiveMqTopics from '@/views/activemq/tab/topics.vue'
@@ -22,7 +21,7 @@ provide('id', id)
 </script>
 <template>
   <el-tabs v-model="activeName" type="border-card">
-    <el-tab-pane label="Home" name="home" :lazy="lazy">
+    <el-tab-pane label="Home" name="home">
       <active-mq-home />
     </el-tab-pane>
     <el-tab-pane label="Queues" name="queues" :lazy="lazy">

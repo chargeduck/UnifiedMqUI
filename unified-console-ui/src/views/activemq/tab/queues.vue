@@ -2,7 +2,7 @@
 import { defineOptions, ref, onBeforeMount } from 'vue'
 import { ElMessage } from 'element-plus'
 import { isBlank, gbFilter } from '@/utils/format.js'
-import { addQueue, getQueueList } from '@/api/activemq.js'
+import { addQueue, removeQueue, getQueueList, pauseQueue, purgeQueue, resumeQueue } from '@/api/activemq.js'
 import { useActiveMqStore } from '@/stores/activemq.js'
 import DynamicDialog from '@/components/DynamicDialog.vue'
 import SendTo from '@/views/activemq/dialog/sendTo.vue'
@@ -28,14 +28,22 @@ const createQueues = async () => {
     queueName: searchForm.value.queueName
   }
   addQueue(data).then(resp => {
-    ElMessage.success(`Create queue successfully ${resp.msg}`)
+    ElMessage.success(`Create queue successfully ${ resp.msg }`)
   }).finally(() => {
     searchForm.value.queueName = ''
     fetchQueues()
   })
 }
-const deleteQueue = (row) => {
-  ElMessage.success(`Delete queue successfully ${row}`)
+const doRemoveQueue = (row) => {
+  const data = {
+    config: activeMqStore.configInfo,
+    queueName: row.name
+  }
+  removeQueue(data).then(resp => {
+    ElMessage.success(`Pause queue successfully ${ resp.msg }`)
+  }).finally(() => {
+    fetchQueues()
+  })
 }
 const fetchQueues = () => {
   const data = {
@@ -55,35 +63,50 @@ const activeProducer = (row) => {
 const browseQueue = (data) => {
   console.log(data, 'data')
   dynamicDialogProps.value = {
-    title: `Browse Queue ${data.name}`,
+    title: `Browse Queue ${ data.name }`,
     component: BrowseQueue,
     visible: true,
     data,
     showFooterBtn: false
   }
 }
-const pauseQueue = (row) => {
-  queues.value.forEach(item => {
-    if (item.name === row.name) {
-      item.paused = true
-    }
-  })
-
-}
-const resumeQueue = (row) => {
-  queues.value.forEach(item => {
-    if (item.name === row.name) {
-      item.paused = false
-    }
+const doPauseQueue = (row) => {
+  const data = {
+    config: activeMqStore.configInfo,
+    queueName: row.name
+  }
+  pauseQueue(data).then(resp => {
+    ElMessage.success(`Pause queue successfully ${ resp.msg }`)
+  }).finally(() => {
+    fetchQueues()
   })
 }
-
-const purgeQueue = (row) => {
-  console.log(row)
+const doResumeQueue = (row) => {
+  const data = {
+    config: activeMqStore.configInfo,
+    queueName: row.name
+  }
+  resumeQueue(data).then(resp => {
+    ElMessage.success(`Pause queue successfully ${ resp.msg }`)
+  }).finally(() => {
+    fetchQueues()
+  })
 }
-const sendToQueue = (data) => {
+
+const doPurgeQueue = (row) => {
+  const data = {
+    config: activeMqStore.configInfo,
+    queueName: row.name
+  }
+  purgeQueue(data).then(resp => {
+    ElMessage.success(`Pause queue successfully ${ resp.msg }`)
+  }).finally(() => {
+    fetchQueues()
+  })
+}
+const doSendToQueue = (data) => {
   dynamicDialogProps.value = {
-    title: `Send To Queue ${data.name}`,
+    title: `Send To Queue ${ data.name }`,
     component: SendTo,
     visible: true,
     data,
@@ -108,7 +131,7 @@ const dynamicDialogProps = ref({
 <template>
   <el-form :model="searchForm" inline>
     <el-form-item label="Queue Name" prop="queueName">
-      <el-input v-model="searchForm.queueName" placeholder="请输入队列名称" @blur="fetchQueues"  clearable/>
+      <el-input v-model="searchForm.queueName" placeholder="请输入队列名称" @blur="fetchQueues" clearable />
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="fetchQueues">Search</el-button>
@@ -269,19 +292,19 @@ const dynamicDialogProps = ref({
       <template #default="scope">
         <el-row>
           <el-col :span="12">
-            <el-button link type="primary" size="small" @click="sendToQueue(scope.row)">Send to</el-button>
+            <el-button link type="primary" size="small" @click="doSendToQueue(scope.row)">Send to</el-button>
           </el-col>
           <el-col :span="12">
-            <el-button link type="primary" size="small" @click="purgeQueue(scope.row)">Purge</el-button>
+            <el-button link type="primary" size="small" @click="doPurgeQueue(scope.row)">Purge</el-button>
           </el-col>
           <el-col :span="12">
-            <el-button link type="danger" size="small" @click="deleteQueue(scope.row)">Delete</el-button>
-          </el-col>
-          <el-col :span="12" v-show="scope.row.paused">
-            <el-button link type="danger" size="small" @click="pauseQueue(scope.row)" >Pause</el-button>
+            <el-button link type="danger" size="small" @click="doRemoveQueue(scope.row)">Delete</el-button>
           </el-col>
           <el-col :span="12" v-show="!scope.row.paused">
-            <el-button link type="danger" size="small" @click="resumeQueue(scope.row)" >Resume</el-button>
+            <el-button link type="danger" size="small" @click="doPauseQueue(scope.row)">Pause</el-button>
+          </el-col>
+          <el-col :span="12" v-show="scope.row.paused">
+            <el-button link type="danger" size="small" @click="doResumeQueue(scope.row)">Resume</el-button>
           </el-col>
         </el-row>
       </template>

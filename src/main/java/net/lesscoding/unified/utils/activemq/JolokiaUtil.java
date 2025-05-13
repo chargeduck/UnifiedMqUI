@@ -88,6 +88,7 @@ public class JolokiaUtil {
      *     "operation": "browse()"
      * }
      * </pre>
+     *
      * @param config 连接配置
      * @return {@link List}   - Queue 的 Message 列表
      */
@@ -114,6 +115,7 @@ public class JolokiaUtil {
      *     ]
      *  }
      * </pre>
+     *
      * @param dto
      * @return
      */
@@ -121,9 +123,50 @@ public class JolokiaUtil {
         ConnectConfig config = dto.getConfig();
         String mBean = StrUtil.format("org.apache.activemq:type=Broker,brokerName={}", config.getBrokerName());
         ActiveMqJolokiaDto jolokiaDto = new ActiveMqJolokiaDto()
-               .setType("exec")
-               .setMbean(mBean)
-               .setOperation("addQueue(java.lang.String)")
+                .setType("exec")
+                .setMbean(mBean)
+                .setOperation("addQueue(java.lang.String)")
+                .setArguments(Collections.singletonList(dto.getQueueName()));
+        String response = getJolokiaResponse(config, jolokiaDto);
+        ActiveMqJolokiaResponse<Object> responseDto = gson.fromJson(response, new TypeToken<ActiveMqJolokiaResponse<Object>>() {
+        }.getType());
+        return responseDto.getStatus() == 200;
+    }
+
+    public <T> Boolean doVoidMethod(ConnectConfig config, String type, String mbean, String method, Class<T> clazz) {
+        ActiveMqJolokiaDto dto = new ActiveMqJolokiaDto()
+                .setType(type)
+                .setMbean(mbean)
+                .setOperation(method);
+        String response = getJolokiaResponse(config, dto);
+        log.info("response: {}", response);
+        ActiveMqJolokiaResponse<T> responseDto = gson.fromJson(response, new TypeToken<ActiveMqJolokiaResponse<T>>() {
+        }.getType());
+        return responseDto.getStatus() == 200;
+    }
+
+    /**
+     * <pre>
+     * {
+     *     "type": "exec",
+     *     "mbean": "org.apache.activemq:type=Broker,brokerName=localhost",
+     *     "operation": "removeQueue(java.lang.String)",
+     *     "arguments": [
+     *         "Name"
+     *     ]
+     *  }
+     * </pre>
+     *
+     * @param dto
+     * @return
+     */
+    public Boolean removeQueue(ActiveMqJolokiaQueueQueryDto dto) {
+        ConnectConfig config = dto.getConfig();
+        String mBean = StrUtil.format("org.apache.activemq:type=Broker,brokerName={}", config.getBrokerName());
+        ActiveMqJolokiaDto jolokiaDto = new ActiveMqJolokiaDto()
+                .setType("exec")
+                .setMbean(mBean)
+                .setOperation("removeQueue(java.lang.String)")
                 .setArguments(Collections.singletonList(dto.getQueueName()));
         String response = getJolokiaResponse(config, jolokiaDto);
         ActiveMqJolokiaResponse<Object> responseDto = gson.fromJson(response, new TypeToken<ActiveMqJolokiaResponse<Object>>() {

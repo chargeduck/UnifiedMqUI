@@ -3,11 +3,12 @@ package net.lesscoding.unified.controller;
 import lombok.RequiredArgsConstructor;
 import net.lesscoding.unified.core.model.Result;
 import net.lesscoding.unified.core.model.dto.activemq.ActiveMqJolokiaQueueQueryDto;
+import net.lesscoding.unified.core.model.vo.activemq.jolokia.queue.QueueInfo;
+import net.lesscoding.unified.core.model.vo.activemq.jolokia.queue.QueueMessage;
 import net.lesscoding.unified.service.ActiveMqService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author eleven
@@ -19,19 +20,43 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class ActiveMqController {
     private final ActiveMqService activeMqService;
+
+    // #region broker操作开始
     @PostMapping("/queues")
-    public Result queues(@RequestBody ActiveMqJolokiaQueueQueryDto dto) {
+    public Result<List<QueueInfo>> queues(@RequestBody ActiveMqJolokiaQueueQueryDto dto) {
         return Result.success(activeMqService.queueList(dto));
     }
 
-    @PostMapping("/queue/messages")
-    public Result queueMsgList(@RequestBody ActiveMqJolokiaQueueQueryDto dto) {
-        return Result.success(activeMqService.queueMsgList(dto));
+    @DeleteMapping("/removeQueue")
+    public Result<Boolean> removeQueue(@RequestBody ActiveMqJolokiaQueueQueryDto dto) {
+        return Result.success(activeMqService.removeQueue(dto));
     }
 
     @PostMapping("/addQueue")
-    public Result addQueue(@RequestBody ActiveMqJolokiaQueueQueryDto dto) {
+    public Result<Boolean> addQueue(@RequestBody ActiveMqJolokiaQueueQueryDto dto) {
         return Result.success(activeMqService.addQueue(dto));
     }
+    // #endregion broker操作结束
 
+    // #region queue操作开始
+    @PostMapping("/queue/messages")
+    public Result<List<QueueMessage>> queueMsgList(@RequestBody ActiveMqJolokiaQueueQueryDto dto) {
+        return Result.success(activeMqService.queueMsgList(dto));
+    }
+
+    @PostMapping("/queue/pause")
+    public Result<Boolean> queuePause(@RequestBody ActiveMqJolokiaQueueQueryDto dto) {
+        return Result.success(activeMqService.pauseQueue(dto));
+    }
+
+    @PostMapping("/queue/resume")
+    public Result<Boolean> resumeQueue(@RequestBody ActiveMqJolokiaQueueQueryDto dto) {
+        return Result.success(activeMqService.resumeQueue(dto));
+    }
+
+    @PostMapping("/queue/purge")
+    public Result<Boolean> purgeQueue(@RequestBody ActiveMqJolokiaQueueQueryDto dto) {
+        return Result.success(activeMqService.purgeQueue(dto));
+    }
+    // #endregion queue操作结束
 }

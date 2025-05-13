@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
  * @apiNote
  */
 @Data
-public class ConnectConfig<T> {
+public class ConnectConfig {
     @TableId(type = IdType.AUTO)
     private Integer id;
     // 主机
@@ -54,7 +54,7 @@ public class ConnectConfig<T> {
     private MQType mqTypeEnum;
 
     @TableField(exist = false)
-    private PageDTO<T> page;
+    private PageDTO page;
 
     public MQType getMqTypeEnum() {
         return MQType.getByCode(mqType);

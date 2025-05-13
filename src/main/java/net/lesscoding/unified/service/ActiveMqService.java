@@ -17,4 +17,12 @@ public interface ActiveMqService {
     List<QueueMessage> queueMsgList(ActiveMqJolokiaQueueQueryDto dto);
 
     Boolean addQueue(ActiveMqJolokiaQueueQueryDto dto);
+
+    Boolean pauseQueue(ActiveMqJolokiaQueueQueryDto dto);
+
+    Boolean resumeQueue(ActiveMqJolokiaQueueQueryDto dto);
+
+    Boolean purgeQueue(ActiveMqJolokiaQueueQueryDto dto);
+
+    Boolean removeQueue(ActiveMqJolokiaQueueQueryDto dto);
 }
