@@ -1,8 +1,9 @@
 <script setup>
 import { defineOptions, ref, onBeforeMount } from 'vue'
-import { ElMessage } from 'element-plus'
 import { isBlank, gbFilter } from '@/utils/format.js'
-import { addQueue, removeQueue, getQueueList, pauseQueue, purgeQueue, resumeQueue } from '@/api/activemq.js'
+import { pauseQueue, purgeQueue, resumeQueue } from '@/api/activemq/queue.js'
+import { addQueue, getQueueList, removeQueue } from '@/api/activemq/broker.js'
+import { ElMessage } from 'element-plus'
 import { useActiveMqStore } from '@/stores/activemq.js'
 import DynamicDialog from '@/components/DynamicDialog.vue'
 import SendTo from '@/views/activemq/dialog/sendTo.vue'

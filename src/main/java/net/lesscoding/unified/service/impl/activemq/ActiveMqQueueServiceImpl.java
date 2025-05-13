@@ -1,53 +1,38 @@
-package net.lesscoding.unified.service.impl;
+package net.lesscoding.unified.service.impl.activemq;
 
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.RequiredArgsConstructor;
 import net.lesscoding.unified.core.model.dto.activemq.ActiveMqJolokiaQueueQueryDto;
-import net.lesscoding.unified.core.model.vo.activemq.jolokia.ActiveMqJolokiaResponse;
-import net.lesscoding.unified.core.model.vo.activemq.jolokia.queue.QueueInfo;
 import net.lesscoding.unified.core.model.vo.activemq.jolokia.queue.QueueMessage;
 import net.lesscoding.unified.entity.ConnectConfig;
-import net.lesscoding.unified.service.ActiveMqService;
+import net.lesscoding.unified.service.activemq.ActiveMqQueueService;
 import net.lesscoding.unified.utils.activemq.JolokiaUtil;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author eleven
- * @date 2025/5/9 15:43
+ * @date 2025/5/13 14:26
  * @apiNote
  */
 @Service
 @RequiredArgsConstructor
-public class ActiveMqServiceImpl implements ActiveMqService {
+public class ActiveMqQueueServiceImpl implements ActiveMqQueueService {
+
     private final JolokiaUtil jolokiaUtil;
 
-
     @Override
-    public List<QueueInfo> queueList(ActiveMqJolokiaQueueQueryDto dto) {
-        ActiveMqJolokiaResponse<Map<String, QueueInfo>> list = jolokiaUtil.getQueueList(dto);
-        Map<String, QueueInfo> value = list.getValue();
-        return CollUtil.isNotEmpty(value) ?
-                new ArrayList<>(value.values()) :
-                new ArrayList<>();
+    public List<QueueMessage> queueMsgList(ActiveMqJolokiaQueueQueryDto dto) {
+        return jolokiaUtil.getQueueMsgList(dto.getConfig(), dto.getQueueName());
 
     }
 
-    @Override
-    public Boolean addQueue(ActiveMqJolokiaQueueQueryDto dto) {
-        return jolokiaUtil.addQueue(dto);
-    }
+    /**
+     * <pre>
+     * {
 
-    @Override
-    public Boolean removeQueue(ActiveMqJolokiaQueueQueryDto dto) {
-        return jolokiaUtil.removeQueue(dto);
-    }
-
-
+     }
     @Override
     public List<QueueMessage> queueMsgList(ActiveMqJolokiaQueueQueryDto dto) {
         return jolokiaUtil.getQueueMsgList(dto.getConfig(), dto.getQueueName());
@@ -93,6 +78,4 @@ public class ActiveMqServiceImpl implements ActiveMqService {
                 dto.getQueueName());
         return jolokiaUtil.doVoidMethod(config, "exec", mBean, "purge()", Object.class);
     }
-
-
 }

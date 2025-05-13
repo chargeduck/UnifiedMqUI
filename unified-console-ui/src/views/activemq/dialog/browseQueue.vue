@@ -1,7 +1,7 @@
 <script setup>
 import { defineOptions, ref, defineProps, onBeforeMount } from 'vue'
 import { useActiveMqStore } from '@/stores/activemq.js'
-import { getQueueMessageList } from '@/api/activemq.js'
+import { getQueueMessageList } from '@/api/activemq/queue.js'
 
 defineOptions({
   name: 'BrowseQueue'

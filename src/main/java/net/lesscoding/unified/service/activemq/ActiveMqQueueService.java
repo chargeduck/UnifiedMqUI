@@ -1,22 +1,17 @@
-package net.lesscoding.unified.service;
+package net.lesscoding.unified.service.activemq;
 
 import net.lesscoding.unified.core.model.dto.activemq.ActiveMqJolokiaQueueQueryDto;
-import net.lesscoding.unified.core.model.vo.activemq.jolokia.queue.QueueInfo;
 import net.lesscoding.unified.core.model.vo.activemq.jolokia.queue.QueueMessage;
 
 import java.util.List;
 
 /**
  * @author eleven
- * @date 2025/5/9 15:42
+ * @date 2025/5/13 14:25
  * @apiNote
  */
-public interface ActiveMqService {
-    List<QueueInfo> queueList(ActiveMqJolokiaQueueQueryDto dto);
-
+public interface ActiveMqQueueService {
     List<QueueMessage> queueMsgList(ActiveMqJolokiaQueueQueryDto dto);
-
-    Boolean addQueue(ActiveMqJolokiaQueueQueryDto dto);
 
     Boolean pauseQueue(ActiveMqJolokiaQueueQueryDto dto);
 
@@ -24,5 +19,4 @@ public interface ActiveMqService {
 
     Boolean purgeQueue(ActiveMqJolokiaQueueQueryDto dto);
 
-    Boolean removeQueue(ActiveMqJolokiaQueueQueryDto dto);
 }
