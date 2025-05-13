@@ -1,6 +1,6 @@
 package net.lesscoding.unified.service.activemq;
 
-import net.lesscoding.unified.core.model.dto.activemq.ActiveMqJolokiaQueueQueryDto;
+import net.lesscoding.unified.core.model.dto.activemq.QueueQueryDto;
 import net.lesscoding.unified.core.model.vo.activemq.jolokia.queue.QueueInfo;
 
 import java.util.List;
@@ -11,9 +11,9 @@ import java.util.List;
  * @apiNote
  */
 public interface ActiveMqBrokerService {
-    List<QueueInfo> queueList(ActiveMqJolokiaQueueQueryDto dto);
+    List<QueueInfo> queueList(QueueQueryDto dto);
 
-    Boolean removeQueue(ActiveMqJolokiaQueueQueryDto dto);
+    Boolean removeQueue(QueueQueryDto dto);
 
-    Boolean addQueue(ActiveMqJolokiaQueueQueryDto dto);
+    Boolean addQueue(QueueQueryDto dto);
 }

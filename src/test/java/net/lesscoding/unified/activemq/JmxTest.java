@@ -4,7 +4,7 @@ import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import net.lesscoding.unified.core.model.dto.activemq.ActiveMqJolokiaDto;
+import net.lesscoding.unified.core.model.dto.activemq.JolokiaQueryDto;
 import net.lesscoding.unified.core.model.vo.activemq.ActiveMqServerInfo;
 import net.lesscoding.unified.utils.activemq.RmiUtil;
 import org.apache.activemq.ActiveMQConnection;
@@ -53,7 +53,7 @@ public class JmxTest {
     @Test
     public void mbeanTest() {
         System.out.println("获取Broker的基础信息：");
-        jolokiaTest(new ActiveMqJolokiaDto()
+        jolokiaTest(new JolokiaQueryDto()
                 .setType("read")
                 .setMbean("org.apache.activemq:type=Broker,brokerName=localhost")
         );
@@ -65,7 +65,7 @@ public class JmxTest {
     @Test
     public void searchMbeanTest() {
         System.out.println("搜索mbean信息：");
-        jolokiaTest(new ActiveMqJolokiaDto()
+        jolokiaTest(new JolokiaQueryDto()
                 .setType("search")
                 .setMbean("org.apache.activemq:type=Broker,brokerName=localhost,destinationType=Queue,*")
         );
@@ -78,7 +78,7 @@ public class JmxTest {
     @Test
     public void queueTest() {
         System.out.println("获取Queue列表数据：");
-        jolokiaTest(new ActiveMqJolokiaDto()
+        jolokiaTest(new JolokiaQueryDto()
                 .setType("read")
                 .setMbean("org.apache.activemq:type=Broker,brokerName=localhost,destinationType=Queue,destinationName=*")
         );
@@ -87,7 +87,7 @@ public class JmxTest {
     @Test
     public void messageListTest() {
         System.out.println("获取Queue的信息列表：");
-        jolokiaTest(new ActiveMqJolokiaDto()
+        jolokiaTest(new JolokiaQueryDto()
                         .setType("exec")
                         .setMbean("org.apache.activemq:type=Broker,brokerName=localhost,destinationType=Queue,destinationName=TestQueue")
                         .setOperation("browse()")
@@ -96,7 +96,7 @@ public class JmxTest {
     }
 
 
-    private void jolokiaTest(ActiveMqJolokiaDto dto) {
+    private void jolokiaTest(JolokiaQueryDto dto) {
         // ActiveMQ Jolokia REST API 端点
         String url = "http://127.0.0.1:8161/api/jolokia/";
         // 发送 POST 请求

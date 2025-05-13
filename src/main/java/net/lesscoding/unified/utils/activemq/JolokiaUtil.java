@@ -8,8 +8,8 @@ import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.lesscoding.unified.core.exception.MqException;
-import net.lesscoding.unified.core.model.dto.activemq.ActiveMqJolokiaDto;
-import net.lesscoding.unified.core.model.dto.activemq.ActiveMqJolokiaQueueQueryDto;
+import net.lesscoding.unified.core.model.dto.activemq.JolokiaQueryDto;
+import net.lesscoding.unified.core.model.dto.activemq.QueueQueryDto;
 import net.lesscoding.unified.core.model.vo.activemq.jolokia.ActiveMqJolokiaResponse;
 import net.lesscoding.unified.core.model.vo.activemq.jolokia.queue.QueueInfo;
 import net.lesscoding.unified.core.model.vo.activemq.jolokia.queue.QueueMessage;
@@ -32,26 +32,26 @@ public class JolokiaUtil {
     private final Gson gson;
 
     public Object getBrokerList(ConnectConfig connectConfig) {
-        ActiveMqJolokiaDto dto = new ActiveMqJolokiaDto()
+        JolokiaQueryDto dto = new JolokiaQueryDto()
                 .setType("read")
                 .setMbean("org.apache.activemq:type=Broker");
         return getJolokiaResponse(connectConfig, dto);
     }
 
     public String getBrokerInfo(ConnectConfig connectConfig) {
-        ActiveMqJolokiaDto dto = new ActiveMqJolokiaDto()
+        JolokiaQueryDto dto = new JolokiaQueryDto()
                 .setType("read")
                 .setMbean("org.apache.activemq:type=Broker,brokerName=" + connectConfig.getBrokerName());
         return getJolokiaResponse(connectConfig, dto);
     }
 
-    public ActiveMqJolokiaResponse<Map<String, QueueInfo>> getQueueList(ActiveMqJolokiaQueueQueryDto queryDto) {
+    public ActiveMqJolokiaResponse<Map<String, QueueInfo>> getQueueList(QueueQueryDto<String> queryDto) {
         ConnectConfig config = queryDto.getConfig();
-        String queryQueueName = StrUtil.isBlank(queryDto.getQueueName()) ? "*" : StrUtil.format("*{}*", queryDto.getQueueName());
+        String queryQueueName = StrUtil.isBlank(queryDto.getParams()) ? "*" : StrUtil.format("*{}*", queryDto.getParams());
         String mBean = StrUtil.format("org.apache.activemq:type=Broker,brokerName={},destinationType=Queue,destinationName={}",
                 config.getBrokerName(),
                 queryQueueName);
-        ActiveMqJolokiaDto dto = new ActiveMqJolokiaDto()
+        JolokiaQueryDto dto = new JolokiaQueryDto()
                 .setType("read")
                 .setMbean(mBean);
         String response = getJolokiaResponse(config, dto);
@@ -60,7 +60,7 @@ public class JolokiaUtil {
     }
 
 
-    private String getJolokiaResponse(ConnectConfig connectConfig, ActiveMqJolokiaDto dto) {
+    private String getJolokiaResponse(ConnectConfig connectConfig, JolokiaQueryDto dto) {
         // ActiveMQ Jolokia REST API 端点
         String url = StrUtil.format("http://{}:{}/api/jolokia/", connectConfig.getHost(), 8161);
         // 发送 POST 请求
@@ -94,7 +94,7 @@ public class JolokiaUtil {
      */
     public List<QueueMessage> getQueueMsgList(ConnectConfig config, String queueName) {
         String mBean = StrUtil.format("org.apache.activemq:type=Broker,brokerName={},destinationType=Queue,destinationName={}", config.getBrokerName(), queueName);
-        ActiveMqJolokiaDto dto = new ActiveMqJolokiaDto()
+        JolokiaQueryDto dto = new JolokiaQueryDto()
                 .setType("exec")
                 .setMbean(mBean)
                 .setOperation("browse()");
@@ -119,14 +119,14 @@ public class JolokiaUtil {
      * @param dto
      * @return
      */
-    public Boolean addQueue(ActiveMqJolokiaQueueQueryDto dto) {
+    public Boolean addQueue(QueueQueryDto<String> dto) {
         ConnectConfig config = dto.getConfig();
         String mBean = StrUtil.format("org.apache.activemq:type=Broker,brokerName={}", config.getBrokerName());
-        ActiveMqJolokiaDto jolokiaDto = new ActiveMqJolokiaDto()
+        JolokiaQueryDto jolokiaDto = new JolokiaQueryDto()
                 .setType("exec")
                 .setMbean(mBean)
                 .setOperation("addQueue(java.lang.String)")
-                .setArguments(Collections.singletonList(dto.getQueueName()));
+                .setArguments(Collections.singletonList(dto.getParams()));
         String response = getJolokiaResponse(config, jolokiaDto);
         ActiveMqJolokiaResponse<Object> responseDto = gson.fromJson(response, new TypeToken<ActiveMqJolokiaResponse<Object>>() {
         }.getType());
@@ -134,7 +134,7 @@ public class JolokiaUtil {
     }
 
     public <T> Boolean doVoidMethod(ConnectConfig config, String type, String mbean, String method, Class<T> clazz) {
-        ActiveMqJolokiaDto dto = new ActiveMqJolokiaDto()
+        JolokiaQueryDto dto = new JolokiaQueryDto()
                 .setType(type)
                 .setMbean(mbean)
                 .setOperation(method);
@@ -160,14 +160,14 @@ public class JolokiaUtil {
      * @param dto
      * @return
      */
-    public Boolean removeQueue(ActiveMqJolokiaQueueQueryDto dto) {
+    public Boolean removeQueue(QueueQueryDto<String> dto) {
         ConnectConfig config = dto.getConfig();
         String mBean = StrUtil.format("org.apache.activemq:type=Broker,brokerName={}", config.getBrokerName());
-        ActiveMqJolokiaDto jolokiaDto = new ActiveMqJolokiaDto()
+        JolokiaQueryDto jolokiaDto = new JolokiaQueryDto()
                 .setType("exec")
                 .setMbean(mBean)
                 .setOperation("removeQueue(java.lang.String)")
-                .setArguments(Collections.singletonList(dto.getQueueName()));
+                .setArguments(Collections.singletonList(dto.getParams()));
         String response = getJolokiaResponse(config, jolokiaDto);
         ActiveMqJolokiaResponse<Object> responseDto = gson.fromJson(response, new TypeToken<ActiveMqJolokiaResponse<Object>>() {
         }.getType());

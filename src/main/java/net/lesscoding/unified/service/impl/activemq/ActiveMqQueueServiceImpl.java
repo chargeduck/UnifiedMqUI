@@ -2,7 +2,7 @@ package net.lesscoding.unified.service.impl.activemq;
 
 import cn.hutool.core.util.StrUtil;
 import lombok.RequiredArgsConstructor;
-import net.lesscoding.unified.core.model.dto.activemq.ActiveMqJolokiaQueueQueryDto;
+import net.lesscoding.unified.core.model.dto.activemq.QueueQueryDto;
 import net.lesscoding.unified.core.model.vo.activemq.jolokia.queue.QueueMessage;
 import net.lesscoding.unified.entity.ConnectConfig;
 import net.lesscoding.unified.service.activemq.ActiveMqQueueService;
@@ -23,8 +23,8 @@ public class ActiveMqQueueServiceImpl implements ActiveMqQueueService {
     private final JolokiaUtil jolokiaUtil;
 
     @Override
-    public List<QueueMessage> queueMsgList(ActiveMqJolokiaQueueQueryDto dto) {
-        return jolokiaUtil.getQueueMsgList(dto.getConfig(), dto.getQueueName());
+    public List<QueueMessage> queueMsgList(QueueQueryDto<String> dto) {
+        return jolokiaUtil.getQueueMsgList(dto.getConfig(), dto.getParams());
 
     }
 
@@ -34,7 +34,7 @@ public class ActiveMqQueueServiceImpl implements ActiveMqQueueService {
 
      }
     @Override
-    public List<QueueMessage> queueMsgList(ActiveMqJolokiaQueueQueryDto dto) {
+    public List<QueueMessage> queueMsgList(QueueQueryDto dto) {
         return jolokiaUtil.getQueueMsgList(dto.getConfig(), dto.getQueueName());
 
     }
@@ -53,29 +53,29 @@ public class ActiveMqQueueServiceImpl implements ActiveMqQueueService {
      * @return
      */
     @Override
-    public Boolean pauseQueue(ActiveMqJolokiaQueueQueryDto dto) {
+    public Boolean pauseQueue(QueueQueryDto<String> dto) {
         ConnectConfig config = dto.getConfig();
         String mBean = StrUtil.format("org.apache.activemq:brokerName={},type=Broker,destinationName={},destinationType=Queue",
                 config.getBrokerName(),
-                dto.getQueueName());
+                dto.getParams());
         return jolokiaUtil.doVoidMethod(config, "exec", mBean, "pause()", Object.class);
     }
 
     @Override
-    public Boolean resumeQueue(ActiveMqJolokiaQueueQueryDto dto) {
+    public Boolean resumeQueue(QueueQueryDto<String> dto) {
         ConnectConfig config = dto.getConfig();
         String mBean = StrUtil.format("org.apache.activemq:brokerName={},type=Broker,destinationName={},destinationType=Queue",
                 config.getBrokerName(),
-                dto.getQueueName());
+                dto.getParams());
         return jolokiaUtil.doVoidMethod(config, "exec", mBean, "resume()", Object.class);
     }
 
     @Override
-    public Boolean purgeQueue(ActiveMqJolokiaQueueQueryDto dto) {
+    public Boolean purgeQueue(QueueQueryDto<String> dto) {
         ConnectConfig config = dto.getConfig();
         String mBean = StrUtil.format("org.apache.activemq:brokerName={},type=Broker,destinationName={},destinationType=Queue",
                 config.getBrokerName(),
-                dto.getQueueName());
+                dto.getParams());
         return jolokiaUtil.doVoidMethod(config, "exec", mBean, "purge()", Object.class);
     }
 }

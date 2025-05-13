@@ -26,7 +26,7 @@ const createQueues = async () => {
   }
   const data = {
     config: activeMqStore.configInfo,
-    queueName: searchForm.value.queueName
+    params: searchForm.value.queueName
   }
   addQueue(data).then(resp => {
     ElMessage.success(`Create queue successfully ${ resp.msg }`)
@@ -38,7 +38,7 @@ const createQueues = async () => {
 const doRemoveQueue = (row) => {
   const data = {
     config: activeMqStore.configInfo,
-    queueName: row.name
+    params: row.name
   }
   removeQueue(data).then(resp => {
     ElMessage.success(`Pause queue successfully ${ resp.msg }`)
@@ -49,7 +49,7 @@ const doRemoveQueue = (row) => {
 const fetchQueues = () => {
   const data = {
     config: activeMqStore.configInfo,
-    queueName: searchForm.value.queueName
+    params: searchForm.value.queueName
   }
   getQueueList(data).then(resp => {
     queues.value = resp.data
@@ -74,7 +74,7 @@ const browseQueue = (data) => {
 const doPauseQueue = (row) => {
   const data = {
     config: activeMqStore.configInfo,
-    queueName: row.name
+    params: row.name
   }
   pauseQueue(data).then(resp => {
     ElMessage.success(`Pause queue successfully ${ resp.msg }`)
@@ -85,7 +85,7 @@ const doPauseQueue = (row) => {
 const doResumeQueue = (row) => {
   const data = {
     config: activeMqStore.configInfo,
-    queueName: row.name
+    params: row.name
   }
   resumeQueue(data).then(resp => {
     ElMessage.success(`Pause queue successfully ${ resp.msg }`)
@@ -97,7 +97,7 @@ const doResumeQueue = (row) => {
 const doPurgeQueue = (row) => {
   const data = {
     config: activeMqStore.configInfo,
-    queueName: row.name
+    params: row.name
   }
   purgeQueue(data).then(resp => {
     ElMessage.success(`Pause queue successfully ${ resp.msg }`)
@@ -315,6 +315,7 @@ const dynamicDialogProps = ref({
     v-model:visible="dynamicDialogProps.visible"
     :title="dynamicDialogProps.title"
     :showFooterBtn="dynamicDialogProps.showFooterBtn"
+    :destroy-on-close="true"
   >
     <template #component>
       <component

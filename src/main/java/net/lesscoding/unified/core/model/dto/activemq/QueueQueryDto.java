@@ -1,5 +1,6 @@
 package net.lesscoding.unified.core.model.dto.activemq;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import lombok.Data;
 import net.lesscoding.unified.entity.ConnectConfig;
 
@@ -9,11 +10,11 @@ import net.lesscoding.unified.entity.ConnectConfig;
  * @apiNote
  */
 @Data
-public class ActiveMqJolokiaQueueQueryDto {
+public class QueueQueryDto<T> {
 
     private ConnectConfig config;
 
-    private String queueName;
+    private T params;
 
-    private String topicName;
+    private PageDTO<T> page;
 }

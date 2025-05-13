@@ -2,7 +2,7 @@ package net.lesscoding.unified.service.impl.activemq;
 
 import cn.hutool.core.collection.CollUtil;
 import lombok.RequiredArgsConstructor;
-import net.lesscoding.unified.core.model.dto.activemq.ActiveMqJolokiaQueueQueryDto;
+import net.lesscoding.unified.core.model.dto.activemq.QueueQueryDto;
 import net.lesscoding.unified.core.model.vo.activemq.jolokia.ActiveMqJolokiaResponse;
 import net.lesscoding.unified.core.model.vo.activemq.jolokia.queue.QueueInfo;
 import net.lesscoding.unified.service.activemq.ActiveMqBrokerService;
@@ -24,7 +24,7 @@ public class ActiveMqBrokerServiceImpl implements ActiveMqBrokerService {
     private final JolokiaUtil jolokiaUtil;
 
     @Override
-    public List<QueueInfo> queueList(ActiveMqJolokiaQueueQueryDto dto) {
+    public List<QueueInfo> queueList(QueueQueryDto dto) {
         ActiveMqJolokiaResponse<Map<String, QueueInfo>> list = jolokiaUtil.getQueueList(dto);
         Map<String, QueueInfo> value = list.getValue();
         return CollUtil.isNotEmpty(value) ?
@@ -34,12 +34,12 @@ public class ActiveMqBrokerServiceImpl implements ActiveMqBrokerService {
     }
 
     @Override
-    public Boolean addQueue(ActiveMqJolokiaQueueQueryDto dto) {
+    public Boolean addQueue(QueueQueryDto dto) {
         return jolokiaUtil.addQueue(dto);
     }
 
     @Override
-    public Boolean removeQueue(ActiveMqJolokiaQueueQueryDto dto) {
+    public Boolean removeQueue(QueueQueryDto dto) {
         return jolokiaUtil.removeQueue(dto);
     }
 

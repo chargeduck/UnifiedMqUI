@@ -1,38 +1,19 @@
 package net.lesscoding.unified.core.model.vo.activemq.jolokia.queue;
 
+import cn.hutool.core.util.StrUtil;
+import lombok.Data;
+
+import java.io.Serializable;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
+
 /**
  * @author eleven
  * @date 2025/5/10 16:43
  * @apiNote
  */
-public class QueueMessage {
-    /**
-     * JMSMessageID : ID:eleven-52627-1746847812958-4:5:1:1:1
-     * JMSRedelivered : false
-     * ShortProperties : {}
-     * JMSDeliveryMode : NON-PERSISTENT
-     * ByteProperties : {}
-     * LongProperties : {}
-     * IntegerProperties : {}
-     * JMSXGroupID : null
-     * JMSCorrelationID :
-     * PropertiesText : {}
-     * JMSType :
-     * JMSExpiration : 0
-     * OriginalDestination : null
-     * JMSTimestamp : 2025-05-10T16:25:48+08:00
-     * JMSXUserID : null
-     * JMSXGroupSeq : 0
-     * Text : Enter some text here for the message body...123
-     * JMSPriority : 0
-     * JMSReplyTo : null
-     * JMSDestination : queue://TestQueue
-     * StringProperties : {}
-     * BrokerPath : null
-     * DoubleProperties : {}
-     * BooleanProperties : {}
-     * FloatProperties : {}
-     */
+@Data
+public class QueueMessage implements Serializable {
 
     private String JMSMessageID;
     private Boolean JMSRedelivered;
@@ -47,7 +28,9 @@ public class QueueMessage {
     private String JMSType;
     private Integer JMSExpiration;
     private Object OriginalDestination;
+
     private String JMSTimestamp;
+
     private Object JMSXUserID;
     private Integer JMSXGroupSeq;
     private String Text;
@@ -58,5 +41,18 @@ public class QueueMessage {
     private Object DoubleProperties;
     private Object BooleanProperties;
     private Object FloatProperties;
+
+    public String getJMSTimestamp() {
+        if (StrUtil.isBlank(JMSTimestamp)) {
+            return "";
+        }
+        String input = "2025-05-13T14:39:37+08:00";
+        // 解析输入的日期时间字符串
+        OffsetDateTime offsetDateTime = OffsetDateTime.parse(input);
+        // 定义目标格式
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        // 转换为目标格式的字符串
+        return offsetDateTime.format(formatter);
+    }
     
 }

@@ -10,7 +10,7 @@ import lombok.experimental.Accessors;
  */
 @Data
 @Accessors(chain = true)
-public class ActiveMqJolokiaDto {
+public class JolokiaQueryDto {
     private String type;
 
     private String mbean;
