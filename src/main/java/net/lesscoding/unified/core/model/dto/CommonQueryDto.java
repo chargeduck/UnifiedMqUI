@@ -1,4 +1,4 @@
-package net.lesscoding.unified.core.model.dto.activemq;
+package net.lesscoding.unified.core.model.dto;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import lombok.Data;
@@ -10,7 +10,7 @@ import net.lesscoding.unified.entity.ConnectConfig;
  * @apiNote
  */
 @Data
-public class QueueQueryDto<T> {
+public class CommonQueryDto<T> {
 
     private ConnectConfig config;
 

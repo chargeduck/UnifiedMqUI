@@ -1,6 +1,6 @@
 package net.lesscoding.unified.utils;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 
 import java.util.List;
@@ -13,14 +13,14 @@ import java.util.stream.Collectors;
  * @apiNote 一对多分页工具类
  */
 public class PageUtil<T> {
-    public IPage<T> getPage(T t, List<T> data, Function<T, ? extends Number> currentGetter, Function<T, ? extends Number> sizeGetter) {
+    public Page<T> getPage(T t, List<T> data, Function<T, ? extends Number> currentGetter, Function<T, ? extends Number> sizeGetter) {
         long currentPage = Long.parseLong(String.valueOf(currentGetter.apply(t)));
         long pageSize = Long.parseLong(String.valueOf(sizeGetter.apply(t)));
         return pagination(data, currentPage, pageSize);
     }
 
-    private static <T> IPage<T> pagination(List<T> data, long currentPage, long pageSize) {
-        IPage<T> page = new PageDTO<>();
+    private static <T> Page<T> pagination(List<T> data, long currentPage, long pageSize) {
+        Page<T> page = new PageDTO<>();
         long fromIndex = 0;
         //long toIndex = 10;
         long from = (currentPage - 1) * pageSize;
@@ -37,7 +37,7 @@ public class PageUtil<T> {
         return page;
     }
 
-    public IPage<T> getPageByGetter(T t, List<T> data, Getter<T, Long> currentGetter, Getter<T, Long> sizeGetter) {
+    public Page<T> getPageByGetter(T t, List<T> data, Getter<T, Long> currentGetter, Getter<T, Long> sizeGetter) {
         long currentPage = currentGetter.apply();
         long pageSize = sizeGetter.apply();
         return pagination(data, currentPage, pageSize);

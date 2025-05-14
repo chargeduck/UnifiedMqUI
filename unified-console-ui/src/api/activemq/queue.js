@@ -7,7 +7,7 @@ import request from '@/utils/request.js'
  */
 export function getQueueMessageList (data) {
   return request({
-    url: '/activemq/queue/messages',
+    url: '/activemq/queue/messagesPage',
     method: 'post',
     data
   })
@@ -68,3 +68,15 @@ export function sendToQueue (data) {
   })
 }
 
+/**
+ * 移除队列消息
+ * @param data
+ * @return {*}
+ */
+export function removeMessage (data) {
+  return request({
+    url: '/activemq/queue/removeMessage',
+    method: 'delete',
+    data
+  })
+}

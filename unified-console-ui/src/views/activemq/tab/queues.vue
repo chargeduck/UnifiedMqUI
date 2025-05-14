@@ -6,8 +6,8 @@ import { addQueue, getQueueList, removeQueue } from '@/api/activemq/broker.js'
 import { ElMessage } from 'element-plus'
 import { useActiveMqStore } from '@/stores/activemq.js'
 import DynamicDialog from '@/components/DynamicDialog.vue'
-import SendTo from '@/views/activemq/dialog/sendTo.vue'
-import BrowseQueue from '@/views/activemq/dialog/browseQueue.vue'
+import SendTo from '@/views/activemq/dialog/queue/sendTo.vue'
+import BrowseQueue from '@/views/activemq/dialog/queue/browseQueue.vue'
 
 const activeMqStore = useActiveMqStore()
 

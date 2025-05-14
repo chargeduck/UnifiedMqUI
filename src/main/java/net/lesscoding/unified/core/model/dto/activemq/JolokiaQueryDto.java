@@ -15,8 +15,6 @@ public class JolokiaQueryDto {
 
     private String mbean;
 
-    private String attribute;
-
     private String operation;
 
     private Object arguments;

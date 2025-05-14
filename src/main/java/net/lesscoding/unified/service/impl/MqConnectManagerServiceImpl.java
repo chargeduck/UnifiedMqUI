@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import javax.jms.Connection;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author eleven
@@ -31,8 +30,6 @@ public class MqConnectManagerServiceImpl implements MqConnectManagerService {
     private final MqAdapterFactory mqAdapterFactory;
 
     private final ConnectConfigMapper connectConfigMapper;
-
-    private final ConcurrentHashMap<String, MqAdapter> connections = new ConcurrentHashMap<>();
 
     @Override
     public ConnectConfig createMqConnect(ConnectConfig connectConfig) {

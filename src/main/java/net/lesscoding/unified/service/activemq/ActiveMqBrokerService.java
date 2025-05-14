@@ -1,6 +1,6 @@
 package net.lesscoding.unified.service.activemq;
 
-import net.lesscoding.unified.core.model.dto.activemq.QueueQueryDto;
+import net.lesscoding.unified.core.model.dto.CommonQueryDto;
 import net.lesscoding.unified.core.model.vo.activemq.jolokia.queue.QueueInfo;
 
 import java.util.List;
@@ -11,9 +11,9 @@ import java.util.List;
  * @apiNote
  */
 public interface ActiveMqBrokerService {
-    List<QueueInfo> queueList(QueueQueryDto dto);
+    List<QueueInfo> queueList(CommonQueryDto<String> dto);
 
-    Boolean removeQueue(QueueQueryDto dto);
+    Boolean removeQueue(CommonQueryDto<String> dto);
 
-    Boolean addQueue(QueueQueryDto dto);
+    Boolean addQueue(CommonQueryDto<String> dto);
 }

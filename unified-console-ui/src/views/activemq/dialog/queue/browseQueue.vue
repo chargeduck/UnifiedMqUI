@@ -1,8 +1,9 @@
 <script setup>
-import { defineOptions, ref, defineProps } from 'vue'
+import { defineOptions, ref, defineProps, onMounted } from 'vue'
 import { useActiveMqStore } from '@/stores/activemq.js'
-import { getQueueMessageList } from '@/api/activemq/queue.js'
+import { getQueueMessageList, removeMessage } from '@/api/activemq/queue.js'
 import MessageSearch from '@/components/messageSearch.vue'
+import { ElMessage, ElMessageBox } from 'element-plus'
 
 defineOptions({
   name: 'BrowseQueue'
@@ -15,6 +16,11 @@ const props = defineProps({
     }
   }
 })
+const page = ref({
+  current: 1,
+  size: 5,
+  total: 0
+})
 const searchForm = ref({
   text: '',
   startTime: '',
@@ -23,28 +29,58 @@ const searchForm = ref({
 const fetchMessageList = () => {
   const data = {
     config: activeMqStore.configInfo,
-    params: props.data.name
+    params: {
+      name: props.data.name,
+      ...searchForm.value
+    },
+    page: page.value
   }
-  console.log(searchForm.value)
   getQueueMessageList(data).then(resp => {
-    tableData.value = resp.data
+    tableData.value = resp.data.records
+    page.value = {
+      current: resp.data.current,
+      size: resp.data.size,
+      total: resp.data.total
+    }
   })
 }
-fetchMessageList()
+onMounted(() => {
+  fetchMessageList()
+})
 const tableData = ref([])
-const deleteMessage = (row) => {
-  console.log(row)
-  console.log(props.data)
+const doDeleteMessage = (row) => {
+  ElMessageBox.confirm('Are you sure you want to delete this message?', 'Warning', {
+    confirmButtonText: 'OK',
+    cancelButtonText: 'Cancel',
+    type: 'warning'
+  }).then(() => {
+    const data = {
+      config: activeMqStore.configInfo,
+      params: {
+        name: props.data.name,
+        messageId: row.jmsmessageID
+      }
+    }
+    removeMessage(data).then(resp => {
+      ElMessage.success(`Delete message successfully ${ resp.data }`)
+    }).finally(() => {
+      fetchMessageList()
+    })
+  })
+}
+const handleCurrentChange = (val) => {
+  page.value.current = val
+  fetchMessageList()
+}
+const handleSizeChange = (val) => {
+  page.value.size = val
+  fetchMessageList()
 }
 
-const page = ref({
-  current: 1,
-  size: 5,
-  total: 0
-})
 </script>
 <template>
   <message-search
+    class="search-form-margin"
     v-model:search-form="searchForm"
     v-model:do-search="fetchMessageList"
     v-model:page="page"
@@ -74,29 +110,37 @@ const page = ref({
           <el-descriptions-item label="Destination">
             {{ scope.row.jmsdestination }}
           </el-descriptions-item>
-          <el-descriptions-item v-model="scope.row.jmsxuserID" label="User Id">
+          <el-descriptions-item label="User Id">
             {{ scope.row.jmsxuserID }}
+          </el-descriptions-item>
+          <el-descriptions-item label="Message">
+            {{ scope.row.text }}
           </el-descriptions-item>
         </el-descriptions>
       </template>
     </el-table-column>
-    <el-table-column prop="jmsmessageID" label="Message ID" width="300" />
-    <el-table-column prop="text" label="Message" show-overflow-tooltip/>
+    <el-table-column prop="jmsmessageID" label="Message ID" width="310" show-overflow-tooltip />
+    <el-table-column prop="text" label="Message" show-overflow-tooltip />
     <el-table-column prop="jmspriority" label="Priority" />
     <el-table-column prop="jmsreplyTo" label="Reply To" />
-    <el-table-column prop="jmstimestamp" label="Timestamp" show-overflow-tooltip/>
+    <el-table-column prop="jmstimestamp" label="Timestamp" show-overflow-tooltip />
     <el-table-column prop="jmstype" label="Type" />
     <el-table-column label="Operations">
       <template #default="scope">
-        <el-button type="primary" size="small" @click="deleteMessage(scope.row)">Delete</el-button>
+        <el-button type="danger" size="small" @click="doDeleteMessage(scope.row)">Delete</el-button>
       </template>
     </el-table-column>
   </el-table>
   <el-pagination
+    class="pagination-margin"
     v-model:current-page="page.current"
-    :page-size="page.size"
-    layout="total, prev, pager, next, jumper"
+    v-model:page-size="page.size"
+    :page-sizes="[5, 8, 10]"
+    layout="total, sizes, prev, pager, next, jumper"
     :total="page.total"
+    @current-change="handleCurrentChange"
+    @size-change="handleSizeChange"
   />
+
 </template>
 <style></style>

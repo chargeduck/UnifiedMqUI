@@ -2,7 +2,7 @@ package net.lesscoding.unified.controller.activemq;
 
 import lombok.RequiredArgsConstructor;
 import net.lesscoding.unified.core.model.Result;
-import net.lesscoding.unified.core.model.dto.activemq.QueueQueryDto;
+import net.lesscoding.unified.core.model.dto.CommonQueryDto;
 import net.lesscoding.unified.core.model.vo.activemq.jolokia.queue.QueueInfo;
 import net.lesscoding.unified.service.activemq.ActiveMqBrokerService;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +27,7 @@ public class ActiveMqBrokerController {
      * @return
      */
     @PostMapping("/queues")
-    public Result<List<QueueInfo>> queues(@RequestBody QueueQueryDto dto) {
+    public Result<List<QueueInfo>> queues(@RequestBody CommonQueryDto<String> dto) {
         return Result.success(activeMqBrokerService.queueList(dto));
     }
 
@@ -37,7 +37,7 @@ public class ActiveMqBrokerController {
      * @return
      */
     @DeleteMapping("/removeQueue")
-    public Result<Boolean> removeQueue(@RequestBody QueueQueryDto dto) {
+    public Result<Boolean> removeQueue(@RequestBody CommonQueryDto<String> dto) {
         return Result.success(activeMqBrokerService.removeQueue(dto));
     }
 
@@ -47,7 +47,7 @@ public class ActiveMqBrokerController {
      * @return
      */
     @PostMapping("/addQueue")
-    public Result<Boolean> addQueue(@RequestBody QueueQueryDto dto) {
+    public Result<Boolean> addQueue(@RequestBody CommonQueryDto<String> dto) {
         return Result.success(activeMqBrokerService.addQueue(dto));
     }
 }
