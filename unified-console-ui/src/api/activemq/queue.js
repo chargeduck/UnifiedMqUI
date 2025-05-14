@@ -62,7 +62,7 @@ export function purgeQueue (data) {
  */
 export function sendToQueue (data) {
   return request({
-    url: '/activemq/queue/sendTo',
+    url: '/activemq/queue/sendMessage',
     method: 'post',
     data
   })

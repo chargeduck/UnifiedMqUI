@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import net.lesscoding.unified.core.model.Result;
 import net.lesscoding.unified.core.model.dto.CommonQueryDto;
 import net.lesscoding.unified.core.model.dto.activemq.MessageQueryDto;
+import net.lesscoding.unified.core.model.dto.activemq.SendMessageDto;
 import net.lesscoding.unified.core.model.vo.activemq.jolokia.queue.QueueMessage;
 import net.lesscoding.unified.service.activemq.ActiveMqQueueService;
 import org.springframework.web.bind.annotation.*;
@@ -50,5 +51,10 @@ public class ActiveMqQueueController {
     @DeleteMapping("/removeMessage")
     public Result<Boolean> removeMessage(@RequestBody CommonQueryDto<MessageQueryDto> dto) {
         return Result.success(activeMqQueueService.removeMessage(dto));
+    }
+
+    @PostMapping("/sendMessage")
+    public Result<Boolean> sendMessage(@RequestBody CommonQueryDto<SendMessageDto> dto) {
+        return Result.success(activeMqQueueService.sendMessage(dto));
     }
 }

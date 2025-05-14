@@ -21,6 +21,7 @@ public enum ActiveMqMethod {
     QUEUE_PAUSE("pause()"),
     QUEUE_RESUME("resume()"),
     QUEUE_PURGE("purge()"),
+    QUEUE_SEND_TEXT_MESSAGE_WITH_PROPERTIES("sendTextMessageWithProperties(java.lang.String)"),
     ;
 
     private final String name;

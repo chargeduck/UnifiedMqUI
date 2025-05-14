@@ -11,6 +11,7 @@ import net.lesscoding.unified.core.enums.activemq.JolokiaExecuteType;
 import net.lesscoding.unified.core.enums.activemq.MbeanFormat;
 import net.lesscoding.unified.core.model.dto.CommonQueryDto;
 import net.lesscoding.unified.core.model.dto.activemq.MessageQueryDto;
+import net.lesscoding.unified.core.model.dto.activemq.SendMessageDto;
 import net.lesscoding.unified.core.model.vo.activemq.jolokia.ActiveMqJolokiaResponse;
 import net.lesscoding.unified.core.model.vo.activemq.jolokia.queue.QueueMessage;
 import net.lesscoding.unified.entity.ConnectConfig;
@@ -168,6 +169,20 @@ public class ActiveMqQueueServiceImpl implements ActiveMqQueueService {
                 mbean,
                 ActiveMqMethod.QUEUE_REMOVE_MESSAGE,
                 Collections.singletonList(params.getMessageId()),
+                Object.class);
+        return response.getStatus() == 200;
+    }
+
+    @Override
+    public Boolean sendMessage(CommonQueryDto<SendMessageDto> dto) {
+        ConnectConfig config = dto.getConfig();
+        SendMessageDto params = dto.getParams();
+        String mbean = StrUtil.format(MbeanFormat.QUEUE_OP.getFormat(), config.getBrokerName(), params.getName());
+        ActiveMqJolokiaResponse<Object> response = jolokiaUtil.doArgsMethod(config,
+                JolokiaExecuteType.EXEC,
+                mbean,
+                ActiveMqMethod.QUEUE_SEND_TEXT_MESSAGE_WITH_PROPERTIES,
+                Collections.singletonList(params.getProperties()),
                 Object.class);
         return response.getStatus() == 200;
     }

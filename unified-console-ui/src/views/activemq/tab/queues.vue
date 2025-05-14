@@ -1,5 +1,5 @@
 <script setup>
-import { defineOptions, ref, onBeforeMount } from 'vue'
+import { defineOptions, ref, onBeforeMount, provide } from 'vue'
 import { isBlank, gbFilter } from '@/utils/format.js'
 import { pauseQueue, purgeQueue, resumeQueue } from '@/api/activemq/queue.js'
 import { addQueue, getQueueList, removeQueue } from '@/api/activemq/broker.js'
@@ -8,6 +8,8 @@ import { useActiveMqStore } from '@/stores/activemq.js'
 import DynamicDialog from '@/components/DynamicDialog.vue'
 import SendTo from '@/views/activemq/dialog/queue/sendTo.vue'
 import BrowseQueue from '@/views/activemq/dialog/queue/browseQueue.vue'
+import ActiveConsumers from '@/views/activemq/dialog/queue/activeConsumers.vue'
+import ActiveProducers from '@/views/activemq/dialog/queue/activeProducers.vue'
 
 const activeMqStore = useActiveMqStore()
 
@@ -55,14 +57,25 @@ const fetchQueues = () => {
     queues.value = resp.data
   })
 }
-const activeConsumer = (row) => {
-  console.log(row)
+const activeConsumer = (data) => {
+  dynamicDialogProps.value = {
+    title: `Active Consumers for ${ data.name }`,
+    component: ActiveConsumers,
+    visible: true,
+    data,
+    showFooterBtn: false
+  }
 }
-const activeProducer = (row) => {
-  console.log(row)
+const activeProducer = (data) => {
+  dynamicDialogProps.value = {
+    title: `Active Producers for ${ data.name }`,
+    component: ActiveProducers,
+    visible: true,
+    data,
+    showFooterBtn: false
+  }
 }
 const browseQueue = (data) => {
-  console.log(data, 'data')
   dynamicDialogProps.value = {
     title: `Browse Queue ${ data.name }`,
     component: BrowseQueue,
@@ -127,6 +140,7 @@ const dynamicDialogProps = ref({
   data: null,
   showFooterBtn: false
 })
+provide('fetchQueues', fetchQueues)
 </script>
 
 <template>
@@ -296,7 +310,7 @@ const dynamicDialogProps = ref({
             <el-button link type="primary" size="small" @click="doSendToQueue(scope.row)">Send to</el-button>
           </el-col>
           <el-col :span="12">
-            <el-button link type="primary" size="small" @click="doPurgeQueue(scope.row)">Purge</el-button>
+            <el-button link type="danger" size="small" @click="doPurgeQueue(scope.row)">Purge</el-button>
           </el-col>
           <el-col :span="12">
             <el-button link type="danger" size="small" @click="doRemoveQueue(scope.row)">Delete</el-button>
@@ -321,6 +335,7 @@ const dynamicDialogProps = ref({
       <component
         :is="dynamicDialogProps.component"
         :data="dynamicDialogProps.data"
+        v-model:visible="dynamicDialogProps.visible"
       />
     </template>
   </dynamic-dialog>

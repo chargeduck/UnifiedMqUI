@@ -30,6 +30,7 @@ public class QueueMessage implements Serializable {
     private String PropertiesText;
     private String JMSType;
     private Integer JMSExpiration;
+    private String JMSCronString;
     private Object OriginalDestination;
 
     private String JMSTimestamp;
@@ -66,13 +67,6 @@ public class QueueMessage implements Serializable {
     public LocalDateTime getSendTime() {
         // 转换为目标格式的字符串
         return LocalDateTime.parse(getJMSTimestamp(), formatter);
-    }
-
-    public static void main(String[] args) {
-        QueueMessage msg = new QueueMessage();
-        msg.setJMSTimestamp("2025-05-13T14:39:37+08:00");
-        System.out.println(msg.getSendTime());
-        System.out.println(msg.getJMSTimestamp());
     }
 
 }

@@ -1,6 +1,10 @@
 <script setup>
-import { defineOptions, ref } from 'vue'
+import { defineOptions, ref, computed, defineModel, inject } from 'vue'
+import { useActiveMqStore } from '@/stores/activemq.js'
+import { sendToQueue } from '@/api/activemq/queue.js'
+import { ElMessage } from 'element-plus'
 
+const activeMqStore = useActiveMqStore()
 defineOptions({
   name: 'ActiveMqSendTo'
 })
@@ -8,29 +12,33 @@ const props = defineProps({
   data: {
     type: Object,
     default: () => ({
-      destination: '',
-      queueOrTopic: 'Topic',
+      name: '',
+      queueOrTopic: 'Queue',
       headerCounter: 'JMSXMessageCounter'
     })
   }
 })
+const visible = defineModel('visible')
+const fetchQueues = inject('fetchQueues')
 const defaultForm = ref({
-  destination: props.destination || '',
-  queueOrTopic: props.queueOrTopic || 'Topic',
-  correlationId: '',
-  persistentDelivery: false,
-  replyTo: '',
-  priority: '',
-  type: '',
-  timeToLive: '',
-  messageGroup: '',
-  messageGroupSequenceNumber: '',
-  delay: 0,
-  schedulingNumber: 0,
-  repeatsNumber: 1,
-  cronString: '',
-  messagesToSend: 1,
-  headerCounter: 'JMSXMessageCounter'
+  JMSDestination: props.data.name || '',
+  JMSDestinationType: props.data.queueOrTopic || 'Topic',
+  JMSCorrelationID: '',
+  JMSPersistent: false,
+  JMSReplyTo: '',
+  JMSPriority: '',
+  JMSType: '',
+  JMSTimeToLive: '',
+  JMSXGroupID: '',
+  JMSXGroupSeq: '',
+  AMQ_SCHEDULED_DELAY: 0,
+  AMQ_SCHEDULED_PERIOD: 0,
+  AMQ_SCHEDULED_REPEAT: 1,
+  AMQ_SCHEDULED_CRON: '',
+  JMSMessageCount: 1,
+  JMSMessageCountHeader: 'JMSXMessageCounter',
+  JMSXMessageCounter: 0,
+  JMSText: ''
 })
 const form = ref({ ...defaultForm.value })
 const gutter = ref(20)
@@ -38,20 +46,38 @@ const reset = () => {
   form.value = { ...defaultForm.value }
 }
 const sendTo = () => {
-  console.log(form.value)
+  const data = {
+    config: activeMqStore.configInfo,
+    params: {
+      properties: formUrlKvStr.value,
+      name: props.data.name
+    }
+  }
+  sendToQueue(data).then(resp => {
+    form.value = { ...defaultForm.value }
+    ElMessage.success(`Send to queue result: ${ resp.data }`)
+  }).finally(() => {
+    visible.value = false
+    fetchQueues()
+  })
 }
+const formUrlKvStr = computed(() => {
+  return Object.entries(form.value)
+    .map(([key, value]) => `${ key }=${ value }`)
+    .join(',')
+})
 </script>
 <template>
   <el-form :model="form" label-width="150">
     <el-row :gutter="gutter">
       <el-col :span="12">
         <el-form-item label="Destination">
-          <el-input v-model="form.destination" placeholder="Destination" />
+          <el-input v-model="form.JMSDestination" placeholder="Destination" />
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="Queue or Topic">
-          <el-radio-group v-model="form.queueOrTopic">
+          <el-radio-group v-model="form.JMSDestinationType">
             <el-radio label="Queue">Queue</el-radio>
             <el-radio label="Topic">Topic</el-radio>
           </el-radio-group>
@@ -61,84 +87,85 @@ const sendTo = () => {
     <el-row :gutter="gutter">
       <el-col :span="12">
         <el-form-item label="Correlation ID">
-          <el-input v-model="form.correlationId" placeholder="Correlation ID" />
+          <el-input v-model="form.JMSCorrelationID" placeholder="Correlation ID" />
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="Persistent Delivery">
-          <el-switch v-model="form.persistentDelivery" />
+          <el-switch v-model="form.JMSPersistent" />
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="gutter">
       <el-col :span="12">
         <el-form-item label="Reply To">
-          <el-input v-model="form.replyTo" placeholder="Reply To" />
+          <el-input v-model="form.JMSReplyTo" placeholder="Reply To" />
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="Priority">
-          <el-input v-model="form.priority" placeholder="Priority" />
+          <el-input-number :min="0" :max="9" v-model="form.JMSPriority" placeholder="Priority" />
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="gutter">
       <el-col :span="12">
         <el-form-item label="Type">
-          <el-input v-model="form.type" placeholder="Type" />
+          <el-input v-model="form.JMSType" placeholder="Type" />
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="Time To Live">
-          <el-input v-model="form.timeToLive" placeholder="Time To Live" />
+          <el-input-number v-model="form.JMSTimeToLive" placeholder="Time To Live" />
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="gutter">
       <el-col :span="12">
         <el-form-item label="Message Group">
-          <el-input v-model="form.messageGroup" placeholder="Message Group" />
+          <el-input v-model="form.JMSXGroupID" placeholder="Message Group" />
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="Group Seq">
-          <el-input v-model="form.messageGroupSequenceNumber" placeholder="Message Group Sequence Number" />
+          <el-input v-model="form.JMSXGroupSeq" placeholder="Message Group Sequence Number" />
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="gutter">
       <el-col :span="12">
         <el-form-item label="Delay">
-          <el-input v-model="form.delay" placeholder="Delay" />
+          <el-input v-model="form.AMQ_SCHEDULED_DELAY" placeholder="Delay" />
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="Scheduling Number">
-          <el-input v-model="form.schedulingNumber" placeholder="Scheduling Number" />
+          <el-input v-model="form.AMQ_SCHEDULED_PERIOD" placeholder="Scheduling Number" />
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="gutter">
       <el-col :span="12">
         <el-form-item label="Repeats Number">
-          <el-input-number :min="1" v-model="form.repeatsNumber" placeholder="Repeats Number" class="full-width" />
+          <el-input-number :min="0" v-model="form.AMQ_SCHEDULED_REPEAT" placeholder="Repeats Number"
+                           class="full-width" />
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="Cron String">
-          <el-input v-model="form.cronString" placeholder="Cron String" />
+          <el-input v-model="form.AMQ_SCHEDULED_CRON" placeholder="Cron String" />
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="gutter">
       <el-col :span="12">
         <el-form-item label="Messages To Send">
-          <el-input v-model="form.messagesToSend" placeholder="Messages To Send" />
+          <el-input-number v-model="form.JMSMessageCount" placeholder="Messages To Send" />
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="Header Counter">
-          <el-input v-model="form.headerCounter" placeholder="Header Counter" />
+          <el-input v-model="form.JMSMessageCountHeader" placeholder="Header Counter" />
         </el-form-item>
       </el-col>
     </el-row>

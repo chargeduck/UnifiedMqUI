@@ -3,6 +3,7 @@ package net.lesscoding.unified.service.activemq;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import net.lesscoding.unified.core.model.dto.CommonQueryDto;
 import net.lesscoding.unified.core.model.dto.activemq.MessageQueryDto;
+import net.lesscoding.unified.core.model.dto.activemq.SendMessageDto;
 import net.lesscoding.unified.core.model.vo.activemq.jolokia.queue.QueueMessage;
 
 import java.util.List;
@@ -24,4 +25,6 @@ public interface ActiveMqQueueService {
     Page queueMsgPage(CommonQueryDto<MessageQueryDto> dto);
 
     Boolean removeMessage(CommonQueryDto<MessageQueryDto> dto);
+
+    Boolean sendMessage(CommonQueryDto<SendMessageDto> dto);
 }
