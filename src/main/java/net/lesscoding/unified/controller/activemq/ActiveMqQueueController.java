@@ -22,39 +22,39 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ActiveMqQueueController {
     
-    private final ActiveMqQueueService activeMqQueueService;
+    private final ActiveMqQueueService queueService;
     @PostMapping("/messages")
     public Result<List<QueueMessage>> queueMsgList(@RequestBody CommonQueryDto<String> dto) {
-        return Result.success(activeMqQueueService.queueMsgList(dto));
+        return Result.success(queueService.queueMsgList(dto));
     }
 
     @PostMapping("/messagesPage")
     public Result<Page> messagesPage(@RequestBody CommonQueryDto<MessageQueryDto> dto) {
-        return Result.success(activeMqQueueService. queueMsgPage(dto));
+        return Result.success(queueService. queueMsgPage(dto));
     }
 
     @PostMapping("/pause")
     public Result<Boolean> queuePause(@RequestBody CommonQueryDto<String> dto) {
-        return Result.success(activeMqQueueService.pauseQueue(dto));
+        return Result.success(queueService.pauseQueue(dto));
     }
 
     @PostMapping("/resume")
     public Result<Boolean> resumeQueue(@RequestBody CommonQueryDto<String> dto) {
-        return Result.success(activeMqQueueService.resumeQueue(dto));
+        return Result.success(queueService.resumeQueue(dto));
     }
 
     @PostMapping("/purge")
     public Result<Boolean> purgeQueue(@RequestBody CommonQueryDto<String> dto) {
-        return Result.success(activeMqQueueService.purgeQueue(dto));
+        return Result.success(queueService.purgeQueue(dto));
     }
 
     @DeleteMapping("/removeMessage")
     public Result<Boolean> removeMessage(@RequestBody CommonQueryDto<MessageQueryDto> dto) {
-        return Result.success(activeMqQueueService.removeMessage(dto));
+        return Result.success(queueService.removeMessage(dto));
     }
 
     @PostMapping("/sendMessage")
     public Result<Boolean> sendMessage(@RequestBody CommonQueryDto<SendMessageDto> dto) {
-        return Result.success(activeMqQueueService.sendMessage(dto));
+        return Result.success(queueService.sendMessage(dto));
     }
 }

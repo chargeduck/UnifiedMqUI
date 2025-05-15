@@ -2,6 +2,7 @@
 import { defineOptions, ref, computed, defineModel, inject } from 'vue'
 import { useActiveMqStore } from '@/stores/activemq.js'
 import { sendToQueue } from '@/api/activemq/queue.js'
+import { sendToTopic } from '@/api/activemq/topic.js'
 import { ElMessage } from 'element-plus'
 
 const activeMqStore = useActiveMqStore()
@@ -13,16 +14,16 @@ const props = defineProps({
     type: Object,
     default: () => ({
       name: '',
-      queueOrTopic: 'Queue',
+      JMSDestinationType: 'Queue',
       headerCounter: 'JMSXMessageCounter'
     })
   }
 })
 const visible = defineModel('visible')
-const fetchQueues = inject('fetchQueues')
+const fetchFn = inject('fetchFn')
 const defaultForm = ref({
   JMSDestination: props.data.name || '',
-  JMSDestinationType: props.data.queueOrTopic || 'Topic',
+  JMSDestinationType: props.data.JMSDestinationType || 'Topic',
   JMSCorrelationID: '',
   JMSPersistent: false,
   JMSReplyTo: '',
@@ -53,13 +54,25 @@ const sendTo = () => {
       name: props.data.name
     }
   }
-  sendToQueue(data).then(resp => {
-    form.value = { ...defaultForm.value }
-    ElMessage.success(`Send to queue result: ${ resp.data }`)
-  }).finally(() => {
-    visible.value = false
-    fetchQueues()
-  })
+  if (form.value.JMSDestinationType === 'Queue') {
+    sendToQueue(data).then(resp => {
+      form.value = { ...defaultForm.value }
+      ElMessage.success(`Send to queue result: ${ resp.data }`)
+    }).finally(() => {
+      visible.value = false
+      fetchFn()
+    })
+  }
+  if (form.value.JMSDestinationType === 'Topic') {
+    sendToTopic(data).then(resp => {
+      form.value = { ...defaultForm.value }
+      ElMessage.success(`Send to topic result: ${ resp.data }`)
+    }).finally(() => {
+      visible.value = false
+      fetchFn()
+    })
+  }
+
 }
 const formUrlKvStr = computed(() => {
   return Object.entries(form.value)

@@ -15,4 +15,6 @@ export const useActiveMqStore = defineStore('activeMq', () => {
     changeActiveConfig,
     configInfo
   }
+}, {
+  persist: true
 })

@@ -37,7 +37,7 @@ public class PageUtil<T> {
         return page;
     }
 
-    public Page<T> getPageByGetter(T t, List<T> data, Getter<T, Long> currentGetter, Getter<T, Long> sizeGetter) {
+    public Page<T> getPageByGetter(List<T> data, Getter<T, Long> currentGetter, Getter<T, Long> sizeGetter) {
         long currentPage = currentGetter.apply();
         long pageSize = sizeGetter.apply();
         return pagination(data, currentPage, pageSize);

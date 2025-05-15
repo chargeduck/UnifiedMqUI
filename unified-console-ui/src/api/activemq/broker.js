@@ -38,3 +38,32 @@ export function getQueueList (data) {
     data
   })
 }
+
+/**
+ * 获取主题列表
+ * @param data
+ * @return {*}
+ */
+export function getTopicList (data) {
+  return request({
+    url: '/activemq/broker/topics',
+    method: 'post',
+    data
+  })
+}
+
+export function addTopic (data) {
+  return request({
+    url: '/activemq/broker/addTopic',
+    method: 'post',
+    data
+  })
+}
+
+export function removeTopic (data) {
+  return request({
+    url: '/activemq/broker/removeTopic',
+    method: 'delete',
+    data
+  })
+}

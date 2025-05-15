@@ -6,7 +6,7 @@ import { addQueue, getQueueList, removeQueue } from '@/api/activemq/broker.js'
 import { ElMessage } from 'element-plus'
 import { useActiveMqStore } from '@/stores/activemq.js'
 import DynamicDialog from '@/components/DynamicDialog.vue'
-import SendTo from '@/views/activemq/dialog/queue/sendTo.vue'
+import SendTo from '@/components/activemq/sendTo.vue'
 import BrowseQueue from '@/views/activemq/dialog/queue/browseQueue.vue'
 import ActiveConsumers from '@/views/activemq/dialog/queue/activeConsumers.vue'
 import ActiveProducers from '@/views/activemq/dialog/queue/activeProducers.vue'
@@ -119,6 +119,7 @@ const doPurgeQueue = (row) => {
   })
 }
 const doSendToQueue = (data) => {
+  data.JMSDestinationType = 'Queue'
   dynamicDialogProps.value = {
     title: `Send To Queue ${ data.name }`,
     component: SendTo,
@@ -140,7 +141,7 @@ const dynamicDialogProps = ref({
   data: null,
   showFooterBtn: false
 })
-provide('fetchQueues', fetchQueues)
+provide('fetchFn', fetchQueues)
 </script>
 
 <template>

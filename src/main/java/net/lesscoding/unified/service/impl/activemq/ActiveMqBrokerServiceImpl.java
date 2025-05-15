@@ -2,6 +2,8 @@ package net.lesscoding.unified.service.impl.activemq;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.google.common.reflect.TypeToken;
 import lombok.RequiredArgsConstructor;
 import net.lesscoding.unified.core.enums.activemq.ActiveMqMethod;
@@ -10,8 +12,10 @@ import net.lesscoding.unified.core.enums.activemq.MbeanFormat;
 import net.lesscoding.unified.core.model.dto.CommonQueryDto;
 import net.lesscoding.unified.core.model.vo.activemq.jolokia.ActiveMqJolokiaResponse;
 import net.lesscoding.unified.core.model.vo.activemq.jolokia.queue.QueueInfo;
+import net.lesscoding.unified.core.model.vo.activemq.jolokia.topic.TopicInfo;
 import net.lesscoding.unified.entity.ConnectConfig;
 import net.lesscoding.unified.service.activemq.ActiveMqBrokerService;
+import net.lesscoding.unified.utils.PageUtil;
 import net.lesscoding.unified.utils.activemq.JolokiaUtil;
 import org.springframework.stereotype.Service;
 
@@ -72,6 +76,62 @@ public class ActiveMqBrokerServiceImpl implements ActiveMqBrokerService {
                 JolokiaExecuteType.EXEC,
                 mBean,
                 ActiveMqMethod.BROKER_ADD_QUEUE,
+                Collections.singletonList(dto.getParams()),
+                Object.class
+
+        );
+        return response.getStatus() == 200;
+    }
+
+    @Override
+    public Page<TopicInfo> topicList(CommonQueryDto<String> dto) {
+        ConnectConfig config = dto.getConfig();
+        String queryTopicName = StrUtil.isBlank(dto.getParams()) ? "*" : StrUtil.format("*{}*", dto.getParams());
+        String mBean = StrUtil.format(MbeanFormat.TOPIC_OP.getFormat(), config.getBrokerName(), queryTopicName);
+        ActiveMqJolokiaResponse<Map<String, TopicInfo>> list = jolokiaUtil.doArgsMethodWithTypeToken(config,
+                JolokiaExecuteType.READ,
+                mBean,
+                ActiveMqMethod.NONE,
+                null,
+                new TypeToken<ActiveMqJolokiaResponse<Map<String, TopicInfo>>>() {
+                }
+        );
+        Map<String, TopicInfo> value = list.getValue();
+        List<TopicInfo> filterList = CollUtil.isNotEmpty(value) ?
+                new ArrayList<>(value.values()) :
+                new ArrayList<>();
+        PageDTO<String> page = dto.getPage();
+        return new PageUtil<TopicInfo>()
+                .getPageByGetter(
+                        filterList,
+                        page::getCurrent,
+                        page::getSize
+                );
+    }
+
+    @Override
+    public Boolean removeTopic(CommonQueryDto<String> dto) {
+        ConnectConfig config = dto.getConfig();
+        String mBean = StrUtil.format(MbeanFormat.BROKER_OP.getFormat(), config.getBrokerName());
+        ActiveMqJolokiaResponse<Object> response = jolokiaUtil.doArgsMethod(config,
+                JolokiaExecuteType.EXEC,
+                mBean,
+                ActiveMqMethod.BROKER_REMOVE_TOPIC,
+                Collections.singletonList(dto.getParams()),
+                Object.class
+
+        );
+        return response.getStatus() == 200;
+    }
+
+    @Override
+    public Boolean addTopic(CommonQueryDto<String> dto) {
+        ConnectConfig config = dto.getConfig();
+        String mBean = StrUtil.format(MbeanFormat.BROKER_OP.getFormat(), config.getBrokerName());
+        ActiveMqJolokiaResponse<Object> response = jolokiaUtil.doArgsMethod(config,
+                JolokiaExecuteType.EXEC,
+                mBean,
+                ActiveMqMethod.BROKER_ADD_TOPIC,
                 Collections.singletonList(dto.getParams()),
                 Object.class
 

@@ -13,9 +13,10 @@ import lombok.Getter;
 public enum MbeanFormat {
     // 操作broker的 mbean format
     BROKER_OP("org.apache.activemq:type=Broker,brokerName={}"),
-    QUEUE_SM("org.apache.activemq:brokerName={},destinationName={},destinationType=Queue,type=Broker"),
+    // 操作topic的 mbean format
+    TOPIC_OP("org.apache.activemq:brokerName={},type=Broker,destinationName={},destinationType=Topic"),
     // 操作queue的 mbean format
-    QUEUE_OP("org.apache.activemq:brokerName={},destinationName={},destinationType=Queue,type=Broker");
+    QUEUE_OP("org.apache.activemq:brokerName={},type=Broker,destinationName={},destinationType=Queue");
 
 
     private final String format;
