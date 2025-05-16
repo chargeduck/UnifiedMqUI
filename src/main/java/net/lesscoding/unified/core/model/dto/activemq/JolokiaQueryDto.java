@@ -20,4 +20,6 @@ public class JolokiaQueryDto {
     private Object arguments;
 
     private Object signature;
+
+    private Object attribute;
 }

@@ -61,8 +61,6 @@ public class JolokiaUtil {
     }
 
 
-
-
     /**
      * 执行   带参数的方法
      *
@@ -110,6 +108,18 @@ public class JolokiaUtil {
                 .setMbean(mbean)
                 .setOperation(method.getName())
                 .setArguments(arguments);
+        String response = getJolokiaResponse(config, dto);
+        log.info("response: {}", response);
+        return gson.fromJson(response, typeToken.getType());
+    }
+
+    public <T> T doSearchAttribute(ConnectConfig config, JolokiaExecuteType execType,
+                                           String mbean, String attribute,
+                                           TypeToken<T> typeToken) {
+        JolokiaQueryDto dto = new JolokiaQueryDto()
+                .setType(execType.getType())
+                .setMbean(mbean)
+                .setAttribute(attribute);
         String response = getJolokiaResponse(config, dto);
         log.info("response: {}", response);
         return gson.fromJson(response, typeToken.getType());

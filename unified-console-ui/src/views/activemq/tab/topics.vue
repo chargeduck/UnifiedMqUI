@@ -126,7 +126,7 @@ provide('fetchFn', fetchTopics)
 </script>
 
 <template>
-  <el-form :model="searchForm" label-width="150" :inline="true">
+  <el-form :model="searchForm" :inline="true">
     <el-form-item label="Topic Name">
       <el-input
         v-model="searchForm.name"

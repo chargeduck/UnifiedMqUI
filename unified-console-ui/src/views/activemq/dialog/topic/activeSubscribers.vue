@@ -1,6 +1,9 @@
 <script setup>
 import { defineOptions, ref, defineProps } from 'vue'
+import { activeSubscribers } from '@/api/activemq/topic.js'
+import { useActiveMqStore } from '@/stores/activemq.js'
 
+const activeMqStore = useActiveMqStore()
 defineOptions({
   name: 'ActiveProducers'
 })
@@ -11,26 +14,156 @@ const props = defineProps({
     }
   }
 })
-console.log(props.data)
-
+const searchForm = ref({
+  subscriptionName: ''
+})
+const page = ref({
+  current: 1,
+  size: 10,
+  total: 0
+})
+const fetchActiveSubscribers = () => {
+  const data = {
+    config: activeMqStore.configInfo,
+    params: {
+      name: props.data.name,
+      subscriptionName: searchForm.value.subscriptionName
+    },
+    page: page.value
+  }
+  activeSubscribers(data).then(res => {
+    tableData.value = res.data.records
+  })
+}
+const handleCurrentChange = (val) => {
+  page.value.current = val
+  fetchActiveSubscribers()
+}
+const handleSizeChange = (val) => {
+  page.value.size = val
+  fetchActiveSubscribers()
+}
+const resetForm = () => {
+  searchForm.value.subscriptionName = ''
+}
 const tableData = ref([])
-
+fetchActiveSubscribers()
 </script>
 <template>
+  <el-form :model="searchForm" :inline="true" style="margin-bottom: 20px">
+    <el-form-item label="Subscription Name">
+      <el-input
+        v-model="searchForm.subscriptionName"
+        placeholder="Enter Subscription Name"
+        clearable
+        @clear="fetchActiveSubscribers"
+        @blur="fetchActiveSubscribers"
+      />
+    </el-form-item>
+    <el-form-item>
+      <el-button type="primary" @click="fetchActiveSubscribers">Search</el-button>
+      <el-button @click="resetForm">Reset</el-button>
+    </el-form-item>
+  </el-form>
   <el-table :data="tableData" border stripe>
+    <el-table-column type="expand">
+      <template #default="scope">
+        <el-descriptions :column="3">
+          <el-descriptions-item label="priority">
+            {{ scope.row.priority }}
+          </el-descriptions-item>
+          <el-descriptions-item label="connection">
+            {{ scope.row.connection }}
+          </el-descriptions-item>
+          <el-descriptions-item label="userName">
+            {{ scope.row.userName }}
+          </el-descriptions-item>
+          <el-descriptions-item label="destinationName">
+            {{ scope.row.destinationName }}
+          </el-descriptions-item>
+          <el-descriptions-item label="cursorFull">
+            {{ scope.row.cursorFull }}
+          </el-descriptions-item>
+          <el-descriptions-item label="dequeueCounter">
+            {{ scope.row.dequeueCounter }}
+          </el-descriptions-item>
+          <el-descriptions-item label="durable">
+            {{ scope.row.durable }}
+          </el-descriptions-item>
+          <el-descriptions-item label="subscriptionId">
+            {{ scope.row.subscriptionId }}
+          </el-descriptions-item>
+          <el-descriptions-item label="noLocal">
+            {{ scope.row.noLocal }}
+          </el-descriptions-item>
+          <el-descriptions-item label="network">
+            {{ scope.row.network }}
+          </el-descriptions-item>
+          <el-descriptions-item label="exclusive">
+            {{ scope.row.exclusive }}
+          </el-descriptions-item>
+          <el-descriptions-item label="slowConsumer">
+            {{ scope.row.slowConsumer }}
+          </el-descriptions-item>
+          <el-descriptions-item label="retroactive">
+            {{ scope.row.retroactive }}
+          </el-descriptions-item>
+          <el-descriptions-item label="consumedCount">
+            {{ scope.row.consumedCount }}
+          </el-descriptions-item>
+          <el-descriptions-item label="enqueueCounter">
+            {{ scope.row.enqueueCounter }}
+          </el-descriptions-item>
+          <el-descriptions-item label="prefetchSize">
+            {{ scope.row.prefetchSize }}
+          </el-descriptions-item>
+          <el-descriptions-item label="destinationQueue">
+            {{ scope.row.destinationQueue }}
+          </el-descriptions-item>
+          <el-descriptions-item label="dispatchedCounter">
+            {{ scope.row.dispatchedCounter }}
+          </el-descriptions-item>
+          <el-descriptions-item label="cursorMemoryUsage">
+            {{ scope.row.cursorMemoryUsage }}
+          </el-descriptions-item>
+          <el-descriptions-item label="destinationTemporary">
+            {{ scope.row.destinationTemporary }}
+          </el-descriptions-item>
+          <el-descriptions-item label="cursorPercentUsage">
+            {{ scope.row.cursorPercentUsage }}
+          </el-descriptions-item>
+          <el-descriptions-item label="messageCountAwaitingAcknowledge">
+            {{ scope.row.messageCountAwaitingAcknowledge }}
+          </el-descriptions-item>
+          <el-descriptions-item label="maximumPendingMessageLimit">
+            {{ scope.row.maximumPendingMessageLimit }}
+          </el-descriptions-item>
+          <el-descriptions-item label="destinationTopic">
+            {{ scope.row.destinationTopic }}
+          </el-descriptions-item>
+          <el-descriptions-item label="dispatchedQueueSize">
+            {{ scope.row.dispatchedQueueSize }}
+          </el-descriptions-item>
+        </el-descriptions>
+      </template>
+    </el-table-column>
     <el-table-column prop="clientId" label="Client ID" show-overflow-tooltip />
     <el-table-column prop="connectionId" label="Connection Id" show-overflow-tooltip />
     <el-table-column prop="sessionId" label="SessionId" />
-    <el-table-column prop="subscriptionId " label="SubscriptionId" />
-    <el-table-column prop="selector" label="Selector" show-overflow-tooltip />
     <el-table-column prop="active" label="active" />
     <el-table-column prop="network" label="Network" />
     <el-table-column prop="pendingQueueSize" label="Pending Queue Size" />
-    <el-table-column prop="inflight" label="Inflight" />
-    <el-table-column prop="enqueued" label="Enqueued" />
-    <el-table-column prop="dequeued" label="Dequeued" />
-    <el-table-column prop="prefetch" label="Prefetch" />
     <el-table-column prop="subscriptionName" label="Subscription Name" />
   </el-table>
+  <el-pagination
+    class="pagination-margin"
+    v-model:current-page="page.current"
+    v-model:page-size="page.size"
+    :page-sizes="[5, 8, 10]"
+    layout="total, sizes, prev, pager, next, jumper"
+    :total="page.total"
+    @current-change="handleCurrentChange"
+    @size-change="handleSizeChange"
+  />
 </template>
 <style></style>

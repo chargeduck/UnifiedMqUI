@@ -59,7 +59,7 @@ public class BrokerInfo {
      * objectName : org.apache.activemq:brokerName=localhost,destinationName=ActiveMQ.Advisory.MasterBroker,destinationType=Topic,type=Broker
      */
 
-    private List<BrokerTopics> Topics;
+    private List<SearchResult> Topics;
     private List<?> DurableTopicSubscribers;
     private List<?> QueueSubscribers;
     private List<?> TopicSubscribers;
@@ -71,7 +71,7 @@ public class BrokerInfo {
      * objectName : org.apache.activemq:brokerName=localhost,destinationName=TestQueue,destinationType=Queue,type=Broker
      */
 
-    private List<BrokerQueues> Queues;
+    private List<SearchResult> Queues;
 
 
 }

@@ -12,3 +12,11 @@ export function sendToTopic (data) {
     data
   })
 }
+
+export function activeSubscribers (data) {
+  return request({
+    url: '/activemq/topic/activeSubscribers',
+    method: 'post',
+    data
+  })
+}

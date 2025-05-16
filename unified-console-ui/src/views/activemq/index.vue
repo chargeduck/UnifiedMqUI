@@ -5,10 +5,10 @@ import ActiveMqHome from '@/views/activemq/tab/home.vue'
 import ActiveMqQueues from '@/views/activemq/tab/queues.vue'
 import ActiveMqTopics from '@/views/activemq/tab/topics.vue'
 import ActiveMqNetwork from '@/views/activemq/tab/network.vue'
-import ActiveMqSend from '@/views/activemq/tab/send.vue'
 import ActiveMqScheduled from '@/views/activemq/tab/scheduled.vue'
 import ActiveMqSubscribers from '@/views/activemq/tab/subscribers.vue'
 import ActiveMqConnections from '@/views/activemq/tab/connections.vue'
+import SendTo from '@/components/activemq/sendTo.vue'
 
 const route = useRoute()
 defineOptions({
@@ -43,7 +43,7 @@ provide('id', id)
       <active-mq-scheduled />
     </el-tab-pane>
     <el-tab-pane label="Send" name="send" :lazy="lazy">
-      <active-mq-send />
+      <send-to />
     </el-tab-pane>
   </el-tabs>
 </template>

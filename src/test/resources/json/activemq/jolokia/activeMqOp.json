@@ -39,15 +39,15 @@
           "type": "boolean",
           "desc": "Statistics gathering enabled"
         },
-        "UpdateClusterClientsOnRemove": {
-          "rw": false,
-          "type": "boolean",
-          "desc": "Update clients when a broker is removed from a network enabled."
-        },
         "RebalanceClusterClients": {
           "rw": false,
           "type": "boolean",
           "desc": "Rebalance clients across the broker cluster enabled"
+        },
+        "UpdateClusterClientsOnRemove": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Update clients when a broker is removed from a network enabled."
         },
         "UpdateClusterFilter": {
           "rw": false,
@@ -68,13 +68,380 @@
       "class": "org.apache.activemq.broker.jmx.ConnectorView",
       "desc": "Information on the management interface of the MBean"
     },
-    "brokerName=localhost,destinationName=TestQueue,destinationType=Queue,type=Broker": {
+    "brokerName=localhost,destinationName=boot-activemq-queue,destinationType=Topic,type=Broker": {
       "op": {
-        "resume": {
+        "browseMessages": [
+          {
+            "args": [
+              {
+                "name": "p1",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.util.List",
+            "desc": "A list of all messages in the destination based on an SQL-92 selection on the message headers or XPATH on the body. Not HTML friendly."
+          },
+          {
+            "args": [],
+            "ret": "java.util.List",
+            "desc": "A list of all messages in the destination. Not HTML friendly."
+          }
+        ],
+        "sendTextMessage": [
+          {
+            "args": [
+              {
+                "name": "body",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "user",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "password",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to a password-protected destination."
+          },
+          {
+            "args": [
+              {
+                "name": "headers",
+                "type": "java.util.Map",
+                "desc": ""
+              },
+              {
+                "name": "body",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "user",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "password",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to a password-protected destination."
+          },
+          {
+            "args": [
+              {
+                "name": "body",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to the destination."
+          },
+          {
+            "args": [
+              {
+                "name": "headers",
+                "type": "java.util.Map",
+                "desc": ""
+              },
+              {
+                "name": "body",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to the destination."
+          }
+        ],
+        "resetStatistics": {
           "args": [],
           "ret": "void",
-          "desc": "resume dispatch to consumers if paused"
+          "desc": "Resets statistics."
         },
+        "browseAsTable": [
+          {
+            "args": [],
+            "ret": "javax.management.openmbean.TabularData",
+            "desc": "A list of all messages in the destination. Not HTML friendly."
+          },
+          {
+            "args": [
+              {
+                "name": "selector",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "javax.management.openmbean.TabularData",
+            "desc": "A list of all messages in the destination based on an SQL-92 selection on the message headers or XPATH on the body. Not HTML friendly."
+          }
+        ],
+        "browse": [
+          {
+            "args": [],
+            "ret": "[Ljavax.management.openmbean.CompositeData;",
+            "desc": "An array of all messages in the destination. Not HTML friendly."
+          },
+          {
+            "args": [
+              {
+                "name": "selector",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "[Ljavax.management.openmbean.CompositeData;",
+            "desc": "An array of all messages in the destination based on an SQL-92 selection on the message headers or XPATH on the body. Not HTML friendly."
+          }
+        ],
+        "sendTextMessageWithProperties": [
+          {
+            "args": [
+              {
+                "name": "properties",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to the destination using comma separeted properties list. Example properties: body=value,header=value"
+          },
+          {
+            "args": [
+              {
+                "name": "properties",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "delimiter",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to the destination using properties separeted by arbetrary delimiter. Example properties: body=value;header=value"
+          }
+        ]
+      },
+      "attr": {
+        "ProducerFlowControl": {
+          "rw": true,
+          "type": "boolean",
+          "desc": "Flow control is enabled for producers"
+        },
+        "Options": {
+          "rw": false,
+          "type": "java.lang.String",
+          "desc": "Destination options as name value pairs in a URL queryString"
+        },
+        "AlwaysRetroactive": {
+          "rw": true,
+          "type": "boolean",
+          "desc": "Always treat consumers as retroactive"
+        },
+        "MemoryUsageByteCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Memory used by undelivered messages in bytes"
+        },
+        "AverageBlockedTime": {
+          "rw": false,
+          "type": "double",
+          "desc": "Average time (ms) messages have been blocked by flow control"
+        },
+        "MemoryPercentUsage": {
+          "rw": false,
+          "type": "int",
+          "desc": "The percentage of the memory limit used"
+        },
+        "InFlightCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages that have been dispatched to, but not acknowledged by, consumers."
+        },
+        "Subscriptions": {
+          "rw": false,
+          "type": "[Ljavax.management.ObjectName;",
+          "desc": "Subscription MBeans matching this destination"
+        },
+        "SendDuplicateFromStoreToDLQ": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Config setting to send a duplicate from store message to the dead letter queue."
+        },
+        "ForwardCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages that have been forwarded (to a networked broker) from the destination."
+        },
+        "DLQ": {
+          "rw": true,
+          "type": "boolean",
+          "desc": "Dead Letter Queue"
+        },
+        "StoreMessageSize": {
+          "rw": false,
+          "type": "long",
+          "desc": "The memory size of all messages in this destination's store."
+        },
+        "AverageEnqueueTime": {
+          "rw": false,
+          "type": "double",
+          "desc": "Average time a message was held on this destination."
+        },
+        "Name": {
+          "rw": false,
+          "type": "java.lang.String",
+          "desc": "Name of this destination."
+        },
+        "MaxAuditDepth": {
+          "rw": true,
+          "type": "int",
+          "desc": "Max audit depth"
+        },
+        "TotalBlockedTime": {
+          "rw": false,
+          "type": "long",
+          "desc": "Total time (ms) messages have been blocked by flow control"
+        },
+        "BlockedSends": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages blocked for flow control"
+        },
+        "QueueSize": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages on this destination, including any that have been dispatched but not acknowledged"
+        },
+        "MaxPageSize": {
+          "rw": true,
+          "type": "int",
+          "desc": "Maximum number of messages to be paged in"
+        },
+        "TempUsageLimit": {
+          "rw": true,
+          "type": "long",
+          "desc": "Temp usage limit, in bytes, assigned to this destination."
+        },
+        "PrioritizedMessages": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Prioritized messages is enabled"
+        },
+        "MemoryUsagePortion": {
+          "rw": true,
+          "type": "float",
+          "desc": "Portion of memory from the broker memory limit for this destination"
+        },
+        "EnqueueCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages that have been sent to the destination."
+        },
+        "TempUsagePercentUsage": {
+          "rw": false,
+          "type": "int",
+          "desc": "The percentage of the temp usage limit used"
+        },
+        "ConsumerCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of consumers subscribed to this destination."
+        },
+        "AverageMessageSize": {
+          "rw": false,
+          "type": "long",
+          "desc": "Average message size on this destination"
+        },
+        "MaxProducersToAudit": {
+          "rw": true,
+          "type": "int",
+          "desc": "Maximum number of producers to audit"
+        },
+        "ExpiredCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages that have been expired."
+        },
+        "DuplicateFromStoreCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of duplicate messages that have been paged-in from the store."
+        },
+        "MinEnqueueTime": {
+          "rw": false,
+          "type": "long",
+          "desc": "The shortest time a message was held on this destination"
+        },
+        "MemoryLimit": {
+          "rw": true,
+          "type": "long",
+          "desc": "Memory limit, in bytes, used by undelivered messages before paging to temporary storage."
+        },
+        "MinMessageSize": {
+          "rw": false,
+          "type": "long",
+          "desc": "Min message size on this destination"
+        },
+        "DispatchCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages that has been delivered to consumers, including those not acknowledged"
+        },
+        "MaxEnqueueTime": {
+          "rw": false,
+          "type": "long",
+          "desc": "The longest time a message was held on this destination"
+        },
+        "DequeueCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages that has been acknowledged (and removed) from the destination."
+        },
+        "BlockedProducerWarningInterval": {
+          "rw": true,
+          "type": "long",
+          "desc": "Blocked Producer Warning Interval"
+        },
+        "ProducerCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of producers attached to this destination"
+        },
+        "MaxMessageSize": {
+          "rw": false,
+          "type": "long",
+          "desc": "Max message size on this destination"
+        },
+        "UseCache": {
+          "rw": true,
+          "type": "boolean",
+          "desc": "Caching is allowed"
+        },
+        "SlowConsumerStrategy": {
+          "rw": false,
+          "type": "javax.management.ObjectName",
+          "desc": "Optional slowConsumer handler MBean for this destination"
+        }
+      },
+      "class": "org.apache.activemq.broker.jmx.TopicView",
+      "desc": "Information on the management interface of the MBean"
+    },
+    "brokerName=localhost,destinationName=TestQueue,destinationType=Queue,type=Broker": {
+      "op": {
         "moveMessageTo": {
           "args": [
             {
@@ -95,6 +462,11 @@
           "args": [],
           "ret": "int",
           "desc": "Number of messages available to be paged in by the cursor."
+        },
+        "resume": {
+          "args": [],
+          "ret": "void",
+          "desc": "resume dispatch to consumers if paused"
         },
         "resetStatistics": {
           "args": [],
@@ -195,10 +567,15 @@
                 "name": "destinationName",
                 "type": "java.lang.String",
                 "desc": ""
+              },
+              {
+                "name": "maximumMessages",
+                "type": "int",
+                "desc": ""
               }
             ],
             "ret": "int",
-            "desc": "Moves messages based on an SQL-92 selecton on the message headers or XPATH on the body into the specified destination."
+            "desc": "Moves up to a specified number of messages based on an SQL-92 selecton on the message headers or XPATH on the body into the specified destination."
           },
           {
             "args": [
@@ -211,91 +588,10 @@
                 "name": "destinationName",
                 "type": "java.lang.String",
                 "desc": ""
-              },
-              {
-                "name": "maximumMessages",
-                "type": "int",
-                "desc": ""
               }
             ],
             "ret": "int",
-            "desc": "Moves up to a specified number of messages based on an SQL-92 selecton on the message headers or XPATH on the body into the specified destination."
-          }
-        ],
-        "sendTextMessage": [
-          {
-            "args": [
-              {
-                "name": "body",
-                "type": "java.lang.String",
-                "desc": ""
-              }
-            ],
-            "ret": "java.lang.String",
-            "desc": "Sends a TextMessage to the destination."
-          },
-          {
-            "args": [
-              {
-                "name": "headers",
-                "type": "java.util.Map",
-                "desc": ""
-              },
-              {
-                "name": "body",
-                "type": "java.lang.String",
-                "desc": ""
-              },
-              {
-                "name": "user",
-                "type": "java.lang.String",
-                "desc": ""
-              },
-              {
-                "name": "password",
-                "type": "java.lang.String",
-                "desc": ""
-              }
-            ],
-            "ret": "java.lang.String",
-            "desc": "Sends a TextMessage to a password-protected destination."
-          },
-          {
-            "args": [
-              {
-                "name": "headers",
-                "type": "java.util.Map",
-                "desc": ""
-              },
-              {
-                "name": "body",
-                "type": "java.lang.String",
-                "desc": ""
-              }
-            ],
-            "ret": "java.lang.String",
-            "desc": "Sends a TextMessage to the destination."
-          },
-          {
-            "args": [
-              {
-                "name": "body",
-                "type": "java.lang.String",
-                "desc": ""
-              },
-              {
-                "name": "user",
-                "type": "java.lang.String",
-                "desc": ""
-              },
-              {
-                "name": "password",
-                "type": "java.lang.String",
-                "desc": ""
-              }
-            ],
-            "ret": "java.lang.String",
-            "desc": "Sends a TextMessage to a password-protected destination."
+            "desc": "Moves messages based on an SQL-92 selecton on the message headers or XPATH on the body into the specified destination."
           }
         ],
         "browseMessages": [
@@ -316,23 +612,83 @@
             "desc": "A list of all messages in the destination. Not HTML friendly."
           }
         ],
-        "copyMatchingMessagesTo": [
+        "sendTextMessage": [
           {
             "args": [
               {
-                "name": "selector",
+                "name": "body",
                 "type": "java.lang.String",
                 "desc": ""
               },
               {
-                "name": "destinationName",
+                "name": "user",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "password",
                 "type": "java.lang.String",
                 "desc": ""
               }
             ],
-            "ret": "int",
-            "desc": "Copies messages based on an SQL-92 selecton on the message headers or XPATH on the body into the specified destination."
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to a password-protected destination."
           },
+          {
+            "args": [
+              {
+                "name": "headers",
+                "type": "java.util.Map",
+                "desc": ""
+              },
+              {
+                "name": "body",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "user",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "password",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to a password-protected destination."
+          },
+          {
+            "args": [
+              {
+                "name": "body",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to the destination."
+          },
+          {
+            "args": [
+              {
+                "name": "headers",
+                "type": "java.util.Map",
+                "desc": ""
+              },
+              {
+                "name": "body",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to the destination."
+          }
+        ],
+        "copyMatchingMessagesTo": [
           {
             "args": [
               {
@@ -353,6 +709,22 @@
             ],
             "ret": "int",
             "desc": "Copies up to a specified number of messages based on an SQL-92 selecton on the message headers or XPATH on the body into the specified destination."
+          },
+          {
+            "args": [
+              {
+                "name": "selector",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "destinationName",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "int",
+            "desc": "Copies messages based on an SQL-92 selecton on the message headers or XPATH on the body into the specified destination."
           }
         ],
         "doesCursorHaveSpace": {
@@ -499,15 +871,15 @@
           "type": "long",
           "desc": "Number of messages that have been dispatched to, but not acknowledged by, consumers."
         },
-        "SendDuplicateFromStoreToDLQ": {
-          "rw": false,
-          "type": "boolean",
-          "desc": "Config setting to send a duplicate from store message to the dead letter queue."
-        },
         "Subscriptions": {
           "rw": false,
           "type": "[Ljavax.management.ObjectName;",
           "desc": "Subscription MBeans matching this destination"
+        },
+        "SendDuplicateFromStoreToDLQ": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Config setting to send a duplicate from store message to the dead letter queue."
         },
         "CacheEnabled": {
           "rw": false,
@@ -698,201 +1070,6 @@
       "class": "org.apache.activemq.broker.jmx.QueueView",
       "desc": "Information on the management interface of the MBean"
     },
-    "brokerName=localhost,clientId=ID_eleven-53055-1747031336429-0_1,consumerId=ID_eleven-53055-1747031336429-1_1_-1_1,destinationName=ActiveMQ.Advisory.TempQueue_ActiveMQ.Advisory.TempTopic,destinationType=Topic,endpoint=Consumer,type=Broker": {
-      "op": {
-        "resetStatistics": {
-          "args": [],
-          "ret": "void",
-          "desc": "Resets statistics."
-        },
-        "isMatchingTopic": {
-          "args": [
-            {
-              "name": "p1",
-              "type": "java.lang.String",
-              "desc": ""
-            }
-          ],
-          "ret": "boolean",
-          "desc": "Returns true if the subscription (which may be using wildcards) matches the given topic name"
-        },
-        "isMatchingQueue": {
-          "args": [
-            {
-              "name": "p1",
-              "type": "java.lang.String",
-              "desc": ""
-            }
-          ],
-          "ret": "boolean",
-          "desc": "Returns true if the subscription (which may be using wildcards) matches the given queue name"
-        }
-      },
-      "attr": {
-        "Retroactive": {
-          "rw": false,
-          "type": "boolean",
-          "desc": "The subscriber is retroactive (tries to receive broadcasted topic messages sent prior to connecting)"
-        },
-        "Exclusive": {
-          "rw": false,
-          "type": "boolean",
-          "desc": "The subscriber is exclusive (no other subscribers may receive messages from the destination as long as this one is)"
-        },
-        "SlowConsumer": {
-          "rw": false,
-          "type": "boolean",
-          "desc": "Returns true if the subscription is slow"
-        },
-        "DispatchAsync": {
-          "rw": false,
-          "type": "boolean",
-          "desc": "Is the consumer configured for Async Dispatch"
-        },
-        "DestinationTemporary": {
-          "rw": false,
-          "type": "boolean",
-          "desc": "Subscription is on a temporary Queue/Topic"
-        },
-        "ConnectionId": {
-          "rw": false,
-          "type": "java.lang.String",
-          "desc": "ID of the Connection the Subscription is on."
-        },
-        "MaximumPendingMessageLimit": {
-          "rw": false,
-          "type": "int",
-          "desc": "The maximum number of pending messages allowed (in addition to the prefetch size)."
-        },
-        "SubscriptionId": {
-          "rw": false,
-          "type": "long",
-          "desc": "ID of the Subscription."
-        },
-        "Network": {
-          "rw": false,
-          "type": "boolean",
-          "desc": "Subscription was created by a demand-forwarding network bridge"
-        },
-        "DestinationName": {
-          "rw": false,
-          "type": "java.lang.String",
-          "desc": "The name of the destination the subscription is on."
-        },
-        "ClientId": {
-          "rw": false,
-          "type": "java.lang.String",
-          "desc": "JMS Client id of the Connection the Subscription is on."
-        },
-        "DestinationQueue": {
-          "rw": false,
-          "type": "boolean",
-          "desc": "Subscription is on a Queue"
-        },
-        "SessionId": {
-          "rw": false,
-          "type": "long",
-          "desc": "ID of the Session the Subscription is on."
-        },
-        "EnqueueCounter": {
-          "rw": false,
-          "type": "long",
-          "desc": "Number of messages that matched the subscription."
-        },
-        "Selector": {
-          "rw": true,
-          "type": "java.lang.String",
-          "desc": "The SQL-92 message header selector or XPATH body selector of the subscription."
-        },
-        "DestinationTopic": {
-          "rw": false,
-          "type": "boolean",
-          "desc": "Subscription is on a Topic"
-        },
-        "UserName": {
-          "rw": false,
-          "type": "java.lang.String",
-          "desc": "User Name used to authorize creation of this Subscription"
-        },
-        "Priority": {
-          "rw": false,
-          "type": "byte",
-          "desc": "The subscription priority"
-        },
-        "DispatchedQueueSize": {
-          "rw": false,
-          "type": "int",
-          "desc": "Number of messages dispatched awaiting acknowledgement."
-        },
-        "Connection": {
-          "rw": false,
-          "type": "javax.management.ObjectName",
-          "desc": "ObjectName of the Connection that created this Subscription"
-        },
-        "PendingQueueSize": {
-          "rw": false,
-          "type": "int",
-          "desc": "Number of messages pending delivery."
-        },
-        "MessageCountAwaitingAcknowledge": {
-          "rw": false,
-          "type": "int",
-          "desc": "Number of messages dispatched awaiting acknowledgement."
-        },
-        "SubscriptionName": {
-          "rw": false,
-          "type": "java.lang.String",
-          "desc": "The name of the subscription (durable subscriptions only)."
-        },
-        "PrefetchSize": {
-          "rw": false,
-          "type": "int",
-          "desc": "Number of messages to pre-fetch and dispatch to the client."
-        },
-        "MaximumPendingQueueSize": {
-          "rw": true,
-          "type": "int",
-          "desc": "Maximum number of messages that can be pending"
-        },
-        "Active": {
-          "rw": false,
-          "type": "boolean",
-          "desc": "Subscription is active (connected and receiving messages)."
-        },
-        "DiscardedCount": {
-          "rw": false,
-          "type": "int",
-          "desc": "Number of messages discared due to being a slow consumer"
-        },
-        "NoLocal": {
-          "rw": false,
-          "type": "boolean",
-          "desc": "The subscription ignores local messages."
-        },
-        "Durable": {
-          "rw": false,
-          "type": "boolean",
-          "desc": "The subscription is persistent."
-        },
-        "DequeueCounter": {
-          "rw": false,
-          "type": "long",
-          "desc": "Number of messages were sent to and acknowledge by the client."
-        },
-        "ConsumedCount": {
-          "rw": false,
-          "type": "long",
-          "desc": "Messages consumed"
-        },
-        "DispatchedCounter": {
-          "rw": false,
-          "type": "long",
-          "desc": "Number of messages that sent to the client."
-        }
-      },
-      "class": "org.apache.activemq.broker.jmx.TopicSubscriptionView",
-      "desc": "Information on the management interface of the MBean"
-    },
     "brokerName=localhost,service=Health,type=Broker": {
       "op": {
         "healthList": {
@@ -921,19 +1098,463 @@
       "class": "org.apache.activemq.broker.jmx.HealthView",
       "desc": "Information on the management interface of the MBean"
     },
+    "brokerName=localhost,destinationName=ActiveMQ.Advisory.Producer.Topic.boot-activemq-topic,destinationType=Topic,type=Broker": {
+      "op": {
+        "browseMessages": [
+          {
+            "args": [
+              {
+                "name": "p1",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.util.List",
+            "desc": "A list of all messages in the destination based on an SQL-92 selection on the message headers or XPATH on the body. Not HTML friendly."
+          },
+          {
+            "args": [],
+            "ret": "java.util.List",
+            "desc": "A list of all messages in the destination. Not HTML friendly."
+          }
+        ],
+        "sendTextMessage": [
+          {
+            "args": [
+              {
+                "name": "body",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "user",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "password",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to a password-protected destination."
+          },
+          {
+            "args": [
+              {
+                "name": "headers",
+                "type": "java.util.Map",
+                "desc": ""
+              },
+              {
+                "name": "body",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "user",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "password",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to a password-protected destination."
+          },
+          {
+            "args": [
+              {
+                "name": "body",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to the destination."
+          },
+          {
+            "args": [
+              {
+                "name": "headers",
+                "type": "java.util.Map",
+                "desc": ""
+              },
+              {
+                "name": "body",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to the destination."
+          }
+        ],
+        "resetStatistics": {
+          "args": [],
+          "ret": "void",
+          "desc": "Resets statistics."
+        },
+        "browseAsTable": [
+          {
+            "args": [],
+            "ret": "javax.management.openmbean.TabularData",
+            "desc": "A list of all messages in the destination. Not HTML friendly."
+          },
+          {
+            "args": [
+              {
+                "name": "selector",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "javax.management.openmbean.TabularData",
+            "desc": "A list of all messages in the destination based on an SQL-92 selection on the message headers or XPATH on the body. Not HTML friendly."
+          }
+        ],
+        "browse": [
+          {
+            "args": [],
+            "ret": "[Ljavax.management.openmbean.CompositeData;",
+            "desc": "An array of all messages in the destination. Not HTML friendly."
+          },
+          {
+            "args": [
+              {
+                "name": "selector",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "[Ljavax.management.openmbean.CompositeData;",
+            "desc": "An array of all messages in the destination based on an SQL-92 selection on the message headers or XPATH on the body. Not HTML friendly."
+          }
+        ],
+        "sendTextMessageWithProperties": [
+          {
+            "args": [
+              {
+                "name": "properties",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to the destination using comma separeted properties list. Example properties: body=value,header=value"
+          },
+          {
+            "args": [
+              {
+                "name": "properties",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "delimiter",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to the destination using properties separeted by arbetrary delimiter. Example properties: body=value;header=value"
+          }
+        ]
+      },
+      "attr": {
+        "ProducerFlowControl": {
+          "rw": true,
+          "type": "boolean",
+          "desc": "Flow control is enabled for producers"
+        },
+        "Options": {
+          "rw": false,
+          "type": "java.lang.String",
+          "desc": "Destination options as name value pairs in a URL queryString"
+        },
+        "AlwaysRetroactive": {
+          "rw": true,
+          "type": "boolean",
+          "desc": "Always treat consumers as retroactive"
+        },
+        "MemoryUsageByteCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Memory used by undelivered messages in bytes"
+        },
+        "AverageBlockedTime": {
+          "rw": false,
+          "type": "double",
+          "desc": "Average time (ms) messages have been blocked by flow control"
+        },
+        "MemoryPercentUsage": {
+          "rw": false,
+          "type": "int",
+          "desc": "The percentage of the memory limit used"
+        },
+        "InFlightCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages that have been dispatched to, but not acknowledged by, consumers."
+        },
+        "Subscriptions": {
+          "rw": false,
+          "type": "[Ljavax.management.ObjectName;",
+          "desc": "Subscription MBeans matching this destination"
+        },
+        "SendDuplicateFromStoreToDLQ": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Config setting to send a duplicate from store message to the dead letter queue."
+        },
+        "ForwardCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages that have been forwarded (to a networked broker) from the destination."
+        },
+        "DLQ": {
+          "rw": true,
+          "type": "boolean",
+          "desc": "Dead Letter Queue"
+        },
+        "StoreMessageSize": {
+          "rw": false,
+          "type": "long",
+          "desc": "The memory size of all messages in this destination's store."
+        },
+        "AverageEnqueueTime": {
+          "rw": false,
+          "type": "double",
+          "desc": "Average time a message was held on this destination."
+        },
+        "Name": {
+          "rw": false,
+          "type": "java.lang.String",
+          "desc": "Name of this destination."
+        },
+        "MaxAuditDepth": {
+          "rw": true,
+          "type": "int",
+          "desc": "Max audit depth"
+        },
+        "TotalBlockedTime": {
+          "rw": false,
+          "type": "long",
+          "desc": "Total time (ms) messages have been blocked by flow control"
+        },
+        "BlockedSends": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages blocked for flow control"
+        },
+        "QueueSize": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages on this destination, including any that have been dispatched but not acknowledged"
+        },
+        "MaxPageSize": {
+          "rw": true,
+          "type": "int",
+          "desc": "Maximum number of messages to be paged in"
+        },
+        "TempUsageLimit": {
+          "rw": true,
+          "type": "long",
+          "desc": "Temp usage limit, in bytes, assigned to this destination."
+        },
+        "PrioritizedMessages": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Prioritized messages is enabled"
+        },
+        "MemoryUsagePortion": {
+          "rw": true,
+          "type": "float",
+          "desc": "Portion of memory from the broker memory limit for this destination"
+        },
+        "EnqueueCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages that have been sent to the destination."
+        },
+        "TempUsagePercentUsage": {
+          "rw": false,
+          "type": "int",
+          "desc": "The percentage of the temp usage limit used"
+        },
+        "ConsumerCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of consumers subscribed to this destination."
+        },
+        "AverageMessageSize": {
+          "rw": false,
+          "type": "long",
+          "desc": "Average message size on this destination"
+        },
+        "MaxProducersToAudit": {
+          "rw": true,
+          "type": "int",
+          "desc": "Maximum number of producers to audit"
+        },
+        "ExpiredCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages that have been expired."
+        },
+        "DuplicateFromStoreCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of duplicate messages that have been paged-in from the store."
+        },
+        "MinEnqueueTime": {
+          "rw": false,
+          "type": "long",
+          "desc": "The shortest time a message was held on this destination"
+        },
+        "MemoryLimit": {
+          "rw": true,
+          "type": "long",
+          "desc": "Memory limit, in bytes, used by undelivered messages before paging to temporary storage."
+        },
+        "MinMessageSize": {
+          "rw": false,
+          "type": "long",
+          "desc": "Min message size on this destination"
+        },
+        "DispatchCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages that has been delivered to consumers, including those not acknowledged"
+        },
+        "MaxEnqueueTime": {
+          "rw": false,
+          "type": "long",
+          "desc": "The longest time a message was held on this destination"
+        },
+        "DequeueCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages that has been acknowledged (and removed) from the destination."
+        },
+        "BlockedProducerWarningInterval": {
+          "rw": true,
+          "type": "long",
+          "desc": "Blocked Producer Warning Interval"
+        },
+        "ProducerCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of producers attached to this destination"
+        },
+        "MaxMessageSize": {
+          "rw": false,
+          "type": "long",
+          "desc": "Max message size on this destination"
+        },
+        "UseCache": {
+          "rw": true,
+          "type": "boolean",
+          "desc": "Caching is allowed"
+        },
+        "SlowConsumerStrategy": {
+          "rw": false,
+          "type": "javax.management.ObjectName",
+          "desc": "Optional slowConsumer handler MBean for this destination"
+        }
+      },
+      "class": "org.apache.activemq.broker.jmx.TopicView",
+      "desc": "Information on the management interface of the MBean"
+    },
+    "brokerName=localhost,connectionName=tcp_//127.0.0.1_51987,connectionViewType=remoteAddress,connector=clientConnectors,connectorName=openwire,type=Broker": {
+      "op": {
+        "stop": {
+          "args": [],
+          "ret": "void",
+          "desc": "Operation exposed for management"
+        },
+        "resetStatistics": {
+          "args": [],
+          "ret": "void",
+          "desc": "Resets the statistics"
+        },
+        "start": {
+          "args": [],
+          "ret": "void",
+          "desc": "Operation exposed for management"
+        }
+      },
+      "attr": {
+        "RemoteAddress": {
+          "rw": false,
+          "type": "java.lang.String",
+          "desc": "source address for this connection"
+        },
+        "Producers": {
+          "rw": false,
+          "type": "[Ljavax.management.ObjectName;",
+          "desc": "The ObjectNames of all Producers created by this Connection"
+        },
+        "Active": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Connection is active (both connected and receiving messages)."
+        },
+        "UserName": {
+          "rw": false,
+          "type": "java.lang.String",
+          "desc": "User Name used to authorize creation of this connection"
+        },
+        "ActiveTransactionCount": {
+          "rw": false,
+          "type": "int",
+          "desc": "The number of active transactions established on this Connection."
+        },
+        "DispatchQueueSize": {
+          "rw": false,
+          "type": "int",
+          "desc": "The number of messages pending dispatch"
+        },
+        "Connected": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Connection is connected to the broker."
+        },
+        "Slow": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Connection is slow."
+        },
+        "Consumers": {
+          "rw": false,
+          "type": "[Ljavax.management.ObjectName;",
+          "desc": "The ObjectNames of all Consumers created by this Connection"
+        },
+        "ClientId": {
+          "rw": false,
+          "type": "java.lang.String",
+          "desc": "client id for this connection"
+        },
+        "OldestActiveTransactionDuration": {
+          "rw": false,
+          "type": "java.lang.Long",
+          "desc": "The age in ms of the oldest active transaction established on this Connection."
+        },
+        "Blocked": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Connection is blocked."
+        }
+      },
+      "class": "org.apache.activemq.broker.jmx.ConnectionView",
+      "desc": "Information on the management interface of the MBean"
+    },
     "brokerName=localhost,type=Broker": {
       "op": {
-        "addQueue": {
-          "args": [
-            {
-              "name": "name",
-              "type": "java.lang.String",
-              "desc": ""
-            }
-          ],
-          "ret": "void",
-          "desc": "Adds a Queue destination to the broker."
-        },
         "stopGracefully": {
           "args": [
             {
@@ -959,6 +1580,28 @@
           ],
           "ret": "void",
           "desc": "Poll for queues matching queueName are empty before stopping"
+        },
+        "addQueue": {
+          "args": [
+            {
+              "name": "name",
+              "type": "java.lang.String",
+              "desc": ""
+            }
+          ],
+          "ret": "void",
+          "desc": "Adds a Queue destination to the broker."
+        },
+        "getTransportConnectorByType": {
+          "args": [
+            {
+              "name": "p1",
+              "type": "java.lang.String",
+              "desc": ""
+            }
+          ],
+          "ret": "java.lang.String",
+          "desc": "The url of transport connector by it's type; e.g. tcp, stomp, ssl, etc."
         },
         "createDurableSubscriber": {
           "args": [
@@ -986,26 +1629,20 @@
           "ret": "javax.management.ObjectName",
           "desc": "Creates a new durable topic subscriber."
         },
-        "getTransportConnectorByType": {
-          "args": [
-            {
-              "name": "p1",
-              "type": "java.lang.String",
-              "desc": ""
-            }
-          ],
-          "ret": "java.lang.String",
-          "desc": "The url of transport connector by it's type; e.g. tcp, stomp, ssl, etc."
+        "resetStatistics": {
+          "args": [],
+          "ret": "void",
+          "desc": "Reset all broker statistics."
         },
         "restart": {
           "args": [],
           "ret": "void",
           "desc": "Restart the broker and all its components."
         },
-        "resetStatistics": {
+        "enableStatistics": {
           "args": [],
           "ret": "void",
-          "desc": "Reset all broker statistics."
+          "desc": "Enable broker statistics."
         },
         "destroyDurableSubscriber": {
           "args": [
@@ -1022,11 +1659,6 @@
           ],
           "ret": "void",
           "desc": "Destroys a durable subscriber."
-        },
-        "enableStatistics": {
-          "args": [],
-          "ret": "void",
-          "desc": "Enable broker statistics."
         },
         "disableStatistics": {
           "args": [],
@@ -1201,25 +1833,25 @@
           "type": "boolean",
           "desc": "Broker statistics enabled."
         },
-        "TempPercentUsage": {
+        "TemporaryQueueSubscribers": {
           "rw": false,
-          "type": "int",
-          "desc": "Percent of temp limit used."
+          "type": "[Ljavax.management.ObjectName;",
+          "desc": "Temporary Queue Subscribers."
         },
         "TotalConnectionsCount": {
           "rw": false,
           "type": "long",
           "desc": "Attribute exposed for management"
         },
+        "TempPercentUsage": {
+          "rw": false,
+          "type": "int",
+          "desc": "Percent of temp limit used."
+        },
         "TotalMessageCount": {
           "rw": false,
           "type": "long",
           "desc": "Number of unacknowledged messages on the broker."
-        },
-        "TemporaryQueueSubscribers": {
-          "rw": false,
-          "type": "[Ljavax.management.ObjectName;",
-          "desc": "Temporary Queue Subscribers."
         },
         "MemoryPercentUsage": {
           "rw": false,
@@ -1246,15 +1878,15 @@
           "type": "long",
           "desc": "Number of message producers active on destinations on the broker."
         },
-        "CurrentConnectionsCount": {
-          "rw": false,
-          "type": "int",
-          "desc": "Attribute exposed for management"
-        },
         "TopicProducers": {
           "rw": false,
           "type": "[Ljavax.management.ObjectName;",
           "desc": "Topic Producers."
+        },
+        "CurrentConnectionsCount": {
+          "rw": false,
+          "type": "int",
+          "desc": "Attribute exposed for management"
         },
         "QueueProducers": {
           "rw": false,
@@ -1276,35 +1908,35 @@
           "type": "long",
           "desc": "Uptime of the broker in milliseconds."
         },
-        "TemporaryQueueProducers": {
-          "rw": false,
-          "type": "[Ljavax.management.ObjectName;",
-          "desc": "Temporary Queue Producers."
-        },
         "TemporaryTopicProducers": {
           "rw": false,
           "type": "[Ljavax.management.ObjectName;",
           "desc": "Temporary Topic Producers."
+        },
+        "TemporaryQueueProducers": {
+          "rw": false,
+          "type": "[Ljavax.management.ObjectName;",
+          "desc": "Temporary Queue Producers."
         },
         "TotalDequeueCount": {
           "rw": false,
           "type": "long",
           "desc": "Number of messages that have been acknowledged or discarded on the broker."
         },
-        "JobSchedulerStorePercentUsage": {
+        "Topics": {
           "rw": false,
-          "type": "int",
-          "desc": "Percent of job store limit used."
+          "type": "[Ljavax.management.ObjectName;",
+          "desc": "Topics (broadcasted 'queues'); generally system information."
         },
         "DurableTopicSubscribers": {
           "rw": false,
           "type": "[Ljavax.management.ObjectName;",
           "desc": "Durable (persistent) topic subscribers"
         },
-        "Topics": {
+        "JobSchedulerStorePercentUsage": {
           "rw": false,
-          "type": "[Ljavax.management.ObjectName;",
-          "desc": "Topics (broadcasted 'queues'); generally system information."
+          "type": "int",
+          "desc": "Percent of job store limit used."
         },
         "Uptime": {
           "rw": false,
@@ -1316,15 +1948,15 @@
           "type": "[Ljavax.management.ObjectName;",
           "desc": "Queue Subscribers."
         },
-        "AverageMessageSize": {
-          "rw": false,
-          "type": "long",
-          "desc": "Average message size on this broker"
-        },
         "BrokerId": {
           "rw": false,
           "type": "java.lang.String",
           "desc": "The unique id of the broker."
+        },
+        "AverageMessageSize": {
+          "rw": false,
+          "type": "long",
+          "desc": "Average message size on this broker"
         },
         "DataDirectory": {
           "rw": false,
@@ -1341,15 +1973,15 @@
           "type": "[Ljavax.management.ObjectName;",
           "desc": "Topic Subscribers"
         },
-        "BrokerVersion": {
-          "rw": false,
-          "type": "java.lang.String",
-          "desc": "The version of the broker."
-        },
         "TemporaryQueues": {
           "rw": false,
           "type": "[Ljavax.management.ObjectName;",
           "desc": "Temporary Queues; generally temporary message response holders."
+        },
+        "BrokerVersion": {
+          "rw": false,
+          "type": "java.lang.String",
+          "desc": "The version of the broker."
         },
         "BrokerName": {
           "rw": false,
@@ -1371,15 +2003,15 @@
           "type": "boolean",
           "desc": "Slave broker."
         },
-        "TotalEnqueueCount": {
-          "rw": false,
-          "type": "long",
-          "desc": "Number of messages that have been sent to the broker."
-        },
         "DynamicDestinationProducers": {
           "rw": false,
           "type": "[Ljavax.management.ObjectName;",
           "desc": "Dynamic Destination Producers."
+        },
+        "TotalEnqueueCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages that have been sent to the broker."
         },
         "TempLimit": {
           "rw": true,
@@ -1401,6 +2033,11 @@
           "type": "long",
           "desc": "Disk limit, in bytes, used for scheduled messages before producers are blocked."
         },
+        "Queues": {
+          "rw": false,
+          "type": "[Ljavax.management.ObjectName;",
+          "desc": "Standard Queues containing AIE messages."
+        },
         "StorePercentUsage": {
           "rw": false,
           "type": "int",
@@ -1410,11 +2047,6 @@
           "rw": false,
           "type": "long",
           "desc": "Number of message consumers subscribed to destinations on the broker."
-        },
-        "Queues": {
-          "rw": false,
-          "type": "[Ljavax.management.ObjectName;",
-          "desc": "Standard Queues containing AIE messages."
         },
         "MaxMessageSize": {
           "rw": false,
@@ -1464,15 +2096,15 @@
           "type": "boolean",
           "desc": "Statistics gathering enabled"
         },
-        "UpdateClusterClientsOnRemove": {
-          "rw": false,
-          "type": "boolean",
-          "desc": "Update clients when a broker is removed from a network enabled."
-        },
         "RebalanceClusterClients": {
           "rw": false,
           "type": "boolean",
           "desc": "Rebalance clients across the broker cluster enabled"
+        },
+        "UpdateClusterClientsOnRemove": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Update clients when a broker is removed from a network enabled."
         },
         "UpdateClusterFilter": {
           "rw": false,
@@ -1495,82 +2127,6 @@
     },
     "brokerName=localhost,destinationName=ActiveMQ.Advisory.MasterBroker,destinationType=Topic,type=Broker": {
       "op": {
-        "sendTextMessage": [
-          {
-            "args": [
-              {
-                "name": "body",
-                "type": "java.lang.String",
-                "desc": ""
-              }
-            ],
-            "ret": "java.lang.String",
-            "desc": "Sends a TextMessage to the destination."
-          },
-          {
-            "args": [
-              {
-                "name": "headers",
-                "type": "java.util.Map",
-                "desc": ""
-              },
-              {
-                "name": "body",
-                "type": "java.lang.String",
-                "desc": ""
-              },
-              {
-                "name": "user",
-                "type": "java.lang.String",
-                "desc": ""
-              },
-              {
-                "name": "password",
-                "type": "java.lang.String",
-                "desc": ""
-              }
-            ],
-            "ret": "java.lang.String",
-            "desc": "Sends a TextMessage to a password-protected destination."
-          },
-          {
-            "args": [
-              {
-                "name": "headers",
-                "type": "java.util.Map",
-                "desc": ""
-              },
-              {
-                "name": "body",
-                "type": "java.lang.String",
-                "desc": ""
-              }
-            ],
-            "ret": "java.lang.String",
-            "desc": "Sends a TextMessage to the destination."
-          },
-          {
-            "args": [
-              {
-                "name": "body",
-                "type": "java.lang.String",
-                "desc": ""
-              },
-              {
-                "name": "user",
-                "type": "java.lang.String",
-                "desc": ""
-              },
-              {
-                "name": "password",
-                "type": "java.lang.String",
-                "desc": ""
-              }
-            ],
-            "ret": "java.lang.String",
-            "desc": "Sends a TextMessage to a password-protected destination."
-          }
-        ],
         "browseMessages": [
           {
             "args": [
@@ -1587,6 +2143,82 @@
             "args": [],
             "ret": "java.util.List",
             "desc": "A list of all messages in the destination. Not HTML friendly."
+          }
+        ],
+        "sendTextMessage": [
+          {
+            "args": [
+              {
+                "name": "body",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "user",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "password",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to a password-protected destination."
+          },
+          {
+            "args": [
+              {
+                "name": "headers",
+                "type": "java.util.Map",
+                "desc": ""
+              },
+              {
+                "name": "body",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "user",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "password",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to a password-protected destination."
+          },
+          {
+            "args": [
+              {
+                "name": "body",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to the destination."
+          },
+          {
+            "args": [
+              {
+                "name": "headers",
+                "type": "java.util.Map",
+                "desc": ""
+              },
+              {
+                "name": "body",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to the destination."
           }
         ],
         "resetStatistics": {
@@ -1696,15 +2328,15 @@
           "type": "long",
           "desc": "Number of messages that have been dispatched to, but not acknowledged by, consumers."
         },
-        "SendDuplicateFromStoreToDLQ": {
-          "rw": false,
-          "type": "boolean",
-          "desc": "Config setting to send a duplicate from store message to the dead letter queue."
-        },
         "Subscriptions": {
           "rw": false,
           "type": "[Ljavax.management.ObjectName;",
           "desc": "Subscription MBeans matching this destination"
+        },
+        "SendDuplicateFromStoreToDLQ": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Config setting to send a duplicate from store message to the dead letter queue."
         },
         "ForwardCount": {
           "rw": false,
@@ -1865,341 +2497,8 @@
       "class": "org.apache.activemq.broker.jmx.TopicView",
       "desc": "Information on the management interface of the MBean"
     },
-    "brokerName=localhost,instanceName=KahaDBPersistenceAdapter[E_\\ide\\apache-activemq-5.16.8\\bin\\win64\\..\\..\\data\\kahadb_Index_E_\\ide\\apache-activemq-5.16.8\\bin\\win64\\..\\..\\data\\kahadb],service=PersistenceAdapter,type=Broker": {
+    "brokerName=localhost,destinationName=boot-activemq-topic,destinationType=Topic,type=Broker": {
       "op": {
-        "resetStatistics": {
-          "args": [],
-          "ret": "java.lang.String",
-          "desc": "Resets statistics."
-        }
-      },
-      "attr": {
-        "Transactions": {
-          "rw": false,
-          "type": "java.lang.String",
-          "desc": "Inflight transactions."
-        },
-        "Size": {
-          "rw": false,
-          "type": "long",
-          "desc": "Current size."
-        },
-        "Data": {
-          "rw": false,
-          "type": "java.lang.String",
-          "desc": "Current data."
-        },
-        "Statistics": {
-          "rw": false,
-          "type": "java.lang.String",
-          "desc": "Statistics related to the PersistentAdapter."
-        },
-        "Name": {
-          "rw": false,
-          "type": "java.lang.String",
-          "desc": "Name of this persistence adapter."
-        }
-      },
-      "class": "org.apache.activemq.broker.jmx.PersistenceAdapterView",
-      "desc": "Information on the management interface of the MBean"
-    },
-    "brokerName=localhost,connector=clientConnectors,connectorName=ws,type=Broker": {
-      "op": {
-        "connectionCount": {
-          "args": [],
-          "ret": "int",
-          "desc": "Connection count"
-        },
-        "stop": {
-          "args": [],
-          "ret": "void",
-          "desc": "Operation exposed for management"
-        },
-        "resetStatistics": {
-          "args": [],
-          "ret": "void",
-          "desc": "Resets the statistics"
-        },
-        "enableStatistics": {
-          "args": [],
-          "ret": "void",
-          "desc": "Enables statistics gathering"
-        },
-        "disableStatistics": {
-          "args": [],
-          "ret": "void",
-          "desc": "Disables statistics gathering"
-        },
-        "start": {
-          "args": [],
-          "ret": "void",
-          "desc": "Operation exposed for management"
-        }
-      },
-      "attr": {
-        "StatisticsEnabled": {
-          "rw": false,
-          "type": "boolean",
-          "desc": "Statistics gathering enabled"
-        },
-        "UpdateClusterClientsOnRemove": {
-          "rw": false,
-          "type": "boolean",
-          "desc": "Update clients when a broker is removed from a network enabled."
-        },
-        "RebalanceClusterClients": {
-          "rw": false,
-          "type": "boolean",
-          "desc": "Rebalance clients across the broker cluster enabled"
-        },
-        "UpdateClusterFilter": {
-          "rw": false,
-          "type": "java.lang.String",
-          "desc": "Comma separated list of regex patterns to match broker names for cluster client updates."
-        },
-        "AllowLinkStealingEnabled": {
-          "rw": false,
-          "type": "boolean",
-          "desc": "Link Stealing enabled"
-        },
-        "UpdateClusterClients": {
-          "rw": false,
-          "type": "boolean",
-          "desc": "Update client URL's when brokers leave/join a custer enabled"
-        }
-      },
-      "class": "org.apache.activemq.broker.jmx.ConnectorView",
-      "desc": "Information on the management interface of the MBean"
-    },
-    "brokerName=localhost,connector=clientConnectors,connectorName=stomp,type=Broker": {
-      "op": {
-        "connectionCount": {
-          "args": [],
-          "ret": "int",
-          "desc": "Connection count"
-        },
-        "stop": {
-          "args": [],
-          "ret": "void",
-          "desc": "Operation exposed for management"
-        },
-        "resetStatistics": {
-          "args": [],
-          "ret": "void",
-          "desc": "Resets the statistics"
-        },
-        "enableStatistics": {
-          "args": [],
-          "ret": "void",
-          "desc": "Enables statistics gathering"
-        },
-        "disableStatistics": {
-          "args": [],
-          "ret": "void",
-          "desc": "Disables statistics gathering"
-        },
-        "start": {
-          "args": [],
-          "ret": "void",
-          "desc": "Operation exposed for management"
-        }
-      },
-      "attr": {
-        "StatisticsEnabled": {
-          "rw": false,
-          "type": "boolean",
-          "desc": "Statistics gathering enabled"
-        },
-        "UpdateClusterClientsOnRemove": {
-          "rw": false,
-          "type": "boolean",
-          "desc": "Update clients when a broker is removed from a network enabled."
-        },
-        "RebalanceClusterClients": {
-          "rw": false,
-          "type": "boolean",
-          "desc": "Rebalance clients across the broker cluster enabled"
-        },
-        "UpdateClusterFilter": {
-          "rw": false,
-          "type": "java.lang.String",
-          "desc": "Comma separated list of regex patterns to match broker names for cluster client updates."
-        },
-        "AllowLinkStealingEnabled": {
-          "rw": false,
-          "type": "boolean",
-          "desc": "Link Stealing enabled"
-        },
-        "UpdateClusterClients": {
-          "rw": false,
-          "type": "boolean",
-          "desc": "Update client URL's when brokers leave/join a custer enabled"
-        }
-      },
-      "class": "org.apache.activemq.broker.jmx.ConnectorView",
-      "desc": "Information on the management interface of the MBean"
-    },
-    "brokerName=localhost,connectionName=ID_eleven-53055-1747031336429-0_1,connectionViewType=clientId,connector=clientConnectors,connectorName=openwire,type=Broker": {
-      "op": {
-        "stop": {
-          "args": [],
-          "ret": "void",
-          "desc": "Operation exposed for management"
-        },
-        "resetStatistics": {
-          "args": [],
-          "ret": "void",
-          "desc": "Resets the statistics"
-        },
-        "start": {
-          "args": [],
-          "ret": "void",
-          "desc": "Operation exposed for management"
-        }
-      },
-      "attr": {
-        "Producers": {
-          "rw": false,
-          "type": "[Ljavax.management.ObjectName;",
-          "desc": "The ObjectNames of all Producers created by this Connection"
-        },
-        "RemoteAddress": {
-          "rw": false,
-          "type": "java.lang.String",
-          "desc": "source address for this connection"
-        },
-        "Active": {
-          "rw": false,
-          "type": "boolean",
-          "desc": "Connection is active (both connected and receiving messages)."
-        },
-        "UserName": {
-          "rw": false,
-          "type": "java.lang.String",
-          "desc": "User Name used to authorize creation of this connection"
-        },
-        "DispatchQueueSize": {
-          "rw": false,
-          "type": "int",
-          "desc": "The number of messages pending dispatch"
-        },
-        "ActiveTransactionCount": {
-          "rw": false,
-          "type": "int",
-          "desc": "The number of active transactions established on this Connection."
-        },
-        "Connected": {
-          "rw": false,
-          "type": "boolean",
-          "desc": "Connection is connected to the broker."
-        },
-        "Slow": {
-          "rw": false,
-          "type": "boolean",
-          "desc": "Connection is slow."
-        },
-        "Consumers": {
-          "rw": false,
-          "type": "[Ljavax.management.ObjectName;",
-          "desc": "The ObjectNames of all Consumers created by this Connection"
-        },
-        "ClientId": {
-          "rw": false,
-          "type": "java.lang.String",
-          "desc": "client id for this connection"
-        },
-        "OldestActiveTransactionDuration": {
-          "rw": false,
-          "type": "java.lang.Long",
-          "desc": "The age in ms of the oldest active transaction established on this Connection."
-        },
-        "Blocked": {
-          "rw": false,
-          "type": "boolean",
-          "desc": "Connection is blocked."
-        }
-      },
-      "class": "org.apache.activemq.broker.jmx.ConnectionView",
-      "desc": "Information on the management interface of the MBean"
-    },
-    "brokerName=localhost,destinationName=ActiveMQ.Advisory.Connection,destinationType=Topic,type=Broker": {
-      "op": {
-        "sendTextMessage": [
-          {
-            "args": [
-              {
-                "name": "body",
-                "type": "java.lang.String",
-                "desc": ""
-              }
-            ],
-            "ret": "java.lang.String",
-            "desc": "Sends a TextMessage to the destination."
-          },
-          {
-            "args": [
-              {
-                "name": "headers",
-                "type": "java.util.Map",
-                "desc": ""
-              },
-              {
-                "name": "body",
-                "type": "java.lang.String",
-                "desc": ""
-              },
-              {
-                "name": "user",
-                "type": "java.lang.String",
-                "desc": ""
-              },
-              {
-                "name": "password",
-                "type": "java.lang.String",
-                "desc": ""
-              }
-            ],
-            "ret": "java.lang.String",
-            "desc": "Sends a TextMessage to a password-protected destination."
-          },
-          {
-            "args": [
-              {
-                "name": "headers",
-                "type": "java.util.Map",
-                "desc": ""
-              },
-              {
-                "name": "body",
-                "type": "java.lang.String",
-                "desc": ""
-              }
-            ],
-            "ret": "java.lang.String",
-            "desc": "Sends a TextMessage to the destination."
-          },
-          {
-            "args": [
-              {
-                "name": "body",
-                "type": "java.lang.String",
-                "desc": ""
-              },
-              {
-                "name": "user",
-                "type": "java.lang.String",
-                "desc": ""
-              },
-              {
-                "name": "password",
-                "type": "java.lang.String",
-                "desc": ""
-              }
-            ],
-            "ret": "java.lang.String",
-            "desc": "Sends a TextMessage to a password-protected destination."
-          }
-        ],
         "browseMessages": [
           {
             "args": [
@@ -2216,6 +2515,82 @@
             "args": [],
             "ret": "java.util.List",
             "desc": "A list of all messages in the destination. Not HTML friendly."
+          }
+        ],
+        "sendTextMessage": [
+          {
+            "args": [
+              {
+                "name": "body",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "user",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "password",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to a password-protected destination."
+          },
+          {
+            "args": [
+              {
+                "name": "headers",
+                "type": "java.util.Map",
+                "desc": ""
+              },
+              {
+                "name": "body",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "user",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "password",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to a password-protected destination."
+          },
+          {
+            "args": [
+              {
+                "name": "body",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to the destination."
+          },
+          {
+            "args": [
+              {
+                "name": "headers",
+                "type": "java.util.Map",
+                "desc": ""
+              },
+              {
+                "name": "body",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to the destination."
           }
         ],
         "resetStatistics": {
@@ -2325,15 +2700,1469 @@
           "type": "long",
           "desc": "Number of messages that have been dispatched to, but not acknowledged by, consumers."
         },
+        "Subscriptions": {
+          "rw": false,
+          "type": "[Ljavax.management.ObjectName;",
+          "desc": "Subscription MBeans matching this destination"
+        },
         "SendDuplicateFromStoreToDLQ": {
           "rw": false,
           "type": "boolean",
           "desc": "Config setting to send a duplicate from store message to the dead letter queue."
         },
+        "ForwardCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages that have been forwarded (to a networked broker) from the destination."
+        },
+        "DLQ": {
+          "rw": true,
+          "type": "boolean",
+          "desc": "Dead Letter Queue"
+        },
+        "StoreMessageSize": {
+          "rw": false,
+          "type": "long",
+          "desc": "The memory size of all messages in this destination's store."
+        },
+        "AverageEnqueueTime": {
+          "rw": false,
+          "type": "double",
+          "desc": "Average time a message was held on this destination."
+        },
+        "Name": {
+          "rw": false,
+          "type": "java.lang.String",
+          "desc": "Name of this destination."
+        },
+        "MaxAuditDepth": {
+          "rw": true,
+          "type": "int",
+          "desc": "Max audit depth"
+        },
+        "TotalBlockedTime": {
+          "rw": false,
+          "type": "long",
+          "desc": "Total time (ms) messages have been blocked by flow control"
+        },
+        "BlockedSends": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages blocked for flow control"
+        },
+        "QueueSize": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages on this destination, including any that have been dispatched but not acknowledged"
+        },
+        "MaxPageSize": {
+          "rw": true,
+          "type": "int",
+          "desc": "Maximum number of messages to be paged in"
+        },
+        "TempUsageLimit": {
+          "rw": true,
+          "type": "long",
+          "desc": "Temp usage limit, in bytes, assigned to this destination."
+        },
+        "PrioritizedMessages": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Prioritized messages is enabled"
+        },
+        "MemoryUsagePortion": {
+          "rw": true,
+          "type": "float",
+          "desc": "Portion of memory from the broker memory limit for this destination"
+        },
+        "EnqueueCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages that have been sent to the destination."
+        },
+        "TempUsagePercentUsage": {
+          "rw": false,
+          "type": "int",
+          "desc": "The percentage of the temp usage limit used"
+        },
+        "ConsumerCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of consumers subscribed to this destination."
+        },
+        "AverageMessageSize": {
+          "rw": false,
+          "type": "long",
+          "desc": "Average message size on this destination"
+        },
+        "MaxProducersToAudit": {
+          "rw": true,
+          "type": "int",
+          "desc": "Maximum number of producers to audit"
+        },
+        "ExpiredCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages that have been expired."
+        },
+        "DuplicateFromStoreCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of duplicate messages that have been paged-in from the store."
+        },
+        "MinEnqueueTime": {
+          "rw": false,
+          "type": "long",
+          "desc": "The shortest time a message was held on this destination"
+        },
+        "MemoryLimit": {
+          "rw": true,
+          "type": "long",
+          "desc": "Memory limit, in bytes, used by undelivered messages before paging to temporary storage."
+        },
+        "MinMessageSize": {
+          "rw": false,
+          "type": "long",
+          "desc": "Min message size on this destination"
+        },
+        "DispatchCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages that has been delivered to consumers, including those not acknowledged"
+        },
+        "MaxEnqueueTime": {
+          "rw": false,
+          "type": "long",
+          "desc": "The longest time a message was held on this destination"
+        },
+        "DequeueCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages that has been acknowledged (and removed) from the destination."
+        },
+        "BlockedProducerWarningInterval": {
+          "rw": true,
+          "type": "long",
+          "desc": "Blocked Producer Warning Interval"
+        },
+        "ProducerCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of producers attached to this destination"
+        },
+        "MaxMessageSize": {
+          "rw": false,
+          "type": "long",
+          "desc": "Max message size on this destination"
+        },
+        "UseCache": {
+          "rw": true,
+          "type": "boolean",
+          "desc": "Caching is allowed"
+        },
+        "SlowConsumerStrategy": {
+          "rw": false,
+          "type": "javax.management.ObjectName",
+          "desc": "Optional slowConsumer handler MBean for this destination"
+        }
+      },
+      "class": "org.apache.activemq.broker.jmx.TopicView",
+      "desc": "Information on the management interface of the MBean"
+    },
+    "brokerName=localhost,connectionName=ID_eleven-51986-1747292087341-0_1,connectionViewType=clientId,connector=clientConnectors,connectorName=openwire,type=Broker": {
+      "op": {
+        "stop": {
+          "args": [],
+          "ret": "void",
+          "desc": "Operation exposed for management"
+        },
+        "resetStatistics": {
+          "args": [],
+          "ret": "void",
+          "desc": "Resets the statistics"
+        },
+        "start": {
+          "args": [],
+          "ret": "void",
+          "desc": "Operation exposed for management"
+        }
+      },
+      "attr": {
+        "RemoteAddress": {
+          "rw": false,
+          "type": "java.lang.String",
+          "desc": "source address for this connection"
+        },
+        "Producers": {
+          "rw": false,
+          "type": "[Ljavax.management.ObjectName;",
+          "desc": "The ObjectNames of all Producers created by this Connection"
+        },
+        "Active": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Connection is active (both connected and receiving messages)."
+        },
+        "UserName": {
+          "rw": false,
+          "type": "java.lang.String",
+          "desc": "User Name used to authorize creation of this connection"
+        },
+        "ActiveTransactionCount": {
+          "rw": false,
+          "type": "int",
+          "desc": "The number of active transactions established on this Connection."
+        },
+        "DispatchQueueSize": {
+          "rw": false,
+          "type": "int",
+          "desc": "The number of messages pending dispatch"
+        },
+        "Connected": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Connection is connected to the broker."
+        },
+        "Slow": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Connection is slow."
+        },
+        "Consumers": {
+          "rw": false,
+          "type": "[Ljavax.management.ObjectName;",
+          "desc": "The ObjectNames of all Consumers created by this Connection"
+        },
+        "ClientId": {
+          "rw": false,
+          "type": "java.lang.String",
+          "desc": "client id for this connection"
+        },
+        "OldestActiveTransactionDuration": {
+          "rw": false,
+          "type": "java.lang.Long",
+          "desc": "The age in ms of the oldest active transaction established on this Connection."
+        },
+        "Blocked": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Connection is blocked."
+        }
+      },
+      "class": "org.apache.activemq.broker.jmx.ConnectionView",
+      "desc": "Information on the management interface of the MBean"
+    },
+    "brokerName=localhost,instanceName=KahaDBPersistenceAdapter[E_\\ide\\apache-activemq-5.16.8\\bin\\win64\\..\\..\\data\\kahadb_Index_E_\\ide\\apache-activemq-5.16.8\\bin\\win64\\..\\..\\data\\kahadb],service=PersistenceAdapter,type=Broker": {
+      "op": {
+        "resetStatistics": {
+          "args": [],
+          "ret": "java.lang.String",
+          "desc": "Resets statistics."
+        }
+      },
+      "attr": {
+        "Transactions": {
+          "rw": false,
+          "type": "java.lang.String",
+          "desc": "Inflight transactions."
+        },
+        "Size": {
+          "rw": false,
+          "type": "long",
+          "desc": "Current size."
+        },
+        "Data": {
+          "rw": false,
+          "type": "java.lang.String",
+          "desc": "Current data."
+        },
+        "Statistics": {
+          "rw": false,
+          "type": "java.lang.String",
+          "desc": "Statistics related to the PersistentAdapter."
+        },
+        "Name": {
+          "rw": false,
+          "type": "java.lang.String",
+          "desc": "Name of this persistence adapter."
+        }
+      },
+      "class": "org.apache.activemq.broker.jmx.PersistenceAdapterView",
+      "desc": "Information on the management interface of the MBean"
+    },
+    "brokerName=localhost,destinationName=boot-activemq-queue,destinationType=Queue,type=Broker": {
+      "op": {
+        "moveMessageTo": {
+          "args": [
+            {
+              "name": "messageId",
+              "type": "java.lang.String",
+              "desc": ""
+            },
+            {
+              "name": "destinationName",
+              "type": "java.lang.String",
+              "desc": ""
+            }
+          ],
+          "ret": "boolean",
+          "desc": "Moves a message with the given JMS message ID into the specified destination."
+        },
+        "cursorSize": {
+          "args": [],
+          "ret": "int",
+          "desc": "Number of messages available to be paged in by the cursor."
+        },
+        "resume": {
+          "args": [],
+          "ret": "void",
+          "desc": "resume dispatch to consumers if paused"
+        },
+        "resetStatistics": {
+          "args": [],
+          "ret": "void",
+          "desc": "Resets statistics."
+        },
+        "getMessage": {
+          "args": [
+            {
+              "name": "messageId",
+              "type": "java.lang.String",
+              "desc": ""
+            }
+          ],
+          "ret": "javax.management.openmbean.CompositeData",
+          "desc": "View a message from the destination by JMS message ID."
+        },
+        "purge": {
+          "args": [],
+          "ret": "void",
+          "desc": "Removes all of the messages in the queue."
+        },
+        "removeMessageGroup": {
+          "args": [
+            {
+              "name": "groupName",
+              "type": "java.lang.String",
+              "desc": ""
+            }
+          ],
+          "ret": "void",
+          "desc": "remove a message group by its groupName"
+        },
+        "removeAllMessageGroups": {
+          "args": [],
+          "ret": "void",
+          "desc": "emove all the message groups - will rebalance all message groups across consumers"
+        },
+        "pause": {
+          "args": [],
+          "ret": "void",
+          "desc": "pause dispatch to consumers"
+        },
+        "removeMessage": {
+          "args": [
+            {
+              "name": "messageId",
+              "type": "java.lang.String",
+              "desc": ""
+            }
+          ],
+          "ret": "boolean",
+          "desc": "Remove a message from the destination by JMS message ID.  If the message has been dispatched, it cannot be deleted and false is returned."
+        },
+        "removeMatchingMessages": [
+          {
+            "args": [
+              {
+                "name": "selector",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "maximumMessages",
+                "type": "int",
+                "desc": ""
+              }
+            ],
+            "ret": "int",
+            "desc": "Removes up to a specified number of messages from the destination based on an SQL-92 selection on the message headers or XPATH on the body."
+          },
+          {
+            "args": [
+              {
+                "name": "selector",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "int",
+            "desc": "Removes messages from the destination based on an SQL-92 selection on the message headers or XPATH on the body."
+          }
+        ],
+        "doesCursorHaveMessagesBuffered": {
+          "args": [],
+          "ret": "boolean",
+          "desc": "Message cursor has buffered messages to deliver"
+        },
+        "moveMatchingMessagesTo": [
+          {
+            "args": [
+              {
+                "name": "selector",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "destinationName",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "maximumMessages",
+                "type": "int",
+                "desc": ""
+              }
+            ],
+            "ret": "int",
+            "desc": "Moves up to a specified number of messages based on an SQL-92 selecton on the message headers or XPATH on the body into the specified destination."
+          },
+          {
+            "args": [
+              {
+                "name": "selector",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "destinationName",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "int",
+            "desc": "Moves messages based on an SQL-92 selecton on the message headers or XPATH on the body into the specified destination."
+          }
+        ],
+        "browseMessages": [
+          {
+            "args": [
+              {
+                "name": "p1",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.util.List",
+            "desc": "A list of all messages in the destination based on an SQL-92 selection on the message headers or XPATH on the body. Not HTML friendly."
+          },
+          {
+            "args": [],
+            "ret": "java.util.List",
+            "desc": "A list of all messages in the destination. Not HTML friendly."
+          }
+        ],
+        "sendTextMessage": [
+          {
+            "args": [
+              {
+                "name": "body",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "user",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "password",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to a password-protected destination."
+          },
+          {
+            "args": [
+              {
+                "name": "headers",
+                "type": "java.util.Map",
+                "desc": ""
+              },
+              {
+                "name": "body",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "user",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "password",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to a password-protected destination."
+          },
+          {
+            "args": [
+              {
+                "name": "body",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to the destination."
+          },
+          {
+            "args": [
+              {
+                "name": "headers",
+                "type": "java.util.Map",
+                "desc": ""
+              },
+              {
+                "name": "body",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to the destination."
+          }
+        ],
+        "copyMatchingMessagesTo": [
+          {
+            "args": [
+              {
+                "name": "selector",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "destinationName",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "maximumMessages",
+                "type": "int",
+                "desc": ""
+              }
+            ],
+            "ret": "int",
+            "desc": "Copies up to a specified number of messages based on an SQL-92 selecton on the message headers or XPATH on the body into the specified destination."
+          },
+          {
+            "args": [
+              {
+                "name": "selector",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "destinationName",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "int",
+            "desc": "Copies messages based on an SQL-92 selecton on the message headers or XPATH on the body into the specified destination."
+          }
+        ],
+        "doesCursorHaveSpace": {
+          "args": [],
+          "ret": "boolean",
+          "desc": "Message cursor has memory space available"
+        },
+        "retryMessage": {
+          "args": [
+            {
+              "name": "messageId",
+              "type": "java.lang.String",
+              "desc": ""
+            }
+          ],
+          "ret": "boolean",
+          "desc": "Moves a message with the given JMS message back to its original destination"
+        },
+        "browseAsTable": [
+          {
+            "args": [],
+            "ret": "javax.management.openmbean.TabularData",
+            "desc": "A list of all messages in the destination. Not HTML friendly."
+          },
+          {
+            "args": [
+              {
+                "name": "selector",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "javax.management.openmbean.TabularData",
+            "desc": "A list of all messages in the destination based on an SQL-92 selection on the message headers or XPATH on the body. Not HTML friendly."
+          }
+        ],
+        "retryMessages": {
+          "args": [],
+          "ret": "int",
+          "desc": "Retries messages sent to the DLQ"
+        },
+        "copyMessageTo": {
+          "args": [
+            {
+              "name": "messageId",
+              "type": "java.lang.String",
+              "desc": ""
+            },
+            {
+              "name": "destinationName",
+              "type": "java.lang.String",
+              "desc": ""
+            }
+          ],
+          "ret": "boolean",
+          "desc": "Copies a message with the given JMS message ID into the specified destination."
+        },
+        "browse": [
+          {
+            "args": [],
+            "ret": "[Ljavax.management.openmbean.CompositeData;",
+            "desc": "An array of all messages in the destination. Not HTML friendly."
+          },
+          {
+            "args": [
+              {
+                "name": "selector",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "[Ljavax.management.openmbean.CompositeData;",
+            "desc": "An array of all messages in the destination based on an SQL-92 selection on the message headers or XPATH on the body. Not HTML friendly."
+          }
+        ],
+        "sendTextMessageWithProperties": [
+          {
+            "args": [
+              {
+                "name": "properties",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to the destination using comma separeted properties list. Example properties: body=value,header=value"
+          },
+          {
+            "args": [
+              {
+                "name": "properties",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "delimiter",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to the destination using properties separeted by arbetrary delimiter. Example properties: body=value;header=value"
+          }
+        ]
+      },
+      "attr": {
+        "ProducerFlowControl": {
+          "rw": true,
+          "type": "boolean",
+          "desc": "Flow control is enabled for producers"
+        },
+        "Options": {
+          "rw": false,
+          "type": "java.lang.String",
+          "desc": "Destination options as name value pairs in a URL queryString"
+        },
+        "AlwaysRetroactive": {
+          "rw": true,
+          "type": "boolean",
+          "desc": "Always treat consumers as retroactive"
+        },
+        "MemoryUsageByteCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Memory used by undelivered messages in bytes"
+        },
+        "AverageBlockedTime": {
+          "rw": false,
+          "type": "double",
+          "desc": "Average time (ms) messages have been blocked by flow control"
+        },
+        "MemoryPercentUsage": {
+          "rw": false,
+          "type": "int",
+          "desc": "The percentage of the memory limit used"
+        },
+        "CursorMemoryUsage": {
+          "rw": false,
+          "type": "long",
+          "desc": "Message cursor memory usage, in bytes."
+        },
+        "InFlightCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages that have been dispatched to, but not acknowledged by, consumers."
+        },
         "Subscriptions": {
           "rw": false,
           "type": "[Ljavax.management.ObjectName;",
           "desc": "Subscription MBeans matching this destination"
+        },
+        "SendDuplicateFromStoreToDLQ": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Config setting to send a duplicate from store message to the dead letter queue."
+        },
+        "CacheEnabled": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Caching is enabled"
+        },
+        "ForwardCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages that have been forwarded (to a networked broker) from the destination."
+        },
+        "DLQ": {
+          "rw": true,
+          "type": "boolean",
+          "desc": "Dead Letter Queue"
+        },
+        "StoreMessageSize": {
+          "rw": false,
+          "type": "long",
+          "desc": "The memory size of all messages in this destination's store."
+        },
+        "AverageEnqueueTime": {
+          "rw": false,
+          "type": "double",
+          "desc": "Average time a message was held on this destination."
+        },
+        "Name": {
+          "rw": false,
+          "type": "java.lang.String",
+          "desc": "Name of this destination."
+        },
+        "MaxAuditDepth": {
+          "rw": true,
+          "type": "int",
+          "desc": "Max audit depth"
+        },
+        "TotalBlockedTime": {
+          "rw": false,
+          "type": "long",
+          "desc": "Total time (ms) messages have been blocked by flow control"
+        },
+        "BlockedSends": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages blocked for flow control"
+        },
+        "QueueSize": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages on this destination, including any that have been dispatched but not acknowledged"
+        },
+        "MaxPageSize": {
+          "rw": true,
+          "type": "int",
+          "desc": "Maximum number of messages to be paged in"
+        },
+        "TempUsageLimit": {
+          "rw": true,
+          "type": "long",
+          "desc": "Temp usage limit, in bytes, assigned to this destination."
+        },
+        "PrioritizedMessages": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Prioritized messages is enabled"
+        },
+        "MemoryUsagePortion": {
+          "rw": true,
+          "type": "float",
+          "desc": "Portion of memory from the broker memory limit for this destination"
+        },
+        "Paused": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Dispatch to consumers is paused"
+        },
+        "EnqueueCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages that have been sent to the destination."
+        },
+        "MessageGroups": {
+          "rw": false,
+          "type": "java.util.Map",
+          "desc": "Map of groupNames and ConsumerIds"
+        },
+        "TempUsagePercentUsage": {
+          "rw": false,
+          "type": "int",
+          "desc": "The percentage of the temp usage limit used"
+        },
+        "ConsumerCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of consumers subscribed to this destination."
+        },
+        "AverageMessageSize": {
+          "rw": false,
+          "type": "long",
+          "desc": "Average message size on this destination"
+        },
+        "CursorFull": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Message cusor has reached its memory limit for paged in messages"
+        },
+        "MaxProducersToAudit": {
+          "rw": true,
+          "type": "int",
+          "desc": "Maximum number of producers to audit"
+        },
+        "ExpiredCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages that have been expired."
+        },
+        "CursorPercentUsage": {
+          "rw": false,
+          "type": "int",
+          "desc": "Percentage of memory limit used"
+        },
+        "DuplicateFromStoreCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of duplicate messages that have been paged-in from the store."
+        },
+        "MinEnqueueTime": {
+          "rw": false,
+          "type": "long",
+          "desc": "The shortest time a message was held on this destination"
+        },
+        "MemoryLimit": {
+          "rw": true,
+          "type": "long",
+          "desc": "Memory limit, in bytes, used by undelivered messages before paging to temporary storage."
+        },
+        "MinMessageSize": {
+          "rw": false,
+          "type": "long",
+          "desc": "Min message size on this destination"
+        },
+        "DispatchCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages that has been delivered to consumers, including those not acknowledged"
+        },
+        "MaxEnqueueTime": {
+          "rw": false,
+          "type": "long",
+          "desc": "The longest time a message was held on this destination"
+        },
+        "DequeueCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages that has been acknowledged (and removed) from the destination."
+        },
+        "BlockedProducerWarningInterval": {
+          "rw": true,
+          "type": "long",
+          "desc": "Blocked Producer Warning Interval"
+        },
+        "ProducerCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of producers attached to this destination"
+        },
+        "MessageGroupType": {
+          "rw": false,
+          "type": "java.lang.String",
+          "desc": "group  implementation (simple,bucket,cached)"
+        },
+        "MaxMessageSize": {
+          "rw": false,
+          "type": "long",
+          "desc": "Max message size on this destination"
+        },
+        "UseCache": {
+          "rw": true,
+          "type": "boolean",
+          "desc": "Caching is allowed"
+        },
+        "SlowConsumerStrategy": {
+          "rw": false,
+          "type": "javax.management.ObjectName",
+          "desc": "Optional slowConsumer handler MBean for this destination"
+        }
+      },
+      "class": "org.apache.activemq.broker.jmx.QueueView",
+      "desc": "Information on the management interface of the MBean"
+    },
+    "brokerName=localhost,clientId=ID_eleven-51986-1747292087341-0_1,consumerId=ID_eleven-51986-1747292087341-1_1_-1_1,destinationName=ActiveMQ.Advisory.TempQueue_ActiveMQ.Advisory.TempTopic,destinationType=Topic,endpoint=Consumer,type=Broker": {
+      "op": {
+        "resetStatistics": {
+          "args": [],
+          "ret": "void",
+          "desc": "Resets statistics."
+        },
+        "isMatchingTopic": {
+          "args": [
+            {
+              "name": "p1",
+              "type": "java.lang.String",
+              "desc": ""
+            }
+          ],
+          "ret": "boolean",
+          "desc": "Returns true if the subscription (which may be using wildcards) matches the given topic name"
+        },
+        "isMatchingQueue": {
+          "args": [
+            {
+              "name": "p1",
+              "type": "java.lang.String",
+              "desc": ""
+            }
+          ],
+          "ret": "boolean",
+          "desc": "Returns true if the subscription (which may be using wildcards) matches the given queue name"
+        }
+      },
+      "attr": {
+        "Retroactive": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "The subscriber is retroactive (tries to receive broadcasted topic messages sent prior to connecting)"
+        },
+        "Exclusive": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "The subscriber is exclusive (no other subscribers may receive messages from the destination as long as this one is)"
+        },
+        "SlowConsumer": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Returns true if the subscription is slow"
+        },
+        "DispatchAsync": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Is the consumer configured for Async Dispatch"
+        },
+        "DestinationTemporary": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Subscription is on a temporary Queue/Topic"
+        },
+        "MaximumPendingMessageLimit": {
+          "rw": false,
+          "type": "int",
+          "desc": "The maximum number of pending messages allowed (in addition to the prefetch size)."
+        },
+        "ConnectionId": {
+          "rw": false,
+          "type": "java.lang.String",
+          "desc": "ID of the Connection the Subscription is on."
+        },
+        "SubscriptionId": {
+          "rw": false,
+          "type": "long",
+          "desc": "ID of the Subscription."
+        },
+        "Network": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Subscription was created by a demand-forwarding network bridge"
+        },
+        "DestinationName": {
+          "rw": false,
+          "type": "java.lang.String",
+          "desc": "The name of the destination the subscription is on."
+        },
+        "ClientId": {
+          "rw": false,
+          "type": "java.lang.String",
+          "desc": "JMS Client id of the Connection the Subscription is on."
+        },
+        "DestinationQueue": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Subscription is on a Queue"
+        },
+        "SessionId": {
+          "rw": false,
+          "type": "long",
+          "desc": "ID of the Session the Subscription is on."
+        },
+        "EnqueueCounter": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages that matched the subscription."
+        },
+        "Selector": {
+          "rw": true,
+          "type": "java.lang.String",
+          "desc": "The SQL-92 message header selector or XPATH body selector of the subscription."
+        },
+        "DestinationTopic": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Subscription is on a Topic"
+        },
+        "UserName": {
+          "rw": false,
+          "type": "java.lang.String",
+          "desc": "User Name used to authorize creation of this Subscription"
+        },
+        "DispatchedQueueSize": {
+          "rw": false,
+          "type": "int",
+          "desc": "Number of messages dispatched awaiting acknowledgement."
+        },
+        "Priority": {
+          "rw": false,
+          "type": "byte",
+          "desc": "The subscription priority"
+        },
+        "PendingQueueSize": {
+          "rw": false,
+          "type": "int",
+          "desc": "Number of messages pending delivery."
+        },
+        "Connection": {
+          "rw": false,
+          "type": "javax.management.ObjectName",
+          "desc": "ObjectName of the Connection that created this Subscription"
+        },
+        "MessageCountAwaitingAcknowledge": {
+          "rw": false,
+          "type": "int",
+          "desc": "Number of messages dispatched awaiting acknowledgement."
+        },
+        "SubscriptionName": {
+          "rw": false,
+          "type": "java.lang.String",
+          "desc": "The name of the subscription (durable subscriptions only)."
+        },
+        "PrefetchSize": {
+          "rw": false,
+          "type": "int",
+          "desc": "Number of messages to pre-fetch and dispatch to the client."
+        },
+        "MaximumPendingQueueSize": {
+          "rw": true,
+          "type": "int",
+          "desc": "Maximum number of messages that can be pending"
+        },
+        "Active": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Subscription is active (connected and receiving messages)."
+        },
+        "DiscardedCount": {
+          "rw": false,
+          "type": "int",
+          "desc": "Number of messages discared due to being a slow consumer"
+        },
+        "NoLocal": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "The subscription ignores local messages."
+        },
+        "Durable": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "The subscription is persistent."
+        },
+        "DequeueCounter": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages were sent to and acknowledge by the client."
+        },
+        "ConsumedCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Messages consumed"
+        },
+        "DispatchedCounter": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages that sent to the client."
+        }
+      },
+      "class": "org.apache.activemq.broker.jmx.TopicSubscriptionView",
+      "desc": "Information on the management interface of the MBean"
+    },
+    "brokerName=localhost,connector=clientConnectors,connectorName=ws,type=Broker": {
+      "op": {
+        "connectionCount": {
+          "args": [],
+          "ret": "int",
+          "desc": "Connection count"
+        },
+        "stop": {
+          "args": [],
+          "ret": "void",
+          "desc": "Operation exposed for management"
+        },
+        "resetStatistics": {
+          "args": [],
+          "ret": "void",
+          "desc": "Resets the statistics"
+        },
+        "enableStatistics": {
+          "args": [],
+          "ret": "void",
+          "desc": "Enables statistics gathering"
+        },
+        "disableStatistics": {
+          "args": [],
+          "ret": "void",
+          "desc": "Disables statistics gathering"
+        },
+        "start": {
+          "args": [],
+          "ret": "void",
+          "desc": "Operation exposed for management"
+        }
+      },
+      "attr": {
+        "StatisticsEnabled": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Statistics gathering enabled"
+        },
+        "RebalanceClusterClients": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Rebalance clients across the broker cluster enabled"
+        },
+        "UpdateClusterClientsOnRemove": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Update clients when a broker is removed from a network enabled."
+        },
+        "UpdateClusterFilter": {
+          "rw": false,
+          "type": "java.lang.String",
+          "desc": "Comma separated list of regex patterns to match broker names for cluster client updates."
+        },
+        "AllowLinkStealingEnabled": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Link Stealing enabled"
+        },
+        "UpdateClusterClients": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Update client URL's when brokers leave/join a custer enabled"
+        }
+      },
+      "class": "org.apache.activemq.broker.jmx.ConnectorView",
+      "desc": "Information on the management interface of the MBean"
+    },
+    "brokerName=localhost,connector=clientConnectors,connectorName=stomp,type=Broker": {
+      "op": {
+        "connectionCount": {
+          "args": [],
+          "ret": "int",
+          "desc": "Connection count"
+        },
+        "stop": {
+          "args": [],
+          "ret": "void",
+          "desc": "Operation exposed for management"
+        },
+        "resetStatistics": {
+          "args": [],
+          "ret": "void",
+          "desc": "Resets the statistics"
+        },
+        "enableStatistics": {
+          "args": [],
+          "ret": "void",
+          "desc": "Enables statistics gathering"
+        },
+        "disableStatistics": {
+          "args": [],
+          "ret": "void",
+          "desc": "Disables statistics gathering"
+        },
+        "start": {
+          "args": [],
+          "ret": "void",
+          "desc": "Operation exposed for management"
+        }
+      },
+      "attr": {
+        "StatisticsEnabled": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Statistics gathering enabled"
+        },
+        "RebalanceClusterClients": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Rebalance clients across the broker cluster enabled"
+        },
+        "UpdateClusterClientsOnRemove": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Update clients when a broker is removed from a network enabled."
+        },
+        "UpdateClusterFilter": {
+          "rw": false,
+          "type": "java.lang.String",
+          "desc": "Comma separated list of regex patterns to match broker names for cluster client updates."
+        },
+        "AllowLinkStealingEnabled": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Link Stealing enabled"
+        },
+        "UpdateClusterClients": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Update client URL's when brokers leave/join a custer enabled"
+        }
+      },
+      "class": "org.apache.activemq.broker.jmx.ConnectorView",
+      "desc": "Information on the management interface of the MBean"
+    },
+    "brokerName=localhost,destinationName=ActiveMQ.Advisory.Connection,destinationType=Topic,type=Broker": {
+      "op": {
+        "browseMessages": [
+          {
+            "args": [
+              {
+                "name": "p1",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.util.List",
+            "desc": "A list of all messages in the destination based on an SQL-92 selection on the message headers or XPATH on the body. Not HTML friendly."
+          },
+          {
+            "args": [],
+            "ret": "java.util.List",
+            "desc": "A list of all messages in the destination. Not HTML friendly."
+          }
+        ],
+        "sendTextMessage": [
+          {
+            "args": [
+              {
+                "name": "body",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "user",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "password",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to a password-protected destination."
+          },
+          {
+            "args": [
+              {
+                "name": "headers",
+                "type": "java.util.Map",
+                "desc": ""
+              },
+              {
+                "name": "body",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "user",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "password",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to a password-protected destination."
+          },
+          {
+            "args": [
+              {
+                "name": "body",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to the destination."
+          },
+          {
+            "args": [
+              {
+                "name": "headers",
+                "type": "java.util.Map",
+                "desc": ""
+              },
+              {
+                "name": "body",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to the destination."
+          }
+        ],
+        "resetStatistics": {
+          "args": [],
+          "ret": "void",
+          "desc": "Resets statistics."
+        },
+        "browseAsTable": [
+          {
+            "args": [],
+            "ret": "javax.management.openmbean.TabularData",
+            "desc": "A list of all messages in the destination. Not HTML friendly."
+          },
+          {
+            "args": [
+              {
+                "name": "selector",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "javax.management.openmbean.TabularData",
+            "desc": "A list of all messages in the destination based on an SQL-92 selection on the message headers or XPATH on the body. Not HTML friendly."
+          }
+        ],
+        "browse": [
+          {
+            "args": [],
+            "ret": "[Ljavax.management.openmbean.CompositeData;",
+            "desc": "An array of all messages in the destination. Not HTML friendly."
+          },
+          {
+            "args": [
+              {
+                "name": "selector",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "[Ljavax.management.openmbean.CompositeData;",
+            "desc": "An array of all messages in the destination based on an SQL-92 selection on the message headers or XPATH on the body. Not HTML friendly."
+          }
+        ],
+        "sendTextMessageWithProperties": [
+          {
+            "args": [
+              {
+                "name": "properties",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to the destination using comma separeted properties list. Example properties: body=value,header=value"
+          },
+          {
+            "args": [
+              {
+                "name": "properties",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "delimiter",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to the destination using properties separeted by arbetrary delimiter. Example properties: body=value;header=value"
+          }
+        ]
+      },
+      "attr": {
+        "ProducerFlowControl": {
+          "rw": true,
+          "type": "boolean",
+          "desc": "Flow control is enabled for producers"
+        },
+        "Options": {
+          "rw": false,
+          "type": "java.lang.String",
+          "desc": "Destination options as name value pairs in a URL queryString"
+        },
+        "AlwaysRetroactive": {
+          "rw": true,
+          "type": "boolean",
+          "desc": "Always treat consumers as retroactive"
+        },
+        "MemoryUsageByteCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Memory used by undelivered messages in bytes"
+        },
+        "AverageBlockedTime": {
+          "rw": false,
+          "type": "double",
+          "desc": "Average time (ms) messages have been blocked by flow control"
+        },
+        "MemoryPercentUsage": {
+          "rw": false,
+          "type": "int",
+          "desc": "The percentage of the memory limit used"
+        },
+        "InFlightCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages that have been dispatched to, but not acknowledged by, consumers."
+        },
+        "Subscriptions": {
+          "rw": false,
+          "type": "[Ljavax.management.ObjectName;",
+          "desc": "Subscription MBeans matching this destination"
+        },
+        "SendDuplicateFromStoreToDLQ": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Config setting to send a duplicate from store message to the dead letter queue."
         },
         "ForwardCount": {
           "rw": false,
@@ -2544,84 +4373,249 @@
       "class": "org.apache.activemq.broker.jmx.Log4JConfigView",
       "desc": "Information on the management interface of the MBean"
     },
-    "brokerName=localhost,destinationName=ActiveMQ.Advisory.Queue,destinationType=Topic,type=Broker": {
+    "brokerName=localhost,clientId=,consumerId=Durable(_TestSub),destinationName=TestTopic,destinationType=Topic,endpoint=Consumer,type=Broker": {
       "op": {
-        "sendTextMessage": [
-          {
-            "args": [
-              {
-                "name": "body",
-                "type": "java.lang.String",
-                "desc": ""
-              }
-            ],
-            "ret": "java.lang.String",
-            "desc": "Sends a TextMessage to the destination."
-          },
-          {
-            "args": [
-              {
-                "name": "headers",
-                "type": "java.util.Map",
-                "desc": ""
-              },
-              {
-                "name": "body",
-                "type": "java.lang.String",
-                "desc": ""
-              },
-              {
-                "name": "user",
-                "type": "java.lang.String",
-                "desc": ""
-              },
-              {
-                "name": "password",
-                "type": "java.lang.String",
-                "desc": ""
-              }
-            ],
-            "ret": "java.lang.String",
-            "desc": "Sends a TextMessage to a password-protected destination."
-          },
-          {
-            "args": [
-              {
-                "name": "headers",
-                "type": "java.util.Map",
-                "desc": ""
-              },
-              {
-                "name": "body",
-                "type": "java.lang.String",
-                "desc": ""
-              }
-            ],
-            "ret": "java.lang.String",
-            "desc": "Sends a TextMessage to the destination."
-          },
-          {
-            "args": [
-              {
-                "name": "body",
-                "type": "java.lang.String",
-                "desc": ""
-              },
-              {
-                "name": "user",
-                "type": "java.lang.String",
-                "desc": ""
-              },
-              {
-                "name": "password",
-                "type": "java.lang.String",
-                "desc": ""
-              }
-            ],
-            "ret": "java.lang.String",
-            "desc": "Sends a TextMessage to a password-protected destination."
-          }
-        ],
+        "cursorSize": {
+          "args": [],
+          "ret": "int",
+          "desc": "Operation exposed for management"
+        },
+        "doesCursorHaveMessagesBuffered": {
+          "args": [],
+          "ret": "boolean",
+          "desc": "Operation exposed for management"
+        },
+        "resetStatistics": {
+          "args": [],
+          "ret": "void",
+          "desc": "Operation exposed for management"
+        },
+        "isMatchingTopic": {
+          "args": [
+            {
+              "name": "p1",
+              "type": "java.lang.String",
+              "desc": ""
+            }
+          ],
+          "ret": "boolean",
+          "desc": "Operation exposed for management"
+        },
+        "browseAsTable": {
+          "args": [],
+          "ret": "javax.management.openmbean.TabularData",
+          "desc": "Operation exposed for management"
+        },
+        "doesCursorHaveSpace": {
+          "args": [],
+          "ret": "boolean",
+          "desc": "Operation exposed for management"
+        },
+        "destroy": {
+          "args": [],
+          "ret": "void",
+          "desc": "Operation exposed for management"
+        },
+        "browse": {
+          "args": [],
+          "ret": "[Ljavax.management.openmbean.CompositeData;",
+          "desc": "Operation exposed for management"
+        },
+        "removeMessage": {
+          "args": [
+            {
+              "name": "p1",
+              "type": "java.lang.String",
+              "desc": ""
+            }
+          ],
+          "ret": "void",
+          "desc": "Operation exposed for management"
+        },
+        "isMatchingQueue": {
+          "args": [
+            {
+              "name": "p1",
+              "type": "java.lang.String",
+              "desc": ""
+            }
+          ],
+          "ret": "boolean",
+          "desc": "Operation exposed for management"
+        }
+      },
+      "attr": {
+        "Retroactive": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Attribute exposed for management"
+        },
+        "CursorMemoryUsage": {
+          "rw": false,
+          "type": "long",
+          "desc": "Attribute exposed for management"
+        },
+        "Exclusive": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Attribute exposed for management"
+        },
+        "SlowConsumer": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Attribute exposed for management"
+        },
+        "DispatchAsync": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Attribute exposed for management"
+        },
+        "DestinationTemporary": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Attribute exposed for management"
+        },
+        "MaximumPendingMessageLimit": {
+          "rw": false,
+          "type": "int",
+          "desc": "Attribute exposed for management"
+        },
+        "ConnectionId": {
+          "rw": false,
+          "type": "java.lang.String",
+          "desc": "Attribute exposed for management"
+        },
+        "SubscriptionId": {
+          "rw": false,
+          "type": "long",
+          "desc": "Attribute exposed for management"
+        },
+        "Network": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Attribute exposed for management"
+        },
+        "DestinationName": {
+          "rw": false,
+          "type": "java.lang.String",
+          "desc": "Attribute exposed for management"
+        },
+        "ClientId": {
+          "rw": false,
+          "type": "java.lang.String",
+          "desc": "Attribute exposed for management"
+        },
+        "DestinationQueue": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Attribute exposed for management"
+        },
+        "SessionId": {
+          "rw": false,
+          "type": "long",
+          "desc": "Attribute exposed for management"
+        },
+        "EnqueueCounter": {
+          "rw": false,
+          "type": "long",
+          "desc": "Attribute exposed for management"
+        },
+        "Selector": {
+          "rw": true,
+          "type": "java.lang.String",
+          "desc": "Attribute exposed for management"
+        },
+        "DestinationTopic": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Attribute exposed for management"
+        },
+        "UserName": {
+          "rw": false,
+          "type": "java.lang.String",
+          "desc": "Attribute exposed for management"
+        },
+        "CursorFull": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Attribute exposed for management"
+        },
+        "DispatchedQueueSize": {
+          "rw": false,
+          "type": "int",
+          "desc": "Attribute exposed for management"
+        },
+        "Priority": {
+          "rw": false,
+          "type": "byte",
+          "desc": "Attribute exposed for management"
+        },
+        "PendingQueueSize": {
+          "rw": false,
+          "type": "int",
+          "desc": "Attribute exposed for management"
+        },
+        "Connection": {
+          "rw": false,
+          "type": "javax.management.ObjectName",
+          "desc": "Attribute exposed for management"
+        },
+        "MessageCountAwaitingAcknowledge": {
+          "rw": false,
+          "type": "int",
+          "desc": "Attribute exposed for management"
+        },
+        "SubscriptionName": {
+          "rw": false,
+          "type": "java.lang.String",
+          "desc": "Attribute exposed for management"
+        },
+        "PrefetchSize": {
+          "rw": false,
+          "type": "int",
+          "desc": "Attribute exposed for management"
+        },
+        "CursorPercentUsage": {
+          "rw": false,
+          "type": "int",
+          "desc": "Attribute exposed for management"
+        },
+        "Active": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Attribute exposed for management"
+        },
+        "NoLocal": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Attribute exposed for management"
+        },
+        "Durable": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Attribute exposed for management"
+        },
+        "DequeueCounter": {
+          "rw": false,
+          "type": "long",
+          "desc": "Attribute exposed for management"
+        },
+        "ConsumedCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Attribute exposed for management"
+        },
+        "DispatchedCounter": {
+          "rw": false,
+          "type": "long",
+          "desc": "Attribute exposed for management"
+        }
+      },
+      "class": "org.apache.activemq.broker.jmx.InactiveDurableSubscriptionView",
+      "desc": "Information on the management interface of the MBean"
+    },
+    "brokerName=localhost,destinationName=TestTopic,destinationType=Topic,type=Broker": {
+      "op": {
         "browseMessages": [
           {
             "args": [
@@ -2638,6 +4632,82 @@
             "args": [],
             "ret": "java.util.List",
             "desc": "A list of all messages in the destination. Not HTML friendly."
+          }
+        ],
+        "sendTextMessage": [
+          {
+            "args": [
+              {
+                "name": "body",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "user",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "password",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to a password-protected destination."
+          },
+          {
+            "args": [
+              {
+                "name": "headers",
+                "type": "java.util.Map",
+                "desc": ""
+              },
+              {
+                "name": "body",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "user",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "password",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to a password-protected destination."
+          },
+          {
+            "args": [
+              {
+                "name": "body",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to the destination."
+          },
+          {
+            "args": [
+              {
+                "name": "headers",
+                "type": "java.util.Map",
+                "desc": ""
+              },
+              {
+                "name": "body",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to the destination."
           }
         ],
         "resetStatistics": {
@@ -2747,15 +4817,15 @@
           "type": "long",
           "desc": "Number of messages that have been dispatched to, but not acknowledged by, consumers."
         },
-        "SendDuplicateFromStoreToDLQ": {
-          "rw": false,
-          "type": "boolean",
-          "desc": "Config setting to send a duplicate from store message to the dead letter queue."
-        },
         "Subscriptions": {
           "rw": false,
           "type": "[Ljavax.management.ObjectName;",
           "desc": "Subscription MBeans matching this destination"
+        },
+        "SendDuplicateFromStoreToDLQ": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Config setting to send a duplicate from store message to the dead letter queue."
         },
         "ForwardCount": {
           "rw": false,
@@ -2916,87 +4986,748 @@
       "class": "org.apache.activemq.broker.jmx.TopicView",
       "desc": "Information on the management interface of the MBean"
     },
-    "brokerName=localhost,connectionName=tcp_//127.0.0.1_53056,connectionViewType=remoteAddress,connector=clientConnectors,connectorName=openwire,type=Broker": {
+    "brokerName=localhost,destinationName=ActiveMQ.Advisory.Topic,destinationType=Topic,type=Broker": {
       "op": {
-        "stop": {
-          "args": [],
-          "ret": "void",
-          "desc": "Operation exposed for management"
-        },
+        "browseMessages": [
+          {
+            "args": [
+              {
+                "name": "p1",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.util.List",
+            "desc": "A list of all messages in the destination based on an SQL-92 selection on the message headers or XPATH on the body. Not HTML friendly."
+          },
+          {
+            "args": [],
+            "ret": "java.util.List",
+            "desc": "A list of all messages in the destination. Not HTML friendly."
+          }
+        ],
+        "sendTextMessage": [
+          {
+            "args": [
+              {
+                "name": "body",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "user",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "password",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to a password-protected destination."
+          },
+          {
+            "args": [
+              {
+                "name": "headers",
+                "type": "java.util.Map",
+                "desc": ""
+              },
+              {
+                "name": "body",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "user",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "password",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to a password-protected destination."
+          },
+          {
+            "args": [
+              {
+                "name": "body",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to the destination."
+          },
+          {
+            "args": [
+              {
+                "name": "headers",
+                "type": "java.util.Map",
+                "desc": ""
+              },
+              {
+                "name": "body",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to the destination."
+          }
+        ],
         "resetStatistics": {
           "args": [],
           "ret": "void",
-          "desc": "Resets the statistics"
+          "desc": "Resets statistics."
         },
-        "start": {
-          "args": [],
-          "ret": "void",
-          "desc": "Operation exposed for management"
-        }
+        "browseAsTable": [
+          {
+            "args": [],
+            "ret": "javax.management.openmbean.TabularData",
+            "desc": "A list of all messages in the destination. Not HTML friendly."
+          },
+          {
+            "args": [
+              {
+                "name": "selector",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "javax.management.openmbean.TabularData",
+            "desc": "A list of all messages in the destination based on an SQL-92 selection on the message headers or XPATH on the body. Not HTML friendly."
+          }
+        ],
+        "browse": [
+          {
+            "args": [],
+            "ret": "[Ljavax.management.openmbean.CompositeData;",
+            "desc": "An array of all messages in the destination. Not HTML friendly."
+          },
+          {
+            "args": [
+              {
+                "name": "selector",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "[Ljavax.management.openmbean.CompositeData;",
+            "desc": "An array of all messages in the destination based on an SQL-92 selection on the message headers or XPATH on the body. Not HTML friendly."
+          }
+        ],
+        "sendTextMessageWithProperties": [
+          {
+            "args": [
+              {
+                "name": "properties",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to the destination using comma separeted properties list. Example properties: body=value,header=value"
+          },
+          {
+            "args": [
+              {
+                "name": "properties",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "delimiter",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to the destination using properties separeted by arbetrary delimiter. Example properties: body=value;header=value"
+          }
+        ]
       },
       "attr": {
-        "Producers": {
-          "rw": false,
-          "type": "[Ljavax.management.ObjectName;",
-          "desc": "The ObjectNames of all Producers created by this Connection"
-        },
-        "RemoteAddress": {
-          "rw": false,
-          "type": "java.lang.String",
-          "desc": "source address for this connection"
-        },
-        "Active": {
-          "rw": false,
+        "ProducerFlowControl": {
+          "rw": true,
           "type": "boolean",
-          "desc": "Connection is active (both connected and receiving messages)."
+          "desc": "Flow control is enabled for producers"
         },
-        "UserName": {
+        "Options": {
           "rw": false,
           "type": "java.lang.String",
-          "desc": "User Name used to authorize creation of this connection"
+          "desc": "Destination options as name value pairs in a URL queryString"
         },
-        "DispatchQueueSize": {
+        "AlwaysRetroactive": {
+          "rw": true,
+          "type": "boolean",
+          "desc": "Always treat consumers as retroactive"
+        },
+        "MemoryUsageByteCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Memory used by undelivered messages in bytes"
+        },
+        "AverageBlockedTime": {
+          "rw": false,
+          "type": "double",
+          "desc": "Average time (ms) messages have been blocked by flow control"
+        },
+        "MemoryPercentUsage": {
           "rw": false,
           "type": "int",
-          "desc": "The number of messages pending dispatch"
+          "desc": "The percentage of the memory limit used"
         },
-        "ActiveTransactionCount": {
+        "InFlightCount": {
           "rw": false,
-          "type": "int",
-          "desc": "The number of active transactions established on this Connection."
+          "type": "long",
+          "desc": "Number of messages that have been dispatched to, but not acknowledged by, consumers."
         },
-        "Connected": {
-          "rw": false,
-          "type": "boolean",
-          "desc": "Connection is connected to the broker."
-        },
-        "Slow": {
-          "rw": false,
-          "type": "boolean",
-          "desc": "Connection is slow."
-        },
-        "Consumers": {
+        "Subscriptions": {
           "rw": false,
           "type": "[Ljavax.management.ObjectName;",
-          "desc": "The ObjectNames of all Consumers created by this Connection"
+          "desc": "Subscription MBeans matching this destination"
         },
-        "ClientId": {
-          "rw": false,
-          "type": "java.lang.String",
-          "desc": "client id for this connection"
-        },
-        "OldestActiveTransactionDuration": {
-          "rw": false,
-          "type": "java.lang.Long",
-          "desc": "The age in ms of the oldest active transaction established on this Connection."
-        },
-        "Blocked": {
+        "SendDuplicateFromStoreToDLQ": {
           "rw": false,
           "type": "boolean",
-          "desc": "Connection is blocked."
+          "desc": "Config setting to send a duplicate from store message to the dead letter queue."
+        },
+        "ForwardCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages that have been forwarded (to a networked broker) from the destination."
+        },
+        "DLQ": {
+          "rw": true,
+          "type": "boolean",
+          "desc": "Dead Letter Queue"
+        },
+        "StoreMessageSize": {
+          "rw": false,
+          "type": "long",
+          "desc": "The memory size of all messages in this destination's store."
+        },
+        "AverageEnqueueTime": {
+          "rw": false,
+          "type": "double",
+          "desc": "Average time a message was held on this destination."
+        },
+        "Name": {
+          "rw": false,
+          "type": "java.lang.String",
+          "desc": "Name of this destination."
+        },
+        "MaxAuditDepth": {
+          "rw": true,
+          "type": "int",
+          "desc": "Max audit depth"
+        },
+        "TotalBlockedTime": {
+          "rw": false,
+          "type": "long",
+          "desc": "Total time (ms) messages have been blocked by flow control"
+        },
+        "BlockedSends": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages blocked for flow control"
+        },
+        "QueueSize": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages on this destination, including any that have been dispatched but not acknowledged"
+        },
+        "MaxPageSize": {
+          "rw": true,
+          "type": "int",
+          "desc": "Maximum number of messages to be paged in"
+        },
+        "TempUsageLimit": {
+          "rw": true,
+          "type": "long",
+          "desc": "Temp usage limit, in bytes, assigned to this destination."
+        },
+        "PrioritizedMessages": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Prioritized messages is enabled"
+        },
+        "MemoryUsagePortion": {
+          "rw": true,
+          "type": "float",
+          "desc": "Portion of memory from the broker memory limit for this destination"
+        },
+        "EnqueueCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages that have been sent to the destination."
+        },
+        "TempUsagePercentUsage": {
+          "rw": false,
+          "type": "int",
+          "desc": "The percentage of the temp usage limit used"
+        },
+        "ConsumerCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of consumers subscribed to this destination."
+        },
+        "AverageMessageSize": {
+          "rw": false,
+          "type": "long",
+          "desc": "Average message size on this destination"
+        },
+        "MaxProducersToAudit": {
+          "rw": true,
+          "type": "int",
+          "desc": "Maximum number of producers to audit"
+        },
+        "ExpiredCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages that have been expired."
+        },
+        "DuplicateFromStoreCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of duplicate messages that have been paged-in from the store."
+        },
+        "MinEnqueueTime": {
+          "rw": false,
+          "type": "long",
+          "desc": "The shortest time a message was held on this destination"
+        },
+        "MemoryLimit": {
+          "rw": true,
+          "type": "long",
+          "desc": "Memory limit, in bytes, used by undelivered messages before paging to temporary storage."
+        },
+        "MinMessageSize": {
+          "rw": false,
+          "type": "long",
+          "desc": "Min message size on this destination"
+        },
+        "DispatchCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages that has been delivered to consumers, including those not acknowledged"
+        },
+        "MaxEnqueueTime": {
+          "rw": false,
+          "type": "long",
+          "desc": "The longest time a message was held on this destination"
+        },
+        "DequeueCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages that has been acknowledged (and removed) from the destination."
+        },
+        "BlockedProducerWarningInterval": {
+          "rw": true,
+          "type": "long",
+          "desc": "Blocked Producer Warning Interval"
+        },
+        "ProducerCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of producers attached to this destination"
+        },
+        "MaxMessageSize": {
+          "rw": false,
+          "type": "long",
+          "desc": "Max message size on this destination"
+        },
+        "UseCache": {
+          "rw": true,
+          "type": "boolean",
+          "desc": "Caching is allowed"
+        },
+        "SlowConsumerStrategy": {
+          "rw": false,
+          "type": "javax.management.ObjectName",
+          "desc": "Optional slowConsumer handler MBean for this destination"
         }
       },
-      "class": "org.apache.activemq.broker.jmx.ConnectionView",
+      "class": "org.apache.activemq.broker.jmx.TopicView",
+      "desc": "Information on the management interface of the MBean"
+    },
+    "brokerName=localhost,destinationName=ActiveMQ.Advisory.Queue,destinationType=Topic,type=Broker": {
+      "op": {
+        "browseMessages": [
+          {
+            "args": [
+              {
+                "name": "p1",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.util.List",
+            "desc": "A list of all messages in the destination based on an SQL-92 selection on the message headers or XPATH on the body. Not HTML friendly."
+          },
+          {
+            "args": [],
+            "ret": "java.util.List",
+            "desc": "A list of all messages in the destination. Not HTML friendly."
+          }
+        ],
+        "sendTextMessage": [
+          {
+            "args": [
+              {
+                "name": "body",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "user",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "password",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to a password-protected destination."
+          },
+          {
+            "args": [
+              {
+                "name": "headers",
+                "type": "java.util.Map",
+                "desc": ""
+              },
+              {
+                "name": "body",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "user",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "password",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to a password-protected destination."
+          },
+          {
+            "args": [
+              {
+                "name": "body",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to the destination."
+          },
+          {
+            "args": [
+              {
+                "name": "headers",
+                "type": "java.util.Map",
+                "desc": ""
+              },
+              {
+                "name": "body",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to the destination."
+          }
+        ],
+        "resetStatistics": {
+          "args": [],
+          "ret": "void",
+          "desc": "Resets statistics."
+        },
+        "browseAsTable": [
+          {
+            "args": [],
+            "ret": "javax.management.openmbean.TabularData",
+            "desc": "A list of all messages in the destination. Not HTML friendly."
+          },
+          {
+            "args": [
+              {
+                "name": "selector",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "javax.management.openmbean.TabularData",
+            "desc": "A list of all messages in the destination based on an SQL-92 selection on the message headers or XPATH on the body. Not HTML friendly."
+          }
+        ],
+        "browse": [
+          {
+            "args": [],
+            "ret": "[Ljavax.management.openmbean.CompositeData;",
+            "desc": "An array of all messages in the destination. Not HTML friendly."
+          },
+          {
+            "args": [
+              {
+                "name": "selector",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "[Ljavax.management.openmbean.CompositeData;",
+            "desc": "An array of all messages in the destination based on an SQL-92 selection on the message headers or XPATH on the body. Not HTML friendly."
+          }
+        ],
+        "sendTextMessageWithProperties": [
+          {
+            "args": [
+              {
+                "name": "properties",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to the destination using comma separeted properties list. Example properties: body=value,header=value"
+          },
+          {
+            "args": [
+              {
+                "name": "properties",
+                "type": "java.lang.String",
+                "desc": ""
+              },
+              {
+                "name": "delimiter",
+                "type": "java.lang.String",
+                "desc": ""
+              }
+            ],
+            "ret": "java.lang.String",
+            "desc": "Sends a TextMessage to the destination using properties separeted by arbetrary delimiter. Example properties: body=value;header=value"
+          }
+        ]
+      },
+      "attr": {
+        "ProducerFlowControl": {
+          "rw": true,
+          "type": "boolean",
+          "desc": "Flow control is enabled for producers"
+        },
+        "Options": {
+          "rw": false,
+          "type": "java.lang.String",
+          "desc": "Destination options as name value pairs in a URL queryString"
+        },
+        "AlwaysRetroactive": {
+          "rw": true,
+          "type": "boolean",
+          "desc": "Always treat consumers as retroactive"
+        },
+        "MemoryUsageByteCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Memory used by undelivered messages in bytes"
+        },
+        "AverageBlockedTime": {
+          "rw": false,
+          "type": "double",
+          "desc": "Average time (ms) messages have been blocked by flow control"
+        },
+        "MemoryPercentUsage": {
+          "rw": false,
+          "type": "int",
+          "desc": "The percentage of the memory limit used"
+        },
+        "InFlightCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages that have been dispatched to, but not acknowledged by, consumers."
+        },
+        "Subscriptions": {
+          "rw": false,
+          "type": "[Ljavax.management.ObjectName;",
+          "desc": "Subscription MBeans matching this destination"
+        },
+        "SendDuplicateFromStoreToDLQ": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Config setting to send a duplicate from store message to the dead letter queue."
+        },
+        "ForwardCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages that have been forwarded (to a networked broker) from the destination."
+        },
+        "DLQ": {
+          "rw": true,
+          "type": "boolean",
+          "desc": "Dead Letter Queue"
+        },
+        "StoreMessageSize": {
+          "rw": false,
+          "type": "long",
+          "desc": "The memory size of all messages in this destination's store."
+        },
+        "AverageEnqueueTime": {
+          "rw": false,
+          "type": "double",
+          "desc": "Average time a message was held on this destination."
+        },
+        "Name": {
+          "rw": false,
+          "type": "java.lang.String",
+          "desc": "Name of this destination."
+        },
+        "MaxAuditDepth": {
+          "rw": true,
+          "type": "int",
+          "desc": "Max audit depth"
+        },
+        "TotalBlockedTime": {
+          "rw": false,
+          "type": "long",
+          "desc": "Total time (ms) messages have been blocked by flow control"
+        },
+        "BlockedSends": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages blocked for flow control"
+        },
+        "QueueSize": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages on this destination, including any that have been dispatched but not acknowledged"
+        },
+        "MaxPageSize": {
+          "rw": true,
+          "type": "int",
+          "desc": "Maximum number of messages to be paged in"
+        },
+        "TempUsageLimit": {
+          "rw": true,
+          "type": "long",
+          "desc": "Temp usage limit, in bytes, assigned to this destination."
+        },
+        "PrioritizedMessages": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Prioritized messages is enabled"
+        },
+        "MemoryUsagePortion": {
+          "rw": true,
+          "type": "float",
+          "desc": "Portion of memory from the broker memory limit for this destination"
+        },
+        "EnqueueCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages that have been sent to the destination."
+        },
+        "TempUsagePercentUsage": {
+          "rw": false,
+          "type": "int",
+          "desc": "The percentage of the temp usage limit used"
+        },
+        "ConsumerCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of consumers subscribed to this destination."
+        },
+        "AverageMessageSize": {
+          "rw": false,
+          "type": "long",
+          "desc": "Average message size on this destination"
+        },
+        "MaxProducersToAudit": {
+          "rw": true,
+          "type": "int",
+          "desc": "Maximum number of producers to audit"
+        },
+        "ExpiredCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages that have been expired."
+        },
+        "DuplicateFromStoreCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of duplicate messages that have been paged-in from the store."
+        },
+        "MinEnqueueTime": {
+          "rw": false,
+          "type": "long",
+          "desc": "The shortest time a message was held on this destination"
+        },
+        "MemoryLimit": {
+          "rw": true,
+          "type": "long",
+          "desc": "Memory limit, in bytes, used by undelivered messages before paging to temporary storage."
+        },
+        "MinMessageSize": {
+          "rw": false,
+          "type": "long",
+          "desc": "Min message size on this destination"
+        },
+        "DispatchCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages that has been delivered to consumers, including those not acknowledged"
+        },
+        "MaxEnqueueTime": {
+          "rw": false,
+          "type": "long",
+          "desc": "The longest time a message was held on this destination"
+        },
+        "DequeueCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of messages that has been acknowledged (and removed) from the destination."
+        },
+        "BlockedProducerWarningInterval": {
+          "rw": true,
+          "type": "long",
+          "desc": "Blocked Producer Warning Interval"
+        },
+        "ProducerCount": {
+          "rw": false,
+          "type": "long",
+          "desc": "Number of producers attached to this destination"
+        },
+        "MaxMessageSize": {
+          "rw": false,
+          "type": "long",
+          "desc": "Max message size on this destination"
+        },
+        "UseCache": {
+          "rw": true,
+          "type": "boolean",
+          "desc": "Caching is allowed"
+        },
+        "SlowConsumerStrategy": {
+          "rw": false,
+          "type": "javax.management.ObjectName",
+          "desc": "Optional slowConsumer handler MBean for this destination"
+        }
+      },
+      "class": "org.apache.activemq.broker.jmx.TopicView",
       "desc": "Information on the management interface of the MBean"
     },
     "brokerName=localhost,connector=clientConnectors,connectorName=openwire,type=Broker": {
@@ -3038,15 +5769,15 @@
           "type": "boolean",
           "desc": "Statistics gathering enabled"
         },
-        "UpdateClusterClientsOnRemove": {
-          "rw": false,
-          "type": "boolean",
-          "desc": "Update clients when a broker is removed from a network enabled."
-        },
         "RebalanceClusterClients": {
           "rw": false,
           "type": "boolean",
           "desc": "Rebalance clients across the broker cluster enabled"
+        },
+        "UpdateClusterClientsOnRemove": {
+          "rw": false,
+          "type": "boolean",
+          "desc": "Update clients when a broker is removed from a network enabled."
         },
         "UpdateClusterFilter": {
           "rw": false,

@@ -4,10 +4,10 @@ import lombok.Data;
 
 /**
  * @author eleven
- * @date 2025/4/28 14:39
+ * @date 2025/5/15 16:47
  * @apiNote
  */
 @Data
-public class BrokerQueues {
+public class SearchResult {
     private String objectName;
 }
