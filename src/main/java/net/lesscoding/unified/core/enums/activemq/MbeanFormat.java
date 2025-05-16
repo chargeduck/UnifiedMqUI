@@ -16,7 +16,9 @@ public enum MbeanFormat {
     // 操作topic的 mbean format
     TOPIC_OP("org.apache.activemq:brokerName={},type=Broker,destinationName={},destinationType=Topic"),
     // 操作queue的 mbean format
-    QUEUE_OP("org.apache.activemq:brokerName={},type=Broker,destinationName={},destinationType=Queue");
+    QUEUE_OP("org.apache.activemq:brokerName={},type=Broker,destinationName={},destinationType=Queue"),
+    SUBSCRIBER_OP("org.apache.activemq:type=Broker,brokerName={},destinationType=Topic,destinationName=*,endpoint=Consumer,clientId=*,consumerId=*"),
+    ;
 
 
     private final String format;

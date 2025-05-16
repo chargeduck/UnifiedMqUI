@@ -14,14 +14,14 @@ public class TopicInfo {
     private String Options;
     private Boolean AlwaysRetroactive;
     private Integer MemoryUsageByteCount;
-    private Integer AverageBlockedTime;
+    private Double AverageBlockedTime;
     private Integer MemoryPercentUsage;
     private Integer InFlightCount;
     private Boolean SendDuplicateFromStoreToDLQ;
     private Integer ForwardCount;
     private Boolean DLQ;
     private Integer StoreMessageSize;
-    private Integer AverageEnqueueTime;
+    private Double AverageEnqueueTime;
     private String Name;
     private Integer TotalBlockedTime;
     private Integer BlockedSends;
@@ -34,7 +34,7 @@ public class TopicInfo {
     private Integer EnqueueCount;
     private Integer TempUsagePercentUsage;
     private Integer ConsumerCount;
-    private Integer AverageMessageSize;
+    private Double AverageMessageSize;
     private Integer ExpiredCount;
     private Integer MaxProducersToAudit;
     private Integer MinEnqueueTime;

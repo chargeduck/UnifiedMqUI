@@ -1,6 +1,8 @@
 package net.lesscoding.unified.core.model.vo.activemq.jolokia;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import net.lesscoding.unified.core.model.vo.activemq.jolokia.broker.QueryRequest;
 
 /**
@@ -9,6 +11,8 @@ import net.lesscoding.unified.core.model.vo.activemq.jolokia.broker.QueryRequest
  * @apiNote
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ActiveMqJolokiaResponse<T> {
 
     /**

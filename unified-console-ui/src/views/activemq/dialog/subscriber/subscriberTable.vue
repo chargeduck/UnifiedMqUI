@@ -1,53 +1,26 @@
 <script setup>
-import { defineOptions, ref, defineProps } from 'vue'
-import { activeSubscribers } from '@/api/activemq/topic.js'
-import { useActiveMqStore } from '@/stores/activemq.js'
+import { defineOptions, inject } from 'vue'
 
-const activeMqStore = useActiveMqStore()
 defineOptions({
-  name: 'ActiveSubscribers'
+  name: 'ActiveSubscribersTable'
 })
-const props = defineProps({
-  data: {
-    type: Object,
-    default: () => {
-    }
-  }
-})
-const searchForm = ref({
-  subscriptionName: ''
-})
-const page = ref({
-  current: 1,
-  size: 10,
-  total: 0
-})
-const fetchActiveSubscribers = () => {
-  const data = {
-    config: activeMqStore.configInfo,
-    params: {
-      name: props.data.name,
-      subscriptionName: searchForm.value.subscriptionName
-    },
-    page: page.value
-  }
-  activeSubscribers(data).then(res => {
-    tableData.value = res.data.records
-  })
-}
+const fetchFn = inject('fetchFn')
+const page = defineModel('page')
+const tableData = defineModel('tableData')
+const searchForm = defineModel('searchForm')
 const handleCurrentChange = (val) => {
   page.value.current = val
-  fetchActiveSubscribers()
+  fetchFn()
 }
 const handleSizeChange = (val) => {
   page.value.size = val
-  fetchActiveSubscribers()
+  fetchFn()
 }
 const resetForm = () => {
   searchForm.value.subscriptionName = ''
+  fetchFn()
 }
-const tableData = ref([])
-fetchActiveSubscribers()
+fetchFn()
 </script>
 <template>
   <el-form :model="searchForm" :inline="true" style="margin-bottom: 20px">
@@ -56,12 +29,12 @@ fetchActiveSubscribers()
         v-model="searchForm.subscriptionName"
         placeholder="Enter Subscription Name"
         clearable
-        @clear="fetchActiveSubscribers"
-        @blur="fetchActiveSubscribers"
+        @clear="fetchFn"
+        @blur="fetchFn"
       />
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="fetchActiveSubscribers">Search</el-button>
+      <el-button type="primary" @click="fetchFn">Search</el-button>
       <el-button @click="resetForm">Reset</el-button>
     </el-form-item>
   </el-form>
@@ -71,6 +44,9 @@ fetchActiveSubscribers()
         <el-descriptions :column="3">
           <el-descriptions-item label="priority">
             {{ scope.row.priority }}
+          </el-descriptions-item>
+          <el-descriptions-item label="connection">
+            {{ scope.row.connection }}
           </el-descriptions-item>
           <el-descriptions-item label="userName">
             {{ scope.row.userName }}
@@ -140,9 +116,6 @@ fetchActiveSubscribers()
           </el-descriptions-item>
           <el-descriptions-item label="dispatchedQueueSize">
             {{ scope.row.dispatchedQueueSize }}
-          </el-descriptions-item>
-          <el-descriptions-item label="connection">
-            {{ scope.row.connection }}
           </el-descriptions-item>
         </el-descriptions>
       </template>

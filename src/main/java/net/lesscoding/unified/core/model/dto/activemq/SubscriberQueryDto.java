@@ -12,4 +12,8 @@ public class SubscriberQueryDto {
     private String name;
 
     private String subscriptionName;
+
+    private Boolean active;
+
+    private Boolean durable;
 }

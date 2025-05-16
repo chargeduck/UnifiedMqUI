@@ -25,7 +25,7 @@
         <hutool.version>5.8.24</hutool.version>
         <spring-boot.version>2.6.6</spring-boot.version>
         <junit.version>4.13.2</junit.version>
-        <guava.version>32.0.1-android</guava.version>
+        <guava.version>33.3.1-jre</guava.version>
         <derby.version>10.14.2.0</derby.version>
         <sqlite.version>3.44.1.0</sqlite.version>
         <activemq-client.version>5.16.5</activemq-client.version>
@@ -85,6 +85,11 @@
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
