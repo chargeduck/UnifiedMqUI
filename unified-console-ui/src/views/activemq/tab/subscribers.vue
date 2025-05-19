@@ -93,6 +93,8 @@ watch(activeName, (val) => {
         v-model:page="page"
         v-model:tableData="tableData"
         v-model:searchForm="searchForm"
+        v-model:fetchFn="fetchList"
+        v-model:activeName="activeName"
       />
     </el-tab-pane>
     <el-tab-pane label="Offline Durable Topic Subscribers" name="offlineDurable" :lazy="true">
@@ -100,6 +102,8 @@ watch(activeName, (val) => {
         v-model:page="page"
         v-model:tableData="tableData"
         v-model:searchForm="searchForm"
+        v-model:fetchFn="fetchList"
+        v-model:activeName="activeName"
       />
     </el-tab-pane>
     <el-tab-pane label="Active Non-Durable Topic Subscribers" name="activeNonDurable" :lazy="true">
@@ -107,6 +111,8 @@ watch(activeName, (val) => {
         v-model:page="page"
         v-model:tableData="tableData"
         v-model:searchForm="searchForm"
+        v-model:fetchFn="fetchList"
+        v-model:activeName="activeName"
       />
     </el-tab-pane>
   </el-tabs>

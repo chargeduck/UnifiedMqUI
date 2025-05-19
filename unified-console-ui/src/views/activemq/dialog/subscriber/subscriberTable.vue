@@ -1,5 +1,8 @@
 <script setup>
-import { defineOptions, inject } from 'vue'
+import { defineOptions, inject, defineModel } from 'vue'
+import { destroyDurableSubscriber } from '@/api/activemq/broker.js'
+import { commonQuery } from '@/utils/commonQuery.js'
+import { ElMessage } from 'element-plus'
 
 defineOptions({
   name: 'ActiveSubscribersTable'
@@ -8,6 +11,7 @@ const fetchFn = inject('fetchFn')
 const page = defineModel('page')
 const tableData = defineModel('tableData')
 const searchForm = defineModel('searchForm')
+const activeName = defineModel('activeName')
 const handleCurrentChange = (val) => {
   page.value.current = val
   fetchFn()
@@ -20,8 +24,16 @@ const resetForm = () => {
   searchForm.value.subscriptionName = ''
   fetchFn()
 }
-const doDelete = () => {
-  console.log('delete')
+const doDelete = (row) => {
+  const data = commonQuery({
+    clientId: row.clientId,
+    subscriptionName: row.subscriptionName
+  }, null)
+  destroyDurableSubscriber(data).then(resp => {
+    ElMessage.success(`Delete Result: ${ resp.msg }`)
+  }).finally(() => {
+    fetchFn()
+  })
 }
 
 fetchFn()
@@ -131,9 +143,9 @@ fetchFn()
     <el-table-column prop="network" label="Network" />
     <el-table-column prop="pendingQueueSize" label="Pending Queue Size" />
     <el-table-column prop="subscriptionName" label="Subscription Name" />
-    <el-table-column label="Operation">
+    <el-table-column label="Operation" v-if="activeName === 'offlineDurable'">
       <template #default="scope">
-        <el-button type="primary" @click="doDelete(scope.row)">Delete</el-button>
+        <el-button type="danger" @click="doDelete(scope.row)">Delete</el-button>
       </template>
     </el-table-column>
   </el-table>

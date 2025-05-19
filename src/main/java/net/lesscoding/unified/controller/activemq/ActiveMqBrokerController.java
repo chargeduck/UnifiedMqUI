@@ -76,4 +76,10 @@ public class ActiveMqBrokerController {
     public Result<Boolean> createDurableSubscriber(@RequestBody CommonQueryDto<DurableSubscribeDto> dto) {
         return Result.success(brokerService.createDurableSubscriber(dto));
     }
+
+    @DeleteMapping("/destroyDurableSubscriber")
+    public Result<Boolean> destroyDurableSubscriber(@RequestBody CommonQueryDto<DurableSubscribeDto> dto) {
+        return Result.success(brokerService.destroyDurableSubscriber(dto));
+    }
+
 }

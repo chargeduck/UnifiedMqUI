@@ -75,3 +75,11 @@ export function createDurableSubscriber (data) {
     data
   })
 }
+
+export function destroyDurableSubscriber (data) {
+  return request({
+    url: '/activemq/broker/destroyDurableSubscriber',
+    method: 'delete',
+    data
+  })
+}

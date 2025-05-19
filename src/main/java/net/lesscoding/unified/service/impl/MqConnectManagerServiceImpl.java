@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.lesscoding.unified.core.adapter.MqAdapter;
 import net.lesscoding.unified.core.adapter.MqAdapterFactory;
+import net.lesscoding.unified.core.model.dto.CommonQueryDto;
 import net.lesscoding.unified.entity.ConnectConfig;
 import net.lesscoding.unified.mapper.ConnectConfigMapper;
 import net.lesscoding.unified.service.MqConnectManagerService;
@@ -57,9 +58,10 @@ public class MqConnectManagerServiceImpl implements MqConnectManagerService {
     }
 
     @Override
-    public Page<List<ConnectConfig>> mqList(ConnectConfig connectConfig) {
-        PageDTO page = connectConfig.getPage();
-        List<ConnectConfig> connectConfigs = connectConfigMapper.getMqList(page, connectConfig);
+    public Page<List<ConnectConfig>> mqList(CommonQueryDto<ConnectConfig> dto) {
+        ConnectConfig config = dto.getParams();
+        PageDTO page = dto.getPage();
+        List<ConnectConfig> connectConfigs = connectConfigMapper.getMqList(page, config);
         List<List<ConnectConfig>> partition = Lists.partition(connectConfigs, 3);
         page.setRecords(partition);
         return page;

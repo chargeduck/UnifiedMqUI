@@ -149,6 +149,9 @@ public class ActiveMqSubscriberServiceImpl implements ActiveMqSubscriberService 
     @Override
     public Page<SubscriberInfo> subscriberConditionPage(CommonQueryDto<SubscriberQueryDto> dto) {
         Map<String, SubscriberInfo> statusMap = subscriberStatusList(dto);
+        if (CollUtil.isEmpty(statusMap)) {
+            return new Page<>();
+        }
         List<SubscriberInfo> values = new ArrayList<>(statusMap.values());
         PageDTO<SubscriberQueryDto> page = dto.getPage();
         SubscriberQueryDto params = dto.getParams();

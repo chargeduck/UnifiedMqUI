@@ -27,4 +27,6 @@ public interface ActiveMqBrokerService {
     Boolean addTopic(CommonQueryDto<String> dto);
 
     Boolean createDurableSubscriber(CommonQueryDto<DurableSubscribeDto> dto);
+
+    Boolean destroyDurableSubscriber(CommonQueryDto<DurableSubscribeDto> dto);
 }

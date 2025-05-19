@@ -189,4 +189,22 @@ public class ActiveMqBrokerServiceImpl implements ActiveMqBrokerService {
         );
         return response.getStatus() == 200;
     }
+
+    @Override
+    public Boolean destroyDurableSubscriber(CommonQueryDto<DurableSubscribeDto> dto) {
+        ConnectConfig config = dto.getConfig();
+        DurableSubscribeDto params = dto.getParams();
+        String mBean = StrUtil.format(MbeanFormat.BROKER_OP.getFormat(), config.getBrokerName());
+        List<String> args = new ArrayList<>();
+        args.add(params.getClientId());
+        args.add(params.getSubscriptionName());
+        ActiveMqJolokiaResponse<Object> response = jolokiaUtil.doArgsMethod(config,
+                JolokiaExecuteType.EXEC,
+                mBean,
+                ActiveMqMethod.BROKER_DESTROY_DURABLE_SUBSCRIBER,
+                args,
+                Object.class
+        );
+        return response.getStatus() == 200;
+    }
 }
