@@ -8,7 +8,7 @@ const activeMqStore = useActiveMqStore()
 defineOptions({
   name: 'ActiveMqSubscribers'
 })
-const activeName = ref('activeDurable ')
+const activeName = ref('offlineDurable ')
 const createForm = ref({
   clientId: '',
   subscriberName: '',

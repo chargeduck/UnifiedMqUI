@@ -45,9 +45,6 @@ fetchFn()
           <el-descriptions-item label="priority">
             {{ scope.row.priority }}
           </el-descriptions-item>
-          <el-descriptions-item label="connection">
-            {{ scope.row.connection }}
-          </el-descriptions-item>
           <el-descriptions-item label="userName">
             {{ scope.row.userName }}
           </el-descriptions-item>
@@ -116,6 +113,9 @@ fetchFn()
           </el-descriptions-item>
           <el-descriptions-item label="dispatchedQueueSize">
             {{ scope.row.dispatchedQueueSize }}
+          </el-descriptions-item>
+          <el-descriptions-item label="connection">
+            {{ scope.row.connection }}
           </el-descriptions-item>
         </el-descriptions>
       </template>

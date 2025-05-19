@@ -1,7 +1,6 @@
 package net.lesscoding.unified.service.impl.activemq;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
@@ -109,12 +108,7 @@ public class ActiveMqSubscriberServiceImpl implements ActiveMqSubscriberService 
                     ).getValue())
                     .filter(Objects::nonNull)
                     .collect(Collectors.toList());
-            return filterList.stream()
-                    .filter(item -> StrUtil.isBlank(dto.getSubscriptionName()) ||
-                            item.getSubscriptionName().contains(dto.getSubscriptionName()))
-                    .filter(item -> !BooleanUtil.isTrue(dto.getActive()) || item.getActive() == dto.getActive())
-                    .filter(item -> !BooleanUtil.isTrue(dto.getDurable()) || item.getDurable() == dto.getDurable())
-                    .collect(Collectors.toList());
+            return subscribersFilter(filterList, dto);
         }
         return new ArrayList<>();
     }
@@ -146,11 +140,40 @@ public class ActiveMqSubscriberServiceImpl implements ActiveMqSubscriberService 
         return subscriberInfoPage(dto.getConfig(), dto.getParams(), dto.getPage());
     }
 
+    /**
+     * 分页查询订阅者信息
+     *
+     * @param dto 查询条件
+     * @return 分页结果
+     */
     @Override
     public Page<SubscriberInfo> subscriberConditionPage(CommonQueryDto<SubscriberQueryDto> dto) {
         Map<String, SubscriberInfo> statusMap = subscriberStatusList(dto);
-        log.info("statusMap:{}", statusMap);
-        return null;
+        List<SubscriberInfo> values = new ArrayList<>(statusMap.values());
+        PageDTO<SubscriberQueryDto> page = dto.getPage();
+        SubscriberQueryDto params = dto.getParams();
+        if (CollUtil.isNotEmpty(values)) {
+            values = subscribersFilter(values, params);
+        }
+        return new PageUtil<SubscriberInfo>().getPageByGetter(values, page::getCurrent, page::getSize);
+    }
+
+    /**
+     * 订阅者信息过滤
+     *
+     * @param values 订阅者信息列表
+     * @param params 查询条件
+     * @return 过滤后的订阅者信息列表
+     */
+    private static List<SubscriberInfo> subscribersFilter(List<SubscriberInfo> values, SubscriberQueryDto params) {
+        return values.stream()
+                .filter(item -> StrUtil.isBlank(params.getSubscriptionName()) ||
+                        item.getSubscriptionName().contains(params.getSubscriptionName()))
+                .filter(item -> StrUtil.isBlank(params.getDestinationName()) ||
+                        item.getDestinationName().contains(params.getDestinationName()))
+                .filter(item -> params.getActive() == null || item.getActive() == params.getActive())
+                .filter(item -> params.getDurable() == null || item.getDurable() == params.getDurable())
+                .collect(Collectors.toList());
     }
 
     /**
@@ -175,7 +198,7 @@ public class ActiveMqSubscriberServiceImpl implements ActiveMqSubscriberService 
                 JolokiaExecuteType.READ,
                 mbean,
                 ActiveMqMethod.NONE,
-                Arrays.asList("Active", "Durable"),
+                null,
                 new TypeToken<ActiveMqJolokiaResponse<Map<String, SubscriberInfo>>>() {
                 }
         );

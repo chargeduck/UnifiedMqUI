@@ -26,7 +26,7 @@ const fetchActiveSubscribers = () => {
   const data = {
     config: activeMqStore.configInfo,
     params: {
-      name: props.data.name,
+      destinationName: props.data.name,
       subscriptionName: searchForm.value.subscriptionName
     },
     page: page.value
