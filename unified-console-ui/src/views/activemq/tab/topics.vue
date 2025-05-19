@@ -1,15 +1,14 @@
 <script setup>
 import { defineOptions, ref, provide } from 'vue'
-import { useActiveMqStore } from '@/stores/activemq.js'
-import { addQueue, addTopic, getTopicList, removeTopic } from '@/api/activemq/broker.js'
+import { addTopic, getTopicList, removeTopic } from '@/api/activemq/broker.js'
 import { gbFilter, isBlank } from '@/utils/format.js'
 import DynamicDialog from '@/components/DynamicDialog.vue'
 import SendTo from '@/components/activemq/sendTo.vue'
 import ActiveProducers from '@/views/activemq/dialog/topic/activeProducers.vue'
 import ActiveSubscribers from '@/views/activemq/dialog/topic/activeSubscribers.vue'
 import { ElMessage } from 'element-plus'
+import { commonQuery } from '@/utils/commonQuery.js'
 
-const activeMqStore = useActiveMqStore()
 defineOptions({
   name: 'ActiveMqTopics'
 })
@@ -31,11 +30,8 @@ const dynamicDialogProps = ref({
 
 const tableData = ref([])
 const fetchTopics = () => {
-  const data = {
-    config: activeMqStore.configInfo,
-    params: searchForm.value.name,
-    page: page.value
-  }
+  const data = commonQuery(searchForm.value.name, page.value)
+
   getTopicList(data).then(resp => {
     tableData.value = resp.data.records
     page.value = {
@@ -95,10 +91,7 @@ const activeSubscribers = (data) => {
   }
 }
 const doDelete = (row) => {
-  const data = {
-    config: activeMqStore.configInfo,
-    params: row.name
-  }
+  const data = commonQuery(row.name, null)
   removeTopic(data).then(resp => {
     ElMessage.success(`Delete result: ${ resp.msg }`)
   }).finally(() => {
@@ -110,10 +103,7 @@ const createTopic = () => {
     ElMessage.error('Queue name must be inputted')
     return
   }
-  const data = {
-    config: activeMqStore.configInfo,
-    params: searchForm.value.name
-  }
+  const data = commonQuery(searchForm.value.name, null)
   addTopic(data).then(resp => {
     ElMessage.success(`Create queue successfully ${ resp.msg }`)
   }).finally(() => {

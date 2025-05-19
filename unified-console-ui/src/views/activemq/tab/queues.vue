@@ -4,14 +4,13 @@ import { isBlank, gbFilter } from '@/utils/format.js'
 import { pauseQueue, purgeQueue, resumeQueue } from '@/api/activemq/queue.js'
 import { addQueue, getQueueList, removeQueue } from '@/api/activemq/broker.js'
 import { ElMessage } from 'element-plus'
-import { useActiveMqStore } from '@/stores/activemq.js'
 import DynamicDialog from '@/components/DynamicDialog.vue'
 import SendTo from '@/components/activemq/sendTo.vue'
 import BrowseQueue from '@/views/activemq/dialog/queue/browseQueue.vue'
 import ActiveConsumers from '@/views/activemq/dialog/queue/activeConsumers.vue'
 import ActiveProducers from '@/views/activemq/dialog/queue/activeProducers.vue'
+import { commonQuery } from '@/utils/commonQuery.js'
 
-const activeMqStore = useActiveMqStore()
 
 defineOptions({
   name: 'ActiveMqQueues'
@@ -26,10 +25,7 @@ const createQueues = async () => {
     ElMessage.error('Queue name must be inputted')
     return
   }
-  const data = {
-    config: activeMqStore.configInfo,
-    params: searchForm.value.queueName
-  }
+  const data = commonQuery(searchForm.value.queueName, null)
   addQueue(data).then(resp => {
     ElMessage.success(`Create queue successfully ${ resp.msg }`)
   }).finally(() => {
@@ -38,10 +34,7 @@ const createQueues = async () => {
   })
 }
 const doRemoveQueue = (row) => {
-  const data = {
-    config: activeMqStore.configInfo,
-    params: row.name
-  }
+  const data = commonQuery(row.name, null)
   removeQueue(data).then(resp => {
     ElMessage.success(`Pause queue successfully ${ resp.msg }`)
   }).finally(() => {
@@ -49,10 +42,7 @@ const doRemoveQueue = (row) => {
   })
 }
 const fetchQueues = () => {
-  const data = {
-    config: activeMqStore.configInfo,
-    params: searchForm.value.queueName
-  }
+  const data = commonQuery(searchForm.value.queueName, null)
   getQueueList(data).then(resp => {
     queues.value = resp.data
   })
@@ -85,10 +75,7 @@ const browseQueue = (data) => {
   }
 }
 const doPauseQueue = (row) => {
-  const data = {
-    config: activeMqStore.configInfo,
-    params: row.name
-  }
+  const data = commonQuery(row.name, null)
   pauseQueue(data).then(resp => {
     ElMessage.success(`Pause queue successfully ${ resp.msg }`)
   }).finally(() => {
@@ -96,10 +83,7 @@ const doPauseQueue = (row) => {
   })
 }
 const doResumeQueue = (row) => {
-  const data = {
-    config: activeMqStore.configInfo,
-    params: row.name
-  }
+  const data = commonQuery(row.name, null)
   resumeQueue(data).then(resp => {
     ElMessage.success(`Pause queue successfully ${ resp.msg }`)
   }).finally(() => {
@@ -108,10 +92,7 @@ const doResumeQueue = (row) => {
 }
 
 const doPurgeQueue = (row) => {
-  const data = {
-    config: activeMqStore.configInfo,
-    params: row.name
-  }
+  const data = commonQuery(row.name, null)
   purgeQueue(data).then(resp => {
     ElMessage.success(`Pause queue successfully ${ resp.msg }`)
   }).finally(() => {

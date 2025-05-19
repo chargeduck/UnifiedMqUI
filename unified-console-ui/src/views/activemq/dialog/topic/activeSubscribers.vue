@@ -1,9 +1,8 @@
 <script setup>
 import { defineOptions, ref, defineProps } from 'vue'
 import { activeSubscribers } from '@/api/activemq/topic.js'
-import { useActiveMqStore } from '@/stores/activemq.js'
+import { commonQuery } from '@/utils/commonQuery.js'
 
-const activeMqStore = useActiveMqStore()
 defineOptions({
   name: 'ActiveSubscribers'
 })
@@ -23,14 +22,12 @@ const page = ref({
   total: 0
 })
 const fetchActiveSubscribers = () => {
-  const data = {
-    config: activeMqStore.configInfo,
-    params: {
+  const data = commonQuery({
       destinationName: props.data.name,
       subscriptionName: searchForm.value.subscriptionName
     },
-    page: page.value
-  }
+    page.value
+  )
   activeSubscribers(data).then(res => {
     tableData.value = res.data.records
   })

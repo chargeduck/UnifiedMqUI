@@ -1,13 +1,11 @@
 <script setup>
 import { defineOptions, ref, provide, watch } from 'vue'
 import { fetchSubscriberPage } from '@/api/activemq/subscriber.js'
-import { useActiveMqStore } from '@/stores/activemq.js'
 import ActiveMqSubscribersTable from '@/views/activemq/dialog/subscriber/subscriberTable.vue'
 import { createDurableSubscriber } from '@/api/activemq/broker.js'
 import { ElMessage } from 'element-plus'
 import { commonQuery } from '@/utils/commonQuery.js'
 
-const activeMqStore = useActiveMqStore()
 defineOptions({
   name: 'ActiveMqSubscribers'
 })
@@ -30,11 +28,7 @@ const page = ref({
 })
 const tableData = ref([])
 const fetchList = () => {
-  const data = {
-    config: activeMqStore.configInfo,
-    params: { ...searchForm.value },
-    page: page.value
-  }
+  const data = commonQuery(searchForm.value, page.value)
   fetchSubscriberPage(data).then(resp => {
     tableData.value = resp.data.records
     page.value.total = resp.data.total
@@ -51,7 +45,7 @@ const doCreate = () => {
     createForm.value = {
       clientId: '',
       subscriptionName: '',
-      topicName: '',
+      topicName: ''
     }
   })
 }

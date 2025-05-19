@@ -1,14 +1,13 @@
 <script setup>
 import { defineOptions, ref, defineProps, onMounted } from 'vue'
-import { useActiveMqStore } from '@/stores/activemq.js'
 import { getQueueMessageList, removeMessage } from '@/api/activemq/queue.js'
 import MessageSearch from '@/components/messageSearch.vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import { commonQuery } from '@/utils/commonQuery.js'
 
 defineOptions({
   name: 'BrowseQueue'
 })
-const activeMqStore = useActiveMqStore()
 const props = defineProps({
   data: {
     type: Object,
@@ -27,14 +26,13 @@ const searchForm = ref({
   endTime: ''
 })
 const fetchMessageList = () => {
-  const data = {
-    config: activeMqStore.configInfo,
-    params: {
+  const data = commonQuery(
+    {
       name: props.data.name,
       ...searchForm.value
     },
-    page: page.value
-  }
+    page.value
+  )
   getQueueMessageList(data).then(resp => {
     tableData.value = resp.data.records
     page.value = {
@@ -54,13 +52,10 @@ const doDeleteMessage = (row) => {
     cancelButtonText: 'Cancel',
     type: 'warning'
   }).then(() => {
-    const data = {
-      config: activeMqStore.configInfo,
-      params: {
-        name: props.data.name,
-        messageId: row.jmsmessageID
-      }
-    }
+    const data = commonQuery({
+      name: props.data.name,
+      messageId: row.jmsmessageID
+    }, null)
     removeMessage(data).then(resp => {
       ElMessage.success(`Delete message successfully ${ resp.data }`)
     }).finally(() => {
