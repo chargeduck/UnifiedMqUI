@@ -5,6 +5,7 @@ import { addMqConnect, delById, fetchConnectList, getConnectById } from '@/api/m
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Hide, Lock, User, View } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
+import { commonQuery } from '@/utils/commonQuery.js'
 
 defineOptions({
   name: 'DashboardIndex'
@@ -83,7 +84,7 @@ const resetForm = () => {
   }
 }
 const fetchList = () => {
-  fetchConnectList({ ...searchForm.value, page: page.value }).then(resp => {
+  fetchConnectList({ params: searchForm.value, page: page.value }).then(resp => {
     mqList.value = resp.data.records
     page.value.total = resp.data.total
     page.value.current = resp.data.current
