@@ -2,6 +2,7 @@ package net.lesscoding.unified.service.activemq;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import net.lesscoding.unified.core.model.dto.CommonQueryDto;
+import net.lesscoding.unified.core.model.dto.activemq.DurableSubscribeDto;
 import net.lesscoding.unified.core.model.vo.activemq.jolokia.queue.QueueInfo;
 import net.lesscoding.unified.core.model.vo.activemq.jolokia.topic.TopicInfo;
 
@@ -24,4 +25,6 @@ public interface ActiveMqBrokerService {
     Boolean removeTopic(CommonQueryDto<String> dto);
 
     Boolean addTopic(CommonQueryDto<String> dto);
+
+    Boolean createDurableSubscriber(CommonQueryDto<DurableSubscribeDto> dto);
 }

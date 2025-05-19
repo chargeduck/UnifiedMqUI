@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import net.lesscoding.unified.core.model.Result;
 import net.lesscoding.unified.core.model.dto.CommonQueryDto;
+import net.lesscoding.unified.core.model.dto.activemq.DurableSubscribeDto;
 import net.lesscoding.unified.core.model.vo.activemq.jolokia.queue.QueueInfo;
 import net.lesscoding.unified.core.model.vo.activemq.jolokia.topic.TopicInfo;
 import net.lesscoding.unified.service.activemq.ActiveMqBrokerService;
@@ -69,5 +70,10 @@ public class ActiveMqBrokerController {
     @DeleteMapping("/removeTopic")
     public Result<Boolean> removeTopic(@RequestBody CommonQueryDto<String> dto) {
         return Result.success(brokerService.removeTopic(dto));
+    }
+
+    @PostMapping("/createDurableSubscriber")
+    public Result<Boolean> createDurableSubscriber(@RequestBody CommonQueryDto<DurableSubscribeDto> dto) {
+        return Result.success(brokerService.createDurableSubscriber(dto));
     }
 }

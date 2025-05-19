@@ -67,3 +67,11 @@ export function removeTopic (data) {
     data
   })
 }
+
+export function createDurableSubscriber (data) {
+  return request({
+    url: '/activemq/broker/createDurableSubscriber',
+    method: 'post',
+    data
+  })
+}

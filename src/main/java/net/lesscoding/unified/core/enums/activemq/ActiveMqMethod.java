@@ -15,6 +15,7 @@ public enum ActiveMqMethod {
     BROKER_INFO(""),
     BROKER_ADD_QUEUE("addQueue(java.lang.String)"),
     BROKER_ADD_TOPIC("addTopic(java.lang.String)"),
+    BROKER_ADD_DURABLE_SUBSCRIBER("createDurableSubscriber(java.lang.String,java.lang.String,java.lang.String,java.lang.String)"),
     BROKER_REMOVE_QUEUE("removeQueue(java.lang.String)"),
     BROKER_REMOVE_TOPIC("removeTopic(java.lang.String)"),
     QUEUE_REMOVE_MESSAGE("removeMessage(java.lang.String)"),

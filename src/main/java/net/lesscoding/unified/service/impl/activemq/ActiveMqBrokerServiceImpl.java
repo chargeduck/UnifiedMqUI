@@ -10,6 +10,7 @@ import net.lesscoding.unified.core.enums.activemq.ActiveMqMethod;
 import net.lesscoding.unified.core.enums.activemq.JolokiaExecuteType;
 import net.lesscoding.unified.core.enums.activemq.MbeanFormat;
 import net.lesscoding.unified.core.model.dto.CommonQueryDto;
+import net.lesscoding.unified.core.model.dto.activemq.DurableSubscribeDto;
 import net.lesscoding.unified.core.model.vo.activemq.jolokia.ActiveMqJolokiaResponse;
 import net.lesscoding.unified.core.model.vo.activemq.jolokia.queue.QueueInfo;
 import net.lesscoding.unified.core.model.vo.activemq.jolokia.topic.TopicInfo;
@@ -169,4 +170,23 @@ public class ActiveMqBrokerServiceImpl implements ActiveMqBrokerService {
         return response.getStatus() == 200;
     }
 
+    @Override
+    public Boolean createDurableSubscriber(CommonQueryDto<DurableSubscribeDto> dto) {
+        ConnectConfig config = dto.getConfig();
+        DurableSubscribeDto params = dto.getParams();
+        String mBean = StrUtil.format(MbeanFormat.BROKER_OP.getFormat(), config.getBrokerName());
+        List<String> args = new ArrayList<>();
+        args.add(params.getClientId());
+        args.add(params.getSubscriptionName());
+        args.add(params.getTopicName());
+        args.add(params.getSelector());
+        ActiveMqJolokiaResponse<Object> response = jolokiaUtil.doArgsMethod(config,
+                JolokiaExecuteType.EXEC,
+                mBean,
+                ActiveMqMethod.BROKER_ADD_DURABLE_SUBSCRIBER,
+                args,
+                Object.class
+        );
+        return response.getStatus() == 200;
+    }
 }

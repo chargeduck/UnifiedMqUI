@@ -20,6 +20,10 @@ const resetForm = () => {
   searchForm.value.subscriptionName = ''
   fetchFn()
 }
+const doDelete = () => {
+  console.log('delete')
+}
+
 fetchFn()
 </script>
 <template>
@@ -127,6 +131,11 @@ fetchFn()
     <el-table-column prop="network" label="Network" />
     <el-table-column prop="pendingQueueSize" label="Pending Queue Size" />
     <el-table-column prop="subscriptionName" label="Subscription Name" />
+    <el-table-column label="Operation">
+      <template #default="scope">
+        <el-button type="primary" @click="doDelete(scope.row)">Delete</el-button>
+      </template>
+    </el-table-column>
   </el-table>
   <el-pagination
     class="pagination-margin"

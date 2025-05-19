@@ -3,6 +3,9 @@ import { defineOptions, ref, provide, watch } from 'vue'
 import { fetchSubscriberPage } from '@/api/activemq/subscriber.js'
 import { useActiveMqStore } from '@/stores/activemq.js'
 import ActiveMqSubscribersTable from '@/views/activemq/dialog/subscriber/subscriberTable.vue'
+import { createDurableSubscriber } from '@/api/activemq/broker.js'
+import { ElMessage } from 'element-plus'
+import { commonQuery } from '@/utils/commonQuery.js'
 
 const activeMqStore = useActiveMqStore()
 defineOptions({
@@ -11,9 +14,9 @@ defineOptions({
 const activeName = ref('offlineDurable ')
 const createForm = ref({
   clientId: '',
-  subscriberName: '',
-  JMSDestination: '',
-  selector: ''
+  subscriptionName: '',
+  topicName: '',
+  selector: null
 })
 const searchForm = ref({
   subscriptionName: '',
@@ -37,6 +40,19 @@ const fetchList = () => {
     page.value.total = resp.data.total
     page.value.current = resp.data.current
     page.value.size = resp.data.size
+  })
+}
+const doCreate = () => {
+  const data = commonQuery(createForm.value, null)
+  createDurableSubscriber(data).then(resp => {
+    ElMessage.success(`Create result: ${ resp.msg }`)
+  }).finally(() => {
+    fetchList()
+    createForm.value = {
+      clientId: '',
+      subscriptionName: '',
+      topicName: '',
+    }
   })
 }
 provide('fetchFn', fetchList)
@@ -64,16 +80,16 @@ watch(activeName, (val) => {
       <el-input v-model="createForm.clientId" placeholder="Client ID" />
     </el-form-item>
     <el-form-item label="Subscriber Name">
-      <el-input v-model="createForm.subscriberName" placeholder="Subscriber Name" />
+      <el-input v-model="createForm.subscriptionName" placeholder="Subscriber Name" />
     </el-form-item>
     <el-form-item label="JMS Destination">
-      <el-input v-model="createForm.JMSDestination" placeholder="JMS Destination" />
+      <el-input v-model="createForm.topicName" placeholder="JMS Destination" />
     </el-form-item>
     <el-form-item label="Selector">
       <el-input v-model="createForm.selector" placeholder="Selector" />
     </el-form-item>
     <el-form-item>
-      <el-button type="primary">Create</el-button>
+      <el-button type="primary" @click="doCreate">Create</el-button>
     </el-form-item>
   </el-form>
   <el-divider />
