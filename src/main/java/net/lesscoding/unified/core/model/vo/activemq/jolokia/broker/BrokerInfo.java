@@ -1,6 +1,7 @@
 package net.lesscoding.unified.core.model.vo.activemq.jolokia.broker;
 
 import lombok.Data;
+import net.lesscoding.unified.core.model.vo.activemq.jolokia.SearchResult;
 
 import java.util.List;
 

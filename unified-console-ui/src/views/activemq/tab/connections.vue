@@ -1,13 +1,124 @@
 <script setup>
 import { defineOptions, ref } from 'vue'
+import { commonQuery } from '@/utils/commonQuery.js'
+import { fetchConnectList } from '@/api/activemq/connection.js'
+import DynamicDialog from '@/components/DynamicDialog.vue'
+import ConnectionDetail from '@/views/activemq/dialog/connectionDetail.vue'
 
 defineOptions({
   name: 'ActiveMqConnections'
 })
-const msg = ref('ActiveMqConnections')
+const tableData = ref([])
+const searchForm = ref({
+  type: ''
+})
+const page = ref({
+  current: 1,
+  size: 10,
+  total: 0
+})
+const typeOptions = [
+  'ws',
+  'openwire',
+  'stomp',
+  'amqp',
+  'mqtt'
+]
+const doSearch = () => {
+  const data = commonQuery(searchForm.value.type, page.value)
+  fetchConnectList(data).then(resp => {
+    tableData.value = resp.data.records
+    page.value = {
+      current: resp.data.current,
+      size: resp.data.size,
+      total: resp.data.total
+    }
+  })
+}
+const handleCurrentChange = (val) => {
+  page.value.current = val
+  doSearch()
+}
+const handleSizeChange = (val) => {
+  page.value.size = val
+  doSearch()
+}
+const showDetail = (row) => {
+  dynamicDialogProps.value = {
+    visible: true,
+    title: `Connection ${row.clientId}`,
+    showFooterBtn: false,
+    data: row,
+    component: ConnectionDetail
+  }
+}
+const dynamicDialogProps = ref({
+  visible: false,
+  title: '',
+  showFooterBtn: false,
+  component: '',
+  data: {}
+})
+doSearch()
 </script>
 
 <template>
-  {{ msg }}
+  <el-form :inline="true" :model="searchForm">
+    <el-form-item label="Type">
+      <el-select
+        clearable
+        filterable
+        @blur="doSearch"
+        v-model="searchForm.type"
+        placeholder="Please select">
+        <el-option
+          v-for="item in typeOptions"
+          :key="item"
+          :label="item"
+          :value="item" />
+      </el-select>
+    </el-form-item>
+    <el-form-item>
+      <el-button type="primary" @click="doSearch">Search</el-button>
+    </el-form-item>
+
+  </el-form>
+  <el-table :data="tableData" border stripr>
+    <el-table-column type="index" label="index" width="100"/>
+    <el-table-column prop="clientId" label="name" >
+      <template #default="scope">
+        <el-link type="primary" @click="showDetail(scope.row)">{{ scope.row.clientId }}</el-link>
+      </template>
+    </el-table-column>
+    <el-table-column prop="remoteAddress" label="RemoteAddress" />
+    <el-table-column prop="active" label="Active" />
+    <el-table-column prop="slow" label="slow" />
+    <el-table-column prop="connectorType" label="Type" />
+  </el-table>
+  <el-pagination
+    v-model:current-page="page.current"
+    :page-size="page.size"
+    layout="total, prev, pager, next, sizes"
+    :total="page.total"
+    @current-change="handleCurrentChange"
+    @size-change="handleSizeChange"
+  />
+
+  <dynamic-dialog
+    v-model:visible="dynamicDialogProps.visible"
+    :title="dynamicDialogProps.title"
+    :showFooterBtn="dynamicDialogProps.showFooterBtn"
+    :destroy-on-close="true"
+  >
+    <template #component>
+      <component
+        :is="dynamicDialogProps.component"
+        :data="dynamicDialogProps.data"
+        v-model:visible="dynamicDialogProps.visible"
+      />
+    </template>
+  </dynamic-dialog>
+
+
 </template>
 <style></style>

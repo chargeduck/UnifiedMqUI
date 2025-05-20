@@ -1,4 +1,4 @@
-package net.lesscoding.unified.core.model.vo.activemq.jolokia.broker;
+package net.lesscoding.unified.core.model.vo.activemq.jolokia;
 
 import lombok.Data;
 

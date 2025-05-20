@@ -1,0 +1,66 @@
+{
+  "code": 200,
+  "msg": "success",
+  "data": [
+    {
+      "userName": null,
+      "connected": true,
+      "active": true,
+      "clientId": "paho4563666358200",
+      "producers": [],
+      "consumers": [
+        {
+          "objectName": "org.apache.activemq:brokerName=localhost,clientId=paho4563666358200,consumerId=ID_eleven-65315-1747703130434-3_2_-1_1,destinationName=TestTopic,destinationType=Topic,endpoint=Consumer,type=Broker"
+        }
+      ],
+      "remoteAddress": "tcp://127.0.0.1:50374",
+      "slow": false,
+      "blocked": false,
+      "activeTransactionCount": 0,
+      "oldestActiveTransactionDuration": null,
+      "dispatchQueueSize": 0
+    },
+    {
+      "userName": null,
+      "connected": true,
+      "active": true,
+      "clientId": "ID:eleven-50406-1747703444712-0:2",
+      "producers": [],
+      "consumers": [
+        {
+          "objectName": "org.apache.activemq:brokerName=localhost,clientId=ID_eleven-50406-1747703444712-0_2,consumerId=ID_eleven-50406-1747703444712-1_2_-1_1,destinationName=ActiveMQ.Advisory.TempQueue_ActiveMQ.Advisory.TempTopic,destinationType=Topic,endpoint=Consumer,type=Broker"
+        },
+        {
+          "objectName": "org.apache.activemq:brokerName=localhost,clientId=ID_eleven-50406-1747703444712-0_2,consumerId=ID_eleven-50406-1747703444712-1_2_1_1,destinationName=boot-activemq-queue,destinationType=Topic,endpoint=Consumer,type=Broker"
+        }
+      ],
+      "remoteAddress": "tcp://127.0.0.1:50409",
+      "slow": false,
+      "blocked": false,
+      "activeTransactionCount": 0,
+      "oldestActiveTransactionDuration": null,
+      "dispatchQueueSize": 0
+    },
+    {
+      "userName": null,
+      "connected": true,
+      "active": true,
+      "clientId": "ID:c1f9a673-d2b3-4d62-8615-eef55d083f7c:1",
+      "producers": [],
+      "consumers": [
+        {
+          "objectName": "org.apache.activemq:brokerName=localhost,clientId=ID_c1f9a673-d2b3-4d62-8615-eef55d083f7c_1,consumerId=ID_eleven-65315-1747703130434-4_784_1_0,destinationName=TestTopic,destinationType=Queue,endpoint=Consumer,type=Broker"
+        },
+        {
+          "objectName": "org.apache.activemq:brokerName=localhost,clientId=ID_c1f9a673-d2b3-4d62-8615-eef55d083f7c_1,consumerId=ID_eleven-65315-1747703130434-4_784_1_7,destinationName=TestTopic,destinationType=Queue,endpoint=Consumer,type=Broker"
+        }
+      ],
+      "remoteAddress": "tcp://127.0.0.1:54753",
+      "slow": false,
+      "blocked": false,
+      "activeTransactionCount": 0,
+      "oldestActiveTransactionDuration": null,
+      "dispatchQueueSize": 0
+    }
+  ]
+}

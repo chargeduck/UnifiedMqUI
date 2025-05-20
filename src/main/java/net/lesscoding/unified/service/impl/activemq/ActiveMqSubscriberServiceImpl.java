@@ -13,7 +13,7 @@ import net.lesscoding.unified.core.enums.activemq.MbeanFormat;
 import net.lesscoding.unified.core.model.dto.CommonQueryDto;
 import net.lesscoding.unified.core.model.dto.activemq.SubscriberQueryDto;
 import net.lesscoding.unified.core.model.vo.activemq.jolokia.ActiveMqJolokiaResponse;
-import net.lesscoding.unified.core.model.vo.activemq.jolokia.broker.SearchResult;
+import net.lesscoding.unified.core.model.vo.activemq.jolokia.SearchResult;
 import net.lesscoding.unified.core.model.vo.activemq.jolokia.subscriber.SubscriberInfo;
 import net.lesscoding.unified.entity.ConnectConfig;
 import net.lesscoding.unified.service.activemq.ActiveMqSubscriberService;

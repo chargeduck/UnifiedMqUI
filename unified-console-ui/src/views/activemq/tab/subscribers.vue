@@ -1,7 +1,7 @@
 <script setup>
 import { defineOptions, ref, provide, watch } from 'vue'
 import { fetchSubscriberPage } from '@/api/activemq/subscriber.js'
-import ActiveMqSubscribersTable from '@/views/activemq/dialog/subscriber/subscriberTable.vue'
+import ActiveMqSubscribersTable from '@/views/activemq/dialog/subscriberTable.vue'
 import { createDurableSubscriber } from '@/api/activemq/broker.js'
 import { ElMessage } from 'element-plus'
 import { commonQuery } from '@/utils/commonQuery.js'

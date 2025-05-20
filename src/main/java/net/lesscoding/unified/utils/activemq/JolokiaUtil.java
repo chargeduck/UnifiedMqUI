@@ -26,6 +26,7 @@ import org.springframework.stereotype.Component;
 public class JolokiaUtil {
     private final Gson gson;
 
+
     public Object getBrokerList(ConnectConfig connectConfig) {
         JolokiaQueryDto dto = new JolokiaQueryDto()
                 .setType("read")
@@ -40,6 +41,23 @@ public class JolokiaUtil {
         return getJolokiaResponse(connectConfig, dto);
     }
 
+    public <T> T getList(ConnectConfig connectConfig, TypeToken<T> typeToken) {
+        // ActiveMQ Jolokia REST API 端点
+        String url = StrUtil.format("http://{}:{}/api/jolokia/list", connectConfig.getHost(), 8161);
+        // 发送 POST 请求
+        HttpResponse response = HttpRequest.post(url)
+                .header("Origin", "*")
+                .basicAuth(connectConfig.getUsername(), connectConfig.getPassword())
+                .body(gson.toJson(new JolokiaQueryDto().setType(JolokiaExecuteType.LIST.getType())))
+                .execute();
+        log.info("response: {}", response.body());
+        if (response.isOk()) {
+            return gson.fromJson(response.body(), typeToken.getType());
+        } else {
+            log.error("请求失败，状态码: " + response.getStatus());
+            throw new MqException("连接ActiveMQ失败，请检查jolokia配置是否开启");
+        }
+    }
 
     private String getJolokiaResponse(ConnectConfig connectConfig, JolokiaQueryDto dto) {
         // ActiveMQ Jolokia REST API 端点
@@ -113,9 +131,31 @@ public class JolokiaUtil {
         return gson.fromJson(response, typeToken.getType());
     }
 
+    /**
+     * 执行  读取参数的方法
+     *
+     * @param config    连接配置
+     * @param mbean     mbean
+     * @param arguments 参数
+     * @param typeToken gson 类型解析器
+     * @param <T>       响应类型
+     * @return T
+     */
+    public <T> T doReadWithTypeToken(ConnectConfig config, String mbean,
+                                     Object arguments, TypeToken<T> typeToken) {
+        JolokiaQueryDto dto = new JolokiaQueryDto()
+                .setType(JolokiaExecuteType.READ.getType())
+                .setMbean(mbean)
+                .setArguments(arguments);
+        String response = getJolokiaResponse(config, dto);
+        log.info("response: {}", response);
+        return gson.fromJson(response, typeToken.getType());
+    }
+
+
     public <T> T doSearchAttribute(ConnectConfig config, JolokiaExecuteType execType,
-                                           String mbean, String attribute,
-                                           TypeToken<T> typeToken) {
+                                   String mbean, String attribute,
+                                   TypeToken<T> typeToken) {
         JolokiaQueryDto dto = new JolokiaQueryDto()
                 .setType(execType.getType())
                 .setMbean(mbean)
