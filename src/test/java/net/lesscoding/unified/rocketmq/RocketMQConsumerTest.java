@@ -69,4 +69,14 @@ public class RocketMQConsumerTest {
         // 7. 关闭消费者（实际应用中通常不需要关闭）
         consumer.shutdown();
     }
+
+    /**
+     * 定义方法
+     *
+     * @date 2025/5/21 16:13
+     */
+    @Test
+    public void testConsumer2() {
+
+    }
 }
