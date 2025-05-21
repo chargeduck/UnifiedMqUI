@@ -1,0 +1,57 @@
+name: Upload Release Asset
+# 当有符合条件的 push 操作时触发此工作流
+on:
+  push:
+    # 当推送的标签以 v 开头时触发
+    tags:
+      - 'v*'  # 匹配 v 开头的标签
+
+# 定义工作流中的作业
+jobs:
+  # 定义名为 build 的作业
+  build:
+    # 指定作业运行的环境为最新版的 Ubuntu
+    runs-on: ubuntu-latest
+    # 定义作业的步骤
+    steps:
+      # 步骤 1：检出代码到运行环境
+      - name: Checkout code
+        # 使用 GitHub Actions 提供的检出代码的动作，版本为 v4
+        uses: actions/checkout@v4
+
+      # 步骤 2：设置 JDK 环境
+      - name: Set up JDK 11
+        # 使用 GitHub Actions 提供的设置 Java 环境的动作，版本为 v4
+        uses: actions/setup-java@v4
+        # 配置动作的输入参数
+        with:
+          # 设置 Java 版本为 11
+          java-version: '11'
+          # 指定 Java 发行版为 temurin
+          distribution: 'temurin'
+
+      # 步骤 3：使用 Maven 构建项目
+      - name: Build with Maven
+        # 执行 Maven 命令，-B 表示批处理模式，package 表示打包项目，--file 指定使用的 pom 文件
+        run: mvn -B package --file pom.xml
+
+      # 步骤 4：创建 GitHub 发布版本
+      - name: Create Release
+        # 为该步骤设置一个唯一的 ID，方便后续引用
+        id: create_release
+        # 使用 GitHub Actions 提供的创建发布版本的动作，版本为 v1
+        uses: actions/create-release@v1
+        # 设置环境变量
+        env:
+          # 使用 GitHub 仓库的令牌，用于认证操作
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # 配置动作的输入参数
+        with:
+          # 指定发布版本的标签名，使用当前触发事件的引用（通常是标签名）
+          tag_name: ${{ github.ref }}
+          # 指定发布版本的名称，包含当前触发事件的引用
+          release_name: Release ${{ github.ref }}
+          # 是否将发布版本设置为草稿状态，false 表示非草稿
+          draft: false
+          # 是否将发布版本设置为预发布状态，false 表示正式发布
+          prerelease: false
