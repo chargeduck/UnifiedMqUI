@@ -6,7 +6,7 @@ import net.lesscoding.unified.core.model.Result;
 import net.lesscoding.unified.core.model.dto.CommonQueryDto;
 import net.lesscoding.unified.core.model.dto.activemq.DurableSubscribeDto;
 import net.lesscoding.unified.core.model.vo.activemq.jolokia.queue.QueueInfo;
-import net.lesscoding.unified.core.model.vo.activemq.jolokia.topic.TopicInfo;
+import net.lesscoding.unified.core.model.vo.activemq.jolokia.TopicInfo;
 import net.lesscoding.unified.service.activemq.ActiveMqBrokerService;
 import org.springframework.web.bind.annotation.*;
 

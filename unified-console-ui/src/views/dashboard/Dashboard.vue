@@ -59,7 +59,8 @@ const addBtnFunction = () => {
 const createConnect = async () => {
   await popFormRef.value.validate()
   loadFlag.value = true
-  await addMqConnect(popForm.value).then(resp => {
+  const data = commonQuery(popForm.value, null)
+  await addMqConnect(data).then(resp => {
     ElMessage.success(`创建成功 ${ resp.msg }`)
   }).finally(() => {
     loadFlag.value = false

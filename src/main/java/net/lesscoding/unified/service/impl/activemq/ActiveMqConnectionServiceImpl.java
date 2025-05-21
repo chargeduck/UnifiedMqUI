@@ -15,7 +15,7 @@ import net.lesscoding.unified.core.model.dto.CommonQueryDto;
 import net.lesscoding.unified.core.model.vo.activemq.jolokia.ActiveMqJolokiaResponse;
 import net.lesscoding.unified.core.model.vo.activemq.jolokia.ConsumerInfo;
 import net.lesscoding.unified.core.model.vo.activemq.jolokia.SearchResult;
-import net.lesscoding.unified.core.model.vo.activemq.jolokia.connection.ConnectionInfo;
+import net.lesscoding.unified.core.model.vo.activemq.jolokia.ConnectionInfo;
 import net.lesscoding.unified.entity.ConnectConfig;
 import net.lesscoding.unified.service.activemq.ActiveMqConnectionService;
 import net.lesscoding.unified.utils.PageUtil;

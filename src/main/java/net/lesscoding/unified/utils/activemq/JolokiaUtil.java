@@ -41,6 +41,12 @@ public class JolokiaUtil {
         return getJolokiaResponse(connectConfig, dto);
     }
 
+    public <T> T getByQueryDto(ConnectConfig connectConfig, JolokiaQueryDto dto, TypeToken<T> typeToken) {
+        String response = getJolokiaResponse(connectConfig, dto);
+        log.info("response: {}", response);
+        return gson.fromJson(response, typeToken.getType());
+    }
+
     public <T> T getList(ConnectConfig connectConfig, TypeToken<T> typeToken) {
         // ActiveMQ Jolokia REST API 端点
         String url = StrUtil.format("http://{}:{}/api/jolokia/list", connectConfig.getHost(), 8161);
@@ -60,6 +66,7 @@ public class JolokiaUtil {
     }
 
     private String getJolokiaResponse(ConnectConfig connectConfig, JolokiaQueryDto dto) {
+        log.info("本次请求参数为: {}", gson.toJson(dto));
         // ActiveMQ Jolokia REST API 端点
         String url = StrUtil.format("http://{}:{}/api/jolokia/", connectConfig.getHost(), 8161);
         // 发送 POST 请求

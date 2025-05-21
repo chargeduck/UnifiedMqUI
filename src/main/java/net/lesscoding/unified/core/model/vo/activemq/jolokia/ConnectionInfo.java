@@ -1,4 +1,4 @@
-package net.lesscoding.unified.core.model.vo.activemq.jolokia.connection;
+package net.lesscoding.unified.core.model.vo.activemq.jolokia;
 
 import lombok.Data;
 import net.lesscoding.unified.core.model.vo.activemq.jolokia.SearchResult;

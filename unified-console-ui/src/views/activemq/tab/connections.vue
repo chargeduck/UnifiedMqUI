@@ -109,6 +109,7 @@ doSearch()
     :title="dynamicDialogProps.title"
     :showFooterBtn="dynamicDialogProps.showFooterBtn"
     :destroy-on-close="true"
+    :width="80"
   >
     <template #component>
       <component

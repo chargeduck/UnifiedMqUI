@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import net.lesscoding.unified.core.model.dto.CommonQueryDto;
 import net.lesscoding.unified.core.model.dto.activemq.DurableSubscribeDto;
 import net.lesscoding.unified.core.model.vo.activemq.jolokia.queue.QueueInfo;
-import net.lesscoding.unified.core.model.vo.activemq.jolokia.topic.TopicInfo;
+import net.lesscoding.unified.core.model.vo.activemq.jolokia.TopicInfo;
 
 import java.util.List;
 

@@ -62,10 +62,12 @@ const handleSizeChange = (val) => {
       <template #default="scope">
         <el-descriptions :column="4">
           <el-descriptions-item label="priority">{{ scope.row.priority }}</el-descriptions-item>
+          <el-descriptions-item label="selector">{{ scope.row.selector }}</el-descriptions-item>
           <el-descriptions-item label="active">{{ scope.row.active }}</el-descriptions-item>
+          <el-descriptions-item label="Dispatched">{{ scope.row.dispatchedCounter }}</el-descriptions-item>
+          <el-descriptions-item label="DispatchedQueue">{{ scope.row.dispatchedQueueSize }}</el-descriptions-item>
           <el-descriptions-item label="subscriptionName">{{ scope.row.subscriptionName }}</el-descriptions-item>
           <el-descriptions-item label="dispatchAsync">{{ scope.row.dispatchAsync }}</el-descriptions-item>
-          <el-descriptions-item label="connectionId">{{ scope.row.connectionId }}</el-descriptions-item>
           <el-descriptions-item label="durable">{{ scope.row.durable }}</el-descriptions-item>
           <el-descriptions-item label="Acknowledge">{{ scope.row.messageCountAwaitingAcknowledge }}</el-descriptions-item>
           <el-descriptions-item label="maximumPendingQueueSize">{{ scope.row.maximumPendingQueueSize }}</el-descriptions-item>
@@ -80,18 +82,17 @@ const handleSizeChange = (val) => {
           <el-descriptions-item label="subscriptionId">{{ scope.row.subscriptionId }}</el-descriptions-item>
           <el-descriptions-item label="subscriptionId">{{ scope.row.subscriptionId }}</el-descriptions-item>
           <el-descriptions-item label="noLocal">{{ scope.row.noLocal }}</el-descriptions-item>
+          <el-descriptions-item label="connectionId">{{ scope.row.connectionId }}</el-descriptions-item>
         </el-descriptions>
       </template>
     </el-table-column>
-    <el-table-column prop="destinationName" label="Destination" />
+    <el-table-column prop="destinationName" label="Destination" show-overflow-tooltip/>
     <el-table-column prop="sessionId" label="SessionId" />
-    <el-table-column prop="selector" label="Selector" />
+    <el-table-column prop="active" label="active" />
     <el-table-column prop="enqueueCounter" label="Enqueues" />
     <el-table-column prop="dequeueCounter" label="Dequeues" />
-    <el-table-column prop="dispatchedCounter" label="Dispatched" />
-    <el-table-column prop="dispatchedQueueSize" label="Dispatched Queue" />
     <el-table-column prop="prefetchSize" label="PrefetchSize " />
-    <el-table-column prop="maximumPendingMessageLimit" label="Max pending " />
+    <el-table-column prop="maximumPendingMessageLimit" label="MaxPending" />
     <el-table-column prop="exclusive" label="Exclusive" />
     <el-table-column prop="retroactive" label="Retroactive" />
   </el-table>

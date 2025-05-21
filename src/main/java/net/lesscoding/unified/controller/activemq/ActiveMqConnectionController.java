@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import net.lesscoding.unified.core.model.Result;
 import net.lesscoding.unified.core.model.dto.CommonQueryDto;
 import net.lesscoding.unified.core.model.vo.activemq.jolokia.SearchResult;
-import net.lesscoding.unified.core.model.vo.activemq.jolokia.connection.ConnectionInfo;
+import net.lesscoding.unified.core.model.vo.activemq.jolokia.ConnectionInfo;
 import net.lesscoding.unified.service.activemq.ActiveMqConnectionService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

@@ -1,19 +1,28 @@
 <script setup>
-import { defineModel } from 'vue'
+import { defineModel, defineProps, computed } from 'vue'
 
 const visible = defineModel('visible')
 const title = defineModel('title')
 const showFooterBtn = defineModel('showFooterBtn')
+const props = defineProps({
+  width: {
+    type: Number,
+    default: 70
+  }
+})
 const cancelDialog = () => {
   visible.value = false
 }
+const width = computed(() => {
+  return `${ props.width }%`
+})
 </script>
 <template>
   <el-dialog
     v-model="visible"
     :title="title"
     :before-close="cancelDialog"
-    width="70%"
+    :width='width'
     class="dynamic-modal"
   >
     <!-- 自定义头部插槽 -->

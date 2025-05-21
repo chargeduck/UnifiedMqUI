@@ -1,0 +1,16 @@
+[
+  {
+    "type": "read",
+    "mbean": "org.apache.activemq:brokerName=localhost,name=JMS,service=JobScheduler,type=Broker",
+    "arguments": [
+      "AllJobs"
+    ]
+  },
+  {
+    "type": "read",
+    "mbean": "org.apache.activemq:brokerName=localhost,name=JMS,service=JobScheduler,type=Broker",
+    "attribute": [
+      "AllJobs"
+    ]
+  }
+]

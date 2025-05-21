@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.*;
 public class MqController {
     private final MqConnectManagerService mqConnectManagerService;
     @PostMapping("/create")
-    public Result createMqConnect(@RequestBody CommonQueryDto<Object> dto) {
-        ConnectConfig connectConfig = dto.getConfig();
+    public Result createMqConnect(@RequestBody CommonQueryDto<ConnectConfig> dto) {
+        ConnectConfig connectConfig = dto.getParams();
         connectConfig = mqConnectManagerService.createMqConnect(connectConfig);
         return Result.success(connectConfig);
     }
