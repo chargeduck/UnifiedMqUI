@@ -35,6 +35,16 @@ public class ActiveMqConnectionController {
         return Result.success(connectionService.connectionList(dto));
     }
 
+    @PostMapping("/networkConnectorList")
+    public Result<Object> networkConnectorList(@RequestBody CommonQueryDto<String> dto) {
+        return Result.success(connectionService.networkConnectorList(dto));
+    }
+
+    @PostMapping("/networkBridges")
+    public Result<Object> networkBridges(@RequestBody CommonQueryDto<String> dto) {
+        return Result.success(connectionService.networkBridges(dto));
+    }
+
     @PostMapping("/consumers")
     public Result<Page> connectionConsumers(@RequestBody CommonQueryDto<List<SearchResult>> dto) {
         return Result.success(connectionService.connectionConsumers(dto));

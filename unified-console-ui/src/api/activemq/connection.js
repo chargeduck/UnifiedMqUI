@@ -13,6 +13,22 @@ export function fetchConnectList (data) {
   })
 }
 
+export function fetchNetworkConnectorList (data) {
+  return request({
+    url: '/activemq/connection/networkConnectorList',
+    method: 'post',
+    data
+  })
+}
+
+export function fetchNetworkBridgeList (data) {
+  return request({
+    url: '/activemq/connection/networkBridges',
+    method: 'post',
+    data
+  })
+}
+
 /**
  *  连接消费者
  * @param data

@@ -18,6 +18,7 @@ public enum MbeanFormat {
     // 操作queue的 mbean format
     QUEUE_OP("org.apache.activemq:brokerName={},type=Broker,destinationName={},destinationType=Queue"),
     SUBSCRIBER_OP("org.apache.activemq:type=Broker,brokerName={},destinationType=Topic,destinationName=*,endpoint=Consumer,clientId=*,consumerId=*"),
+    NETWORK_CONNECTOR("org.apache.activemq:brokerName={},connector=networkConnectors,networkConnectorName=networkConnector,type=Broker"),
     ;
 
 

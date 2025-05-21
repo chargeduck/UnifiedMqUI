@@ -1,7 +1,7 @@
 <script setup>
 import { defineOptions, ref } from 'vue'
 import { commonQuery } from '@/utils/commonQuery.js'
-import { fetchConnectList } from '@/api/activemq/connection.js'
+import { fetchConnectList, fetchNetworkConnectorList } from '@/api/activemq/connection.js'
 import DynamicDialog from '@/components/DynamicDialog.vue'
 import ConnectionDetail from '@/views/activemq/dialog/connectionDetail.vue'
 
@@ -9,6 +9,7 @@ defineOptions({
   name: 'ActiveMqConnections'
 })
 const tableData = ref([])
+const networkTableData = ref([])
 const searchForm = ref({
   type: ''
 })
@@ -35,6 +36,13 @@ const doSearch = () => {
     }
   })
 }
+const doNetworkSearch = () => {
+  const data = commonQuery('', page.value)
+  fetchNetworkConnectorList(data).then(resp => {
+    networkTableData.value = resp.data
+  })
+}
+doNetworkSearch()
 const handleCurrentChange = (val) => {
   page.value.current = val
   doSearch()
@@ -46,7 +54,7 @@ const handleSizeChange = (val) => {
 const showDetail = (row) => {
   dynamicDialogProps.value = {
     visible: true,
-    title: `Connection ${row.clientId}`,
+    title: `Connection ${ row.clientId }`,
     showFooterBtn: false,
     data: row,
     component: ConnectionDetail
@@ -84,8 +92,8 @@ doSearch()
 
   </el-form>
   <el-table :data="tableData" border stripr>
-    <el-table-column type="index" label="index" width="100"/>
-    <el-table-column prop="clientId" label="name" >
+    <el-table-column type="index" label="index" width="100" />
+    <el-table-column prop="clientId" label="name">
       <template #default="scope">
         <el-link type="primary" @click="showDetail(scope.row)">{{ scope.row.clientId }}</el-link>
       </template>
@@ -119,7 +127,37 @@ doSearch()
       />
     </template>
   </dynamic-dialog>
+  <el-divider content-position="left" style="margin-top: 50px">Network Connectors</el-divider>
+  <el-table :data="networkTableData" border stripr>
+    <el-table-column type="expand">
+      <template #default="scope">
+        <el-descriptions :column="4">
+          <el-descriptions-item label="userName">{{ scope.row.userName }}</el-descriptions-item>
+          <el-descriptions-item label="password">{{ scope.row.password }}</el-descriptions-item>
+          <el-descriptions-item label="duplex">{{ scope.row.duplex }}</el-descriptions-item>
+          <el-descriptions-item label="remoteUserName">{{ scope.row.remoteUserName }}</el-descriptions-item>
+          <el-descriptions-item label="remotePassword">{{ scope.row.remotePassword }}</el-descriptions-item>
+          <el-descriptions-item label="advisoryPrefetchSize">{{ scope.row.advisoryPrefetchSize }}</el-descriptions-item>
+          <el-descriptions-item label="suppressDuplicateTopicSubscriptions">
+            {{ scope.row.suppressDuplicateTopicSubscriptions }}
+          </el-descriptions-item>
+          <el-descriptions-item label="suppressDuplicateQueueSubscriptions">
+            {{ scope.row.suppressDuplicateQueueSubscriptions }}
+          </el-descriptions-item>
+          <el-descriptions-item label="prefetchSize">{{ scope.row.prefetchSize }}</el-descriptions-item>
+        </el-descriptions>
 
-
+      </template>
+    </el-table-column>
+    <el-table-column type="index" label="index" width="100" />
+    <el-table-column prop="name" label="name" />
+    <el-table-column prop="messageTTL" label="messageTTL" />
+    <el-table-column prop="consumerTTL" label="consumerTTL" />
+    <el-table-column prop="dynamicOnly" label="dynamicOnly" />
+    <el-table-column prop="conduitSubscriptions" label="conduitSubscription" />
+    <el-table-column prop="bridgeTempDestinations" label="bridgeTemp" />
+    <el-table-column prop="decreaseNetworkConsumerPriority" label="decreasePriority" />
+    <el-table-column prop="dispatchAsync" label="dispatchAsync" />
+  </el-table>
 </template>
 <style></style>
