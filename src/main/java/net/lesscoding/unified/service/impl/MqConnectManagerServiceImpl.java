@@ -62,7 +62,7 @@ public class MqConnectManagerServiceImpl implements MqConnectManagerService {
         ConnectConfig config = dto.getParams();
         PageDTO page = dto.getPage();
         List<ConnectConfig> connectConfigs = connectConfigMapper.getMqList(page, config);
-        List<List<ConnectConfig>> partition = Lists.partition(connectConfigs, 3);
+        List<List<ConnectConfig>> partition = Lists.partition(connectConfigs, 2);
         page.setRecords(partition);
         return page;
     }

@@ -22,10 +22,8 @@ public class PageUtil<T> {
     private static <T> Page<T> pagination(List<T> data, long currentPage, long pageSize) {
         Page<T> page = new PageDTO<>();
         long fromIndex = 0;
-        //long toIndex = 10;
         long from = (currentPage - 1) * pageSize;
         fromIndex = from > data.size() ? data.size() : from;
-        //toIndex = (fromIndex + pageSize) > data.size() ? data.size() : (fromIndex + pageSize);
         page.setCurrent(currentPage);
         page.setSize(pageSize);
         page.setTotal(data.size());
@@ -37,7 +35,7 @@ public class PageUtil<T> {
         return page;
     }
 
-    public Page<T> getPageByGetter(List<T> data, Getter<T, Long> currentGetter, Getter<T, Long> sizeGetter) {
+    public static <T> Page<T> getPageByGetter(List<T> data, Getter<T, Long> currentGetter, Getter<T, Long> sizeGetter) {
         long currentPage = currentGetter.apply();
         long pageSize = sizeGetter.apply();
         return pagination(data, currentPage, pageSize);

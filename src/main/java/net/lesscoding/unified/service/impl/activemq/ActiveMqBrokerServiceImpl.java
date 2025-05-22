@@ -102,12 +102,7 @@ public class ActiveMqBrokerServiceImpl implements ActiveMqBrokerService {
                 new ArrayList<>(value.values()) :
                 new ArrayList<>();
         PageDTO<String> page = dto.getPage();
-        return new PageUtil<TopicInfo>()
-                .getPageByGetter(
-                        filterList,
-                        page::getCurrent,
-                        page::getSize
-                );
+        return PageUtil.getPageByGetter(filterList, page::getCurrent, page::getSize);
     }
 
     @Override

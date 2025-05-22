@@ -142,12 +142,7 @@ public class ActiveMqQueueServiceImpl implements ActiveMqQueueService {
                 })
                 .collect(Collectors.toList());
         if (CollUtil.isNotEmpty(queueMsgList)) {
-            return new PageUtil<QueueMessage>()
-                    .getPageByGetter(
-                            queueMsgList,
-                            page::getCurrent,
-                            page::getSize
-                    );
+            return PageUtil.getPageByGetter(queueMsgList, page::getCurrent, page::getSize);
         }
         return page;
     }

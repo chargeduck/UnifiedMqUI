@@ -77,8 +77,7 @@ public class ActiveMqSchedulerServiceImpl implements ActiveMqSchedulerService {
                     .filter(item -> params.getEnd() == null || !item.getStartTime().isAfter(params.getEnd()))
                     .collect(Collectors.toList());
         }
-        return new PageUtil<SchedulerInfo>()
-                .getPageByGetter(schedulerInfos, page::getCurrent, page::getSize);
+        return PageUtil.getPageByGetter(schedulerInfos, page::getCurrent, page::getSize);
     }
 
     @Override

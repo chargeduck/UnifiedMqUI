@@ -66,8 +66,7 @@ public class ActiveMqConnectionServiceImpl implements ActiveMqConnectionService 
                 })
                 .filter(item -> StrUtil.isBlank(dto.getParams()) || StrUtil.equals(item.getConnectorType(), dto.getParams()))
                 .collect(Collectors.toList());
-        return new PageUtil<ConnectionInfo>()
-                .getPageByGetter(infoList, page::getCurrent, page::getSize);
+        return PageUtil.getPageByGetter(infoList, page::getCurrent, page::getSize);
     }
 
     @Override
@@ -84,8 +83,7 @@ public class ActiveMqConnectionServiceImpl implements ActiveMqConnectionService 
 
                         }
                 ).getValue()).collect(Collectors.toList());
-        return new PageUtil<ConsumerInfo>()
-                .getPageByGetter(consumerInfos, page::getCurrent, page::getSize);
+        return PageUtil.getPageByGetter(consumerInfos, page::getCurrent, page::getSize);
     }
 
     /**
@@ -177,7 +175,6 @@ public class ActiveMqConnectionServiceImpl implements ActiveMqConnectionService 
                 ).getValue())
                 .filter(item -> StrUtil.isBlank(dto.getParams()) || StrUtil.contains(item.getRemoteAddress(), dto.getParams()))
                 .collect(Collectors.toList());
-        return new PageUtil<NetworkBridge>()
-                .getPageByGetter(list, page::getCurrent, page::getSize);
+        return PageUtil.getPageByGetter(list, page::getCurrent, page::getSize);
     }
 }

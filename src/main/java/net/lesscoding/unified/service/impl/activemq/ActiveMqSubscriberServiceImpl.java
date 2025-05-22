@@ -125,7 +125,7 @@ public class ActiveMqSubscriberServiceImpl implements ActiveMqSubscriberService 
     public Page<SubscriberInfo> subscriberInfoPage(ConnectConfig config, SubscriberQueryDto dto, Page<?> page) {
         List<SubscriberInfo> list = subscriberInfos(config, dto);
         page = Optional.ofNullable(page).orElse(new PageDTO<>(1, 10));
-        return new PageUtil<SubscriberInfo>().getPageByGetter(list, page::getCurrent, page::getSize);
+        return PageUtil.getPageByGetter(list, page::getCurrent, page::getSize);
     }
 
 
@@ -158,7 +158,7 @@ public class ActiveMqSubscriberServiceImpl implements ActiveMqSubscriberService 
         if (CollUtil.isNotEmpty(values)) {
             values = subscribersFilter(values, params);
         }
-        return new PageUtil<SubscriberInfo>().getPageByGetter(values, page::getCurrent, page::getSize);
+        return PageUtil.getPageByGetter(values, page::getCurrent, page::getSize);
     }
 
     /**
