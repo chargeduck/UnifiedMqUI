@@ -11,11 +11,15 @@ import net.lesscoding.unified.core.adapter.MqAdapter;
 import net.lesscoding.unified.core.adapter.MqAdapterFactory;
 import net.lesscoding.unified.core.model.dto.CommonQueryDto;
 import net.lesscoding.unified.entity.ConnectConfig;
+import net.lesscoding.unified.entity.HelpMarkdown;
 import net.lesscoding.unified.mapper.ConnectConfigMapper;
 import net.lesscoding.unified.service.MqConnectManagerService;
+import net.lesscoding.unified.utils.IOStreamUtils;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import javax.jms.Connection;
+import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -34,7 +38,7 @@ public class MqConnectManagerServiceImpl implements MqConnectManagerService {
 
     @Override
     public ConnectConfig createMqConnect(ConnectConfig connectConfig) {
-        if(StrUtil.isBlank(connectConfig.getTitle())) {
+        if (StrUtil.isBlank(connectConfig.getTitle())) {
             connectConfig.setTitle(MqAdapter.connectionKey(connectConfig));
         }
         MqAdapter adapter = mqAdapterFactory.getMqAdapter(connectConfig.getMqTypeEnum());
@@ -88,5 +92,18 @@ public class MqConnectManagerServiceImpl implements MqConnectManagerService {
     @Override
     public Integer delById(Integer id) {
         return connectConfigMapper.deleteById(id);
+    }
+
+    @Override
+    public String mqHelp(CommonQueryDto<HelpMarkdown> dto) {
+        HelpMarkdown params = dto.getParams();
+        String path = StrUtil.format("help/{}/{}/{}.md", params.getLanguage(), params.getMqType(), params.getTitle());
+        ClassPathResource resource = new ClassPathResource(path);
+        try (InputStream inputStream = resource.getInputStream()) {
+            return IOStreamUtils.inputStreamToString(inputStream, System.lineSeparator());
+        } catch (Exception e) {
+            log.error("获取MQ帮助文档失败", e);
+            return StrUtil.format("请检查文件 {} 是否存在", path);
+        }
     }
 }

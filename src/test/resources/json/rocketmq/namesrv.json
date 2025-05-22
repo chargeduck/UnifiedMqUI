@@ -1,0 +1,21 @@
+{
+  "localhost:9876": {
+    "serverChannelMaxIdleTimeSeconds": "120",
+    "serverSelectorThreads": "3",
+    "serverWorkerThreads": "8",
+    "serverSocketRcvBufSize": "65535",
+    "serverAsyncSemaphoreValue": "64",
+    "kvConfigPath": "C:Users24962\namesrvkvConfig.json",
+    "configStorePath": "C:Users24962\namesrv\namesrv.properties",
+    "clusterTest": "false",
+    "orderMessageEnable": "false",
+    "serverSocketSndBufSize": "65535",
+    "serverCallbackExecutorThreads": "0",
+    "serverOnewaySemaphoreValue": "256",
+    "listenPort": "9876",
+    "rocketmqHome": "E:ide\rocketmq-all-4.9.0-bin-release",
+    "useEpollNativeSelector": "false",
+    "productEnvName": "center",
+    "serverPooledByteBufAllocatorEnable": "true"
+  }
+}

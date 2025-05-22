@@ -1,0 +1,73 @@
+{
+  "brokerServer": {
+    "eleven": {
+      "0": {
+        "msgPutTotalTodayNow": "0",
+        "commitLogDiskRatio": "-1.0",
+        "getFoundTps": "0.0 0.0 0.0",
+        "EndTransactionThreadPoolQueueCapacity": "100000",
+        "sendThreadPoolQueueHeadWaitTimeMills": "0",
+        "putMessageDistributeTime": "[\u003c\u003d0ms]:0 [0~10ms]:0 [10~50ms]:0 [50~100ms]:0 [100~200ms]:0 [200~500ms]:0 [500ms~1s]:0 [1~2s]:0 [2~3s]:0 [3~4s]:0 [4~5s]:0 [5~10s]:0 [10s~]:0 ",
+        "queryThreadPoolQueueHeadWaitTimeMills": "0",
+        "remainHowManyDataToFlush": "0 B",
+        "msgGetTotalTodayNow": "0",
+        "commitLogMaxOffset": "0",
+        "queryThreadPoolQueueSize": "0",
+        "getMessageEntireTimeMax": "1",
+        "msgPutTotalTodayMorning": "0",
+        "putMessageTimesTotal": "1",
+        "bootTimestamp": "1747897115049",
+        "msgGetTotalTodayMorning": "0",
+        "msgPutTotalYesterdayMorning": "0",
+        "msgGetTotalYesterdayMorning": "0",
+        "pullThreadPoolQueueSize": "0",
+        "brokerVersionDesc": "V4_9_0",
+        "sendThreadPoolQueueSize": "0",
+        "startAcceptSendRequestTimeStamp": "0",
+        "commitLogMinOffset": "-1",
+        "putMessageEntireTimeMax": "0",
+        "pullThreadPoolQueueHeadWaitTimeMills": "0",
+        "runtime": "[ 0 days, 1 hours, 9 minutes, 52 seconds ]",
+        "earliestMessageTimeStamp": "-1",
+        "commitLogDirCapacity": "Total : 475.8 GiB, Free : 304.7 GiB.",
+        "dispatchMaxBuffer": "0",
+        "brokerVersion": "393",
+        "putTps": "0.0 0.0 0.0",
+        "remainTransientStoreBufferNumbs": "2147483647",
+        "getMissTps": "0.0 0.0332518662609939 0.03326574842112441",
+        "queryThreadPoolQueueCapacity": "20000",
+        "putMessageAverageSize": "0.0",
+        "getTransferedTps": "0.0 0.0 0.0",
+        "dispatchBehindBytes": "0",
+        "putMessageSizeTotal": "0",
+        "sendThreadPoolQueueCapacity": "10000",
+        "EndTransactionQueueSize": "0",
+        "getTotalTps": "0.0 0.0332518662609939 0.03326574842112441",
+        "pullThreadPoolQueueCapacity": "100000",
+        "consumeQueueDiskRatio": "-1.0",
+        "pageCacheLockTimeMills": "0"
+      }
+    }
+  },
+  "clusterInfo": {
+    "brokerAddrTable": {
+      "eleven": {
+        "cluster": "DefaultCluster",
+        "brokerName": "eleven",
+        "brokerAddrs": {
+          "0": "192.168.159.1:10911"
+        },
+        "random": {
+          "seed": 137698915327989,
+          "nextNextGaussian": 0.0,
+          "haveNextNextGaussian": false
+        }
+      }
+    },
+    "clusterAddrTable": {
+      "DefaultCluster": [
+        "eleven"
+      ]
+    }
+  }
+}

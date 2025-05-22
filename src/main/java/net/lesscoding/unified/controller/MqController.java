@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import net.lesscoding.unified.core.model.Result;
 import net.lesscoding.unified.core.model.dto.CommonQueryDto;
 import net.lesscoding.unified.entity.ConnectConfig;
+import net.lesscoding.unified.entity.HelpMarkdown;
 import net.lesscoding.unified.service.MqConnectManagerService;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,4 +39,10 @@ public class MqController {
     public Result deleteMqConnect(@PathVariable Integer id) {
         return Result.success(mqConnectManagerService.delById(id));
     }
+
+    @PostMapping("/help")
+    public Result mqHelp(@RequestBody CommonQueryDto<HelpMarkdown> dto) {
+        return Result.success(mqConnectManagerService.mqHelp(dto));
+    }
+
 }

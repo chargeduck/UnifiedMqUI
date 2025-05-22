@@ -3,6 +3,7 @@ package net.lesscoding.unified.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import net.lesscoding.unified.core.model.dto.CommonQueryDto;
 import net.lesscoding.unified.entity.ConnectConfig;
+import net.lesscoding.unified.entity.HelpMarkdown;
 
 import java.util.List;
 
@@ -19,4 +20,6 @@ public interface MqConnectManagerService{
     ConnectConfig getMqConnect(Integer id);
 
     Integer delById(Integer id);
+
+    String mqHelp(CommonQueryDto<HelpMarkdown> dto);
 }
