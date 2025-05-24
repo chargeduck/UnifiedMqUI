@@ -10,7 +10,9 @@ import lombok.Getter;
 @Getter
 public enum DerbyInitTable {
     // MQ配置表
-    CONNECT_CONFIG("connect_config", "sql/derby/connect_config.sql");
+    CONNECT_CONFIG("connect_config", "sql/derby/connect_config.sql"),
+    MQ_PORT_DICT("mq_port_dict", "sql/derby/mq_port_dict.sql"),
+    ;
 
     private final String tbName;
 

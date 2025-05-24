@@ -10,7 +10,10 @@ import lombok.Getter;
 @Getter
 public enum SqliteInitTable {
     // MQ配置表
-    CONNECT_CONFIG("connect_config", "sql/sqlite/connect_config.sql");
+    CONNECT_CONFIG("connect_config", "sql/sqlite/connect_config.sql"),
+    MQ_PORT_DICT("mq_port_dict", "sql/sqlite/mq_port_dict.sql"),
+    CONNECT_PORT("connect_port", "sql/sqlite/connect_port.sql"),
+    ;
 
     private final String tbName;
 

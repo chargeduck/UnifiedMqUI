@@ -5,12 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import net.lesscoding.unified.core.enums.DerbyInitTable;
 import net.lesscoding.unified.mapper.SysMapper;
 import net.lesscoding.unified.utils.IOStreamUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 
-import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -22,7 +20,7 @@ import java.util.List;
 @Slf4j
 public class DerbyDatabaseInitializer implements ApplicationRunner {
 
-    @Autowired
+    //@Autowired
     private SysMapper sysMapper;
 
     @Value("${spring.datasource.url:jdbc:derby:/.derby/data/unified_mq_console;multipleConnectionsAllowed=true}")
@@ -47,7 +45,7 @@ public class DerbyDatabaseInitializer implements ApplicationRunner {
                 try {
                     String sql = IOStreamUtils.inputStreamToString(classPathResource.getStream());
                     log.info("表名{}，sql{}", tbName, sql);
-                    sysMapper.createTable(sql);
+                    sysMapper.executeSql(sql);
                     log.info("创建表{}成功", tbName);
                 } catch (IOException e) {
                     log.error(e.getMessage());
@@ -64,7 +62,7 @@ public class DerbyDatabaseInitializer implements ApplicationRunner {
         initTables();
     }
 
-    @PostConstruct
+    //@PostConstruct
     public void initDatabase() {
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
             log.info("已存在数据库，不执行自动创建操作");

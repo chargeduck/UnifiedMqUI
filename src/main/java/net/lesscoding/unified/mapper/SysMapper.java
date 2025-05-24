@@ -18,5 +18,10 @@ public interface SysMapper {
     @Select("select tbl_name from sqlite_master where type = 'table'")
     List<String> getAllSqliteTables();
 
-    Integer createTable(@Param("ddl") String ddl);
+    /**
+     * 执行sql
+     * @param ddl
+     * @return
+     */
+    Integer executeSql(@Param("ddl") String ddl);
 }

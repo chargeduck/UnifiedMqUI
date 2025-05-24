@@ -92,3 +92,4 @@ ${codePrefix}shell
 ./bin/activemq restart
 ${codePrefix}
 `
+

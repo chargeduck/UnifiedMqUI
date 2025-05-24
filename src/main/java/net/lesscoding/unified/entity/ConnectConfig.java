@@ -3,7 +3,6 @@ package net.lesscoding.unified.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import net.lesscoding.unified.core.enums.MQType;
@@ -24,6 +23,8 @@ public class ConnectConfig {
     private String host;
     // 端口
     private String port;
+
+    private String extraPort;
     // Mq类型
     private Integer mqType;
 
@@ -56,10 +57,6 @@ public class ConnectConfig {
 
     @TableField(exist = false)
     private MQType mqTypeEnum;
-
-    @TableField(exist = false)
-    private PageDTO page;
-
     public MQType getMqTypeEnum() {
         return MQType.getByCode(mqType);
     }
