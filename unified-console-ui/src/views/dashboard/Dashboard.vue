@@ -6,6 +6,8 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import { Hide, Lock, User, View } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
 import { commonQuery } from '@/utils/commonQuery.js'
+import { allMqPort } from '@/api/mqPortDict.js'
+import { isBlank } from '@/utils/format.js'
 
 defineOptions({
   name: 'DashboardIndex'
@@ -23,11 +25,12 @@ const page = ref({
 })
 const popForm = ref({
   title: '',
-  mqType: null,
+  mqType: '',
   host: '',
   port: '',
   username: '',
-  password: ''
+  password: '',
+  inputPorts: []
 })
 const popFormRef = ref()
 const popFormRules = {
@@ -47,6 +50,8 @@ const popData = ref({
 })
 const mqList = ref([])
 const loadFlag = ref(false)
+const mqPortDict = ref([])
+const choosePortDict = ref([])
 // 新增链接按钮时间
 const addBtnFunction = () => {
   popData.value = {
@@ -59,6 +64,7 @@ const addBtnFunction = () => {
 const createConnect = async () => {
   await popFormRef.value.validate()
   loadFlag.value = true
+  popForm.value.inputPorts = choosePortDict.value
   const data = commonQuery(popForm.value, null)
   await addMqConnect(data).then(resp => {
     ElMessage.success(`创建成功 ${ resp.msg }`)
@@ -146,6 +152,26 @@ const pwdInputType = ref('password')
 const pwdIconTrigger = () => {
   pwdInputType.value = pwdInputType.value === 'password' ? 'text' : 'password'
 }
+const fetchAllMqPort = () => {
+  allMqPort().then(resp => {
+    mqPortDict.value = resp.data
+  })
+}
+
+const portDictFilter = () => {
+  const type = popForm.value.mqType
+  if (!isBlank(type)) {
+    if (mqPortDict.value.length === 0) {
+      fetchAllMqPort()
+    }
+    choosePortDict.value = mqPortDict.value.filter(item => item.mqType === type)
+    const mqDefaultDict = choosePortDict.value.find(item => item.defaultFlag)
+    if (mqDefaultDict) {
+      popForm.value.port = mqDefaultDict.defaultPort
+    }
+  }
+}
+fetchAllMqPort()
 fetchList()
 
 </script>
@@ -330,7 +356,11 @@ fetchList()
         </el-col>
         <el-col :span="12">
           <el-form-item label="MQ" prop="mqType">
-            <el-select v-model="popForm.mqType" placeholder="请选择类型" style="width: 100%">
+            <el-select
+              v-model="popForm.mqType"
+              @change="portDictFilter"
+              clearable
+              placeholder="请选择类型" style="width: 100%">
               <el-option v-for="item in mqTypeOptions" :key="item.value" :label="item.label" :value="item.value" />
             </el-select>
           </el-form-item>
@@ -382,6 +412,30 @@ fetchList()
             />
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row :gutter="20" style="margin: 10px">
+        <el-table :data="choosePortDict" border stripe>
+          <el-table-column prop="portLabel" label="默认标题" />
+          <el-table-column prop="defaultPort" label="默认端口" />
+          <el-table-column prop="defaultFlag" label="是否默认" />
+          <el-table-column prop="inputPort" label="自定义端口">
+            <template #default="scope">
+              <el-input-number
+                v-if="scope.row.defaultFlag"
+                v-model="popForm.port"
+                disabled
+                class="full-width" />
+              <el-input-number
+                v-else
+                :min="0"
+                :max="65535"
+                v-model="scope.row.inputPort"
+                placeholder="请输入端口号"
+                class="full-width" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="desc" label="描述" />
+        </el-table>
       </el-row>
       <el-form-item v-show="popData.showBtn">
         <el-button type="primary" @click="cancelDialog">

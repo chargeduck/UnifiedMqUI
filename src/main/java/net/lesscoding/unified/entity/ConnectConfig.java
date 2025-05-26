@@ -1,14 +1,17 @@
 package net.lesscoding.unified.entity;
 
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import net.lesscoding.unified.core.enums.MQType;
+import net.lesscoding.unified.core.model.dto.ExtraInputPort;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @author eleven
@@ -22,9 +25,8 @@ public class ConnectConfig {
     // 主机
     private String host;
     // 端口
-    private String port;
+    private Integer port;
 
-    private String extraPort;
     // Mq类型
     private Integer mqType;
 
@@ -57,6 +59,19 @@ public class ConnectConfig {
 
     @TableField(exist = false)
     private MQType mqTypeEnum;
+
+    @TableField(exist = false)
+    public List<ExtraInputPort> inputPorts;
+
+    @TableField(exist = false)
+    public Integer extraPort;
+
+    public Integer getExtraPort() {
+        return CollUtil.isNotEmpty(inputPorts) ?
+                inputPorts.stream().filter(item -> !item.getDefaultFlag()).findFirst().get().getInputPort() :
+                port;
+    }
+
     public MQType getMqTypeEnum() {
         return MQType.getByCode(mqType);
     }

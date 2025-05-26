@@ -1,12 +1,14 @@
 import request from '@/utils/request'
-export function  addMqConnect(data) {
+
+export function addMqConnect (data) {
   return request({
     url: '/mq/create',
     method: 'post',
     data
   })
 }
-export function fetchConnectList(data) {
+
+export function fetchConnectList (data) {
   return request({
     url: '/mq/list',
     method: 'post',
@@ -14,16 +16,24 @@ export function fetchConnectList(data) {
   })
 }
 
-export function getConnectById(id) {
+export function getConnectById (id) {
   return request({
-    url: `/mq/${id}`,
+    url: `/mq/${ id }`,
     method: 'get'
   })
 }
 
-export function delById(id) {
+export function delById (id) {
   return request({
-    url: `/mq/${id}`,
+    url: `/mq/${ id }`,
     method: 'delete'
+  })
+}
+
+export function helpMd (data) {
+  return request({
+    url: '/mq/help',
+    method: 'post',
+    data
   })
 }

@@ -1,12 +1,12 @@
 {
   "mq_port_dict": [
-    "INSERT OR REPLACE INTO mq_port_dict VALUES (1, 0, 1, 'port', 61616);",
-    "INSERT OR REPLACE INTO mq_port_dict VALUES (2, 0, 0, 'jolokiaPort', 8161);",
-    "INSERT OR REPLACE INTO mq_port_dict VALUES (3, 1, 1, 'port', 9876);",
-    "INSERT OR REPLACE INTO mq_port_dict VALUES (4, 1, 0, 'brokerPort', 10911);",
-    "INSERT OR REPLACE INTO mq_port_dict VALUES (5, 1, 0, 'consolePort', 10909);",
-    "INSERT OR REPLACE INTO mq_port_dict VALUES (6, 2, 1, 'port', 9092);",
-    "INSERT OR REPLACE INTO mq_port_dict VALUES (7, 2, 0, 'proxyPort', 8082);",
-    "INSERT OR REPLACE INTO mq_port_dict VALUES (8, 2, 0, 'connectPort', 8083);"
+    "INSERT OR REPLACE INTO mq_port_dict VALUES (1, 0, 1, 'port', 61616, '默认端口');",
+    "INSERT OR REPLACE INTO mq_port_dict VALUES (2, 0, 0, 'jolokiaPort', 8161, 'ActiveMq提供的Http端口');",
+    "INSERT OR REPLACE INTO mq_port_dict VALUES (3, 1, 1, 'port', 9876,'');",
+    "INSERT OR REPLACE INTO mq_port_dict VALUES (4, 1, 0, 'brokerPort', 10911,'broker端口号');",
+    "INSERT OR REPLACE INTO mq_port_dict VALUES (5, 1, 0, 'consolePort', 10909,'');",
+    "INSERT OR REPLACE INTO mq_port_dict VALUES (6, 2, 1, 'port', 9092,'');",
+    "INSERT OR REPLACE INTO mq_port_dict VALUES (7, 2, 0, 'proxyPort', 8082,'');",
+    "INSERT OR REPLACE INTO mq_port_dict VALUES (8, 2, 0, 'connectPort', 8083,'');"
   ]
 }

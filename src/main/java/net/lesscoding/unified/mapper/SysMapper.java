@@ -24,4 +24,7 @@ public interface SysMapper {
      * @return
      */
     Integer executeSql(@Param("ddl") String ddl);
+
+    @Select("select max(id) from ${tableName}")
+    Integer maxId(@Param("tableName") String tableName);
 }

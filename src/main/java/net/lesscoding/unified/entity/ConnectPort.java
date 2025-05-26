@@ -13,24 +13,10 @@ import lombok.Data;
 public class ConnectPort {
     @TableId(type = IdType.AUTO)
     private Integer id;
-    /**
-     * 消息队列类型
-     */
-    private Integer mqType;
 
-    /**
-     * 是否默认
-     */
+    private Integer portDictId;
 
-    private Boolean defaultFlag;
-    /**
-     * 端口 label
-     */
+    private Integer connectId;
 
-    private String portLabel;
-    /**
-     * 默认端口
-     */
-
-    private Integer defaultPort;
+    private Integer inputPort;
 }

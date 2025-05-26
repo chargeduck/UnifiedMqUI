@@ -4,8 +4,8 @@ import { allJobs, jobScheduler, removeJob } from '@/api/activemq/scheduler.js'
 import { commonQuery } from '@/utils/commonQuery.js'
 import { isBlank } from '@/utils/format.js'
 import VMdPreview from '@kangc/v-md-editor/lib/preview'
-import { scheduledMd } from '@/utils/const.js'
 import { ElMessage } from 'element-plus'
+import { helpMd } from '@/api/mqConnect.js'
 
 
 defineOptions({
@@ -23,6 +23,7 @@ const page = ref({
 })
 const tableData = ref([])
 const showScheduledTable = ref(false)
+const scheduledMd = ref('')
 const checkScheduled = () => {
   jobScheduler(commonQuery(null, null)).then(resp => {
     searchResult.value = resp.data
@@ -62,6 +63,17 @@ const doDelete = (row) => {
     fetchScheduledList()
   })
 }
+const scheduledHelp = () => {
+  const data = commonQuery({
+    mqType: 'activemq',
+    language: 'zhCN',
+    title: 'openScheduler'
+  })
+  helpMd(data).then(resp => {
+    scheduledMd.value = resp.data
+  })
+}
+scheduledHelp()
 checkScheduled()
 </script>
 

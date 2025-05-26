@@ -1,5 +1,6 @@
 package net.lesscoding.unified.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -9,10 +10,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.lesscoding.unified.core.adapter.MqAdapter;
 import net.lesscoding.unified.core.adapter.MqAdapterFactory;
+import net.lesscoding.unified.core.enums.SqliteInitTable;
 import net.lesscoding.unified.core.model.dto.CommonQueryDto;
+import net.lesscoding.unified.core.model.dto.ExtraInputPort;
 import net.lesscoding.unified.entity.ConnectConfig;
+import net.lesscoding.unified.entity.ConnectPort;
 import net.lesscoding.unified.entity.HelpMarkdown;
 import net.lesscoding.unified.mapper.ConnectConfigMapper;
+import net.lesscoding.unified.mapper.ConnectPortMapper;
+import net.lesscoding.unified.mapper.SysMapper;
 import net.lesscoding.unified.service.MqConnectManagerService;
 import net.lesscoding.unified.utils.IOStreamUtils;
 import org.springframework.core.io.ClassPathResource;
@@ -21,7 +27,12 @@ import org.springframework.stereotype.Service;
 import javax.jms.Connection;
 import java.io.InputStream;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * @author eleven
@@ -36,11 +47,15 @@ public class MqConnectManagerServiceImpl implements MqConnectManagerService {
 
     private final ConnectConfigMapper connectConfigMapper;
 
+    private final ConnectPortMapper connectPortMapper;
+    private final SysMapper sysMapper;
+
     @Override
     public ConnectConfig createMqConnect(ConnectConfig connectConfig) {
         if (StrUtil.isBlank(connectConfig.getTitle())) {
             connectConfig.setTitle(MqAdapter.connectionKey(connectConfig));
         }
+        List<ExtraInputPort> inputPorts = connectConfig.getInputPorts();
         MqAdapter adapter = mqAdapterFactory.getMqAdapter(connectConfig.getMqTypeEnum());
         connectConfig = adapter.getMqInfo(connectConfig);
         ConnectConfig dataRows = connectConfigMapper.selectOne(new LambdaQueryWrapper<ConnectConfig>()
@@ -50,6 +65,8 @@ public class MqConnectManagerServiceImpl implements MqConnectManagerService {
         );
         if (dataRows == null) {
             connectConfig.setCreateTime(LocalDateTime.now());
+            Integer i = Optional.ofNullable(sysMapper.maxId(SqliteInitTable.CONNECT_CONFIG.getTbName())).orElse(0);
+            connectConfig.setId(++i);
             connectConfigMapper.insertConnectConfig(connectConfig);
             log.info("不存在对应MQ数据，新增配置项");
         } else {
@@ -58,7 +75,44 @@ public class MqConnectManagerServiceImpl implements MqConnectManagerService {
             connectConfigMapper.updateById(connectConfig);
             log.info("已存在对应MQ数据，编辑配置项");
         }
+        connectConfig.setInputPorts(inputPorts);
+        saveExtraPort(inputPorts, connectConfig.getId());
         return connectConfig;
+    }
+
+    /**
+     * 保存额外的端口信息
+     *
+     * @param inputPorts
+     */
+    private void saveExtraPort(List<ExtraInputPort> inputPorts, Integer configId) {
+        Map<Integer, ConnectPort> idMap = connectPortMapper.selectList(
+                        new LambdaQueryWrapper<ConnectPort>().eq(ConnectPort::getConnectId, configId))
+                .stream()
+                .collect(Collectors.toMap(ConnectPort::getConnectId, Function.identity()));
+        if (CollUtil.isNotEmpty(inputPorts)) {
+            List<ConnectPort> insertList = new ArrayList<>(inputPorts.size());
+            List<ConnectPort> updateList = new ArrayList<>(inputPorts.size());
+            ConnectPort connectPort = null;
+            for (ExtraInputPort inputPort : inputPorts) {
+                connectPort = idMap.getOrDefault(inputPort.getId(), new ConnectPort());
+                connectPort.setPortDictId(inputPort.getId());
+                connectPort.setConnectId(configId);
+                connectPort.setInputPort(inputPort.getInputPort());
+                //if (connectPort.getId() == null) {
+                //    insertList.add(connectPort);
+                //} else {
+                //    updateList.add(connectPort);
+                //}
+                updateList.add(connectPort);
+            }
+            if (CollUtil.isNotEmpty(insertList)) {
+                connectPortMapper.insertBatch(insertList);
+            }
+            if (CollUtil.isNotEmpty(updateList)) {
+                connectPortMapper.updateBatch(updateList);
+            }
+        }
     }
 
     @Override

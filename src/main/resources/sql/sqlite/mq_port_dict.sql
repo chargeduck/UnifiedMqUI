@@ -4,6 +4,7 @@ create table mq_port_dict
     mq_type      INT     not null,
     default_flag BOOLEAN not null,
     port_label   text,
-    default_port integer
+    default_port integer,
+    desc         text
 
 );

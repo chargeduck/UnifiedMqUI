@@ -76,10 +76,12 @@ public class SqliteDatabaseInitializer implements ApplicationRunner {
         }
         ClassPathResource resource = new ClassPathResource("sql/sqlite/data.json");
         try (FileReader reader = new FileReader(resource.getFile())) {
-            Map<String, List<String>> map = gson.fromJson(reader, new TypeToken<Map<String, List<String>>>(){}.getType());
+            Map<String, List<String>> map = gson.fromJson(reader, new TypeToken<Map<String, List<String>>>() {
+            }.getType());
             createdNames.forEach(item -> {
                 List<String> sqlList = map.getOrDefault(item, new ArrayList<>());
                 if (CollUtil.isNotEmpty(sqlList)) {
+                    log.info("初始化表{}数据", item);
                     sqlList.forEach(sysMapper::executeSql);
                 }
             });

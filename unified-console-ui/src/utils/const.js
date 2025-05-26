@@ -71,25 +71,3 @@ export const navMenuList = [
 ]
 
 export const codePrefix = "```"
-export const scheduledMd = `
-# 如何开启ActiveMq Scheduled
-
-1. 修改activemq.xml文件
-${codePrefix}shell
-vim activemq/conf/activemq.xml
-${codePrefix}
-2. 在 broker 标签中添加 schedulerSupport="true" 属性
-${codePrefix}xml
-<broker
-  xmlns="http://activemq.apache.org/schema/core"
-  brokerName="localhost"
-  dataDirectory="\${activemq.data}"
-  schedulerSupport="true">
-</broker>
-${codePrefix}
-3. 重启ActiveMq
-${codePrefix}shell
-./bin/activemq restart
-${codePrefix}
-`
-

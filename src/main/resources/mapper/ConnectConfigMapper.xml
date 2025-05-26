@@ -5,7 +5,6 @@
         <id column="id" property="id"/>
         <result column="host" property="host"/>
         <result column="port" property="port"/>
-        <result column="extra_port" property="extraPort"/>
         <result column="mq_type" property="mqType"/>
         <result column="group_type" property="groupType"/>
         <result column="group_url" property="groupUrl"/>
@@ -20,12 +19,12 @@
         <result column="create_time" property="createTime"/>
         <result column="active_flag" property="activeFlag"/>
     </resultMap>
-    <insert id="insertConnectConfig">
+    <insert id="insertConnectConfig" keyProperty="id" keyColumn="id" useGeneratedKeys="true">
         insert into connect_config
-        (host, port, extra_port, mq_type, group_type, group_url,
+        (id, host, port, mq_type, group_type, group_url,
          title, username, password, version, extra,
          broker_name, broker_id, up_time, create_time, active_flag)
-        values (#{host}, #{port}, #{extraPort} #{mqType}, #{groupType}, #{groupUrl},
+        values (#{id}, #{host}, #{port}, #{mqType}, #{groupType}, #{groupUrl},
                 #{title}, #{username}, #{password}, #{version}, #{extra},
                 #{brokerName}, #{brokerId}, #{upTime}, #{createTime}, #{activeFlag})
 

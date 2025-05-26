@@ -33,4 +33,6 @@ public class MqPortDict {
      */
 
     private Integer defaultPort;
+
+    private String desc;
 }

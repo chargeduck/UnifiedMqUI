@@ -2,4 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="net.lesscoding.unified.mapper.ConnectPortMapper">
 
+    <insert id="insertBatch">
+        INSERT INTO connect_port (id,port_dict_id, connect_id, input_port)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id}, #{item.portDictId}, #{item.connectId}, #{item.inputPort})
+        </foreach>
+    </insert>
+    <update id="updateBatch" keyProperty="id" keyColumn="id" useGeneratedKeys="true">
+        INSERT OR REPLACE INTO connect_port (id,port_dict_id, connect_id, input_port)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id}, #{item.portDictId}, #{item.connectId}, #{item.inputPort})
+        </foreach>
+    </update>
 </mapper>
