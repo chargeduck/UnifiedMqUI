@@ -94,17 +94,18 @@ public class MqConnectManagerServiceImpl implements MqConnectManagerService {
             List<ConnectPort> insertList = new ArrayList<>(inputPorts.size());
             List<ConnectPort> updateList = new ArrayList<>(inputPorts.size());
             ConnectPort connectPort = null;
+            Integer maxId = sysMapper.maxId(SqliteInitTable.CONNECT_CONFIG.getTbName());
             for (ExtraInputPort inputPort : inputPorts) {
                 connectPort = idMap.getOrDefault(inputPort.getId(), new ConnectPort());
                 connectPort.setPortDictId(inputPort.getId());
                 connectPort.setConnectId(configId);
                 connectPort.setInputPort(inputPort.getInputPort());
-                //if (connectPort.getId() == null) {
-                //    insertList.add(connectPort);
-                //} else {
-                //    updateList.add(connectPort);
-                //}
-                updateList.add(connectPort);
+                if (connectPort.getId() == null) {
+                    connectPort.setId(++maxId);
+                    insertList.add(connectPort);
+                } else {
+                    updateList.add(connectPort);
+                }
             }
             if (CollUtil.isNotEmpty(insertList)) {
                 connectPortMapper.insertBatch(insertList);

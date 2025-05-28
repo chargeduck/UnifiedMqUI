@@ -10,7 +10,7 @@
         </foreach>
     </insert>
     <update id="updateBatch" keyProperty="id" keyColumn="id" useGeneratedKeys="true">
-        INSERT OR REPLACE INTO connect_port (id,port_dict_id, connect_id, input_port)
+        REPLACE INTO connect_port (id,port_dict_id, connect_id, input_port)
         VALUES
         <foreach collection="list" item="item" separator=",">
             (#{item.id}, #{item.portDictId}, #{item.connectId}, #{item.inputPort})

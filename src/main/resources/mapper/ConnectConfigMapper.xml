@@ -19,7 +19,7 @@
         <result column="create_time" property="createTime"/>
         <result column="active_flag" property="activeFlag"/>
     </resultMap>
-    <insert id="insertConnectConfig" keyProperty="id" keyColumn="id" useGeneratedKeys="true">
+    <insert id="insertConnectConfig">
         insert into connect_config
         (id, host, port, mq_type, group_type, group_url,
          title, username, password, version, extra,
