@@ -44,9 +44,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class MqConnectManagerServiceImpl implements MqConnectManagerService {
     private final MqAdapterFactory mqAdapterFactory;
-
     private final ConnectConfigMapper connectConfigMapper;
-
     private final ConnectPortMapper connectPortMapper;
     private final SysMapper sysMapper;
 
@@ -141,6 +139,8 @@ public class MqConnectManagerServiceImpl implements MqConnectManagerService {
             }
             connectConfigMapper.updateById(config);
         }
+        List<ExtraInputPort> inputPorts = connectPortMapper.getExtraPorts(id);
+        config.setInputPorts(inputPorts);
         return config;
     }
 

@@ -16,4 +16,15 @@
             (#{item.id}, #{item.portDictId}, #{item.connectId}, #{item.inputPort})
         </foreach>
     </update>
+    <select id="getExtraPorts" resultType="net.lesscoding.unified.core.model.dto.ExtraInputPort">
+        select mpd.id,
+               mpd.default_flag,
+               mpd.port_label,
+               mpd.default_port,
+               mpd.desc,
+               tb.input_port
+        from connect_port tb
+                 left join mq_port_dict mpd on mpd.id = tb.port_dict_id
+        where tb.connect_id = #{id}
+    </select>
 </mapper>

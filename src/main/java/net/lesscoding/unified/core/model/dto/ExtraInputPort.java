@@ -16,9 +16,11 @@ import java.util.Optional;
 @NoArgsConstructor
 public class ExtraInputPort {
     private Integer id;
+    private String portLabel;
     private Boolean defaultFlag;
     private Integer defaultPort;
     private Integer inputPort;
+    private String desc;
 
     public Integer getInputPort() {
         return Optional.ofNullable(inputPort).orElse(defaultPort);

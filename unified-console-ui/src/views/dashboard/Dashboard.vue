@@ -133,6 +133,7 @@ const onCurrentChange = (current) => {
 const connectDetail = (id) => {
   getConnectById(id).then(resp => {
     popForm.value = resp.data
+    choosePortDict.value = resp.data.inputPorts
   })
 }
 const delConnect = (id) => {
