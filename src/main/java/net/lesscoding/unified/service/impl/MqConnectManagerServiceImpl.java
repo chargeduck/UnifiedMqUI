@@ -23,6 +23,8 @@ import net.lesscoding.unified.service.MqConnectManagerService;
 import net.lesscoding.unified.utils.IOStreamUtils;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.jms.Connection;
 import java.io.InputStream;
@@ -49,6 +51,7 @@ public class MqConnectManagerServiceImpl implements MqConnectManagerService {
     private final SysMapper sysMapper;
 
     @Override
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
     public ConnectConfig createMqConnect(ConnectConfig connectConfig) {
         if (StrUtil.isBlank(connectConfig.getTitle())) {
             connectConfig.setTitle(MqAdapter.connectionKey(connectConfig));
@@ -146,6 +149,9 @@ public class MqConnectManagerServiceImpl implements MqConnectManagerService {
 
     @Override
     public Integer delById(Integer id) {
+        int delNum = connectPortMapper.delete(new LambdaQueryWrapper<ConnectPort>()
+                .eq(ConnectPort::getConnectId, id));
+        log.info("删除端口信息数量：{}", delNum);
         return connectConfigMapper.deleteById(id);
     }
 

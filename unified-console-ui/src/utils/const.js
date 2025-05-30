@@ -6,11 +6,11 @@ import logoRabbitMQ from '@/assets/images/logo_rabbitmq.svg'
 import logoMqtt from '@/assets/images/logo_mqtt.svg'
 
 export const mqTypeOptions = [
-  { label: 'ActiveMQ', value: 0 },
-  { label: 'RocketMQ', value: 1 },
-  { label: 'Kafka', value: 2 },
-  { label: 'RabbitMQ', value: 3 },
-  { label: 'Mqtt', value: 4 }
+  { label: 'ActiveMQ', value: 0, routerPush: 'activeMQ' },
+  { label: 'RocketMQ', value: 1, routerPush: 'rocketMQ' },
+  { label: 'Kafka', value: 2, routerPush: 'kafka' },
+  { label: 'RabbitMQ', value: 3, routerPush: 'rabbitMQ' },
+  { label: 'Mqtt', value: 4, routerPush: 'mqtt' }
 ]
 
 
@@ -70,4 +70,4 @@ export const navMenuList = [
   }
 ]
 
-export const codePrefix = "```"
+export const codePrefix = '```'

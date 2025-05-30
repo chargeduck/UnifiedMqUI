@@ -107,10 +107,10 @@ const editConnect = (id) => {
   }
   connectDetail(id)
 }
-const showConnectDetail = (id) => {
+const showConnectDetail = (mq) => {
   router.push({
-    name: 'activeMQ',
-    query: { id }
+    name: mqTypeOptions[mq.mqType].routerPush,
+    query: { id: mq.id }
   })
 }
 
@@ -240,7 +240,7 @@ fetchList()
                 <el-button
                   type="primary"
                   size="small"
-                  @click="showConnectDetail(mq.id)"
+                  @click="showConnectDetail(mq)"
                 >
                   详情
                 </el-button>

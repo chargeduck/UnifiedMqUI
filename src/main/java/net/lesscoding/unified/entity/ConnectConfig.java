@@ -12,6 +12,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author eleven
@@ -74,5 +75,9 @@ public class ConnectConfig {
 
     public MQType getMqTypeEnum() {
         return MQType.getByCode(mqType);
+    }
+
+    public Boolean getActiveFlag() {
+        return Optional.ofNullable(activeFlag).orElse(false);
     }
 }
